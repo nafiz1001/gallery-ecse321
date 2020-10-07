@@ -37,22 +37,21 @@ this.province = value;
 public String getProvince() {
 return this.province;
     }
-private String country;
-
-public void setCountry(String value) {
-this.country = value;
-    }
-
-public String getCountry() {
-return this.country;
-    }
 private String postalCode;
 
 public void setPostalCode(String value) {
 this.postalCode = value;
     }
-@Id
 public String getPostalCode() {
 return this.postalCode;
+    }
+private String id;
+
+public void setId(String value) {
+this.id = value;
+    }
+@Id
+public String getId() {
+return this.id;
        }
    }
