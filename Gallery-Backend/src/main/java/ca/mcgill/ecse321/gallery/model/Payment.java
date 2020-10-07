@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.sql.Date;
 import javax.persistence.ManyToOne;
@@ -34,6 +36,8 @@ this.paymentDate = value;
 public Date getPaymentDate() {
 return this.paymentDate;
     }
+
+@Enumerated(EnumType.ORDINAL)
 private PaymentType paymentType;
 
 public void setPaymentType(PaymentType value) {
