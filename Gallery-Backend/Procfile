@@ -1,0 +1,1 @@
+web: java -jar Gallery-Backend/build/libs/Gallery-Backend-0.0.1-SNAPSHOT.jar
