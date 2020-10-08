@@ -22,8 +22,6 @@ import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Listing;
 
-
-
 public class RevenuPersistenceTests {
 	
 	@Autowired
