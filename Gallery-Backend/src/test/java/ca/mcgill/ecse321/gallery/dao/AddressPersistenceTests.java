@@ -57,4 +57,23 @@ public class AddressPersistenceTests {
 		assertNotNull(address2);
 		assertEquals(address1.getCity(), address2.getCity());
 	}
+	
+	@Test
+	public void testUpdateAddress() {
+		Address address1 = new Address();
+		address1.setCity("a");
+		address1.setId("b");
+		address1.setPostalCode("c");
+		address1.setProvince("d");
+		address1.setStreet("d");
+		address1.setStreetNumber("e");
+		
+		address1 = addressRepository.save(address1);
+		
+		address1.setCity("Moscow");
+		
+		address1 = addressRepository.save(address1);
+		
+		assertEquals(address1.getCity(), "Moscow");
+	}
 }
