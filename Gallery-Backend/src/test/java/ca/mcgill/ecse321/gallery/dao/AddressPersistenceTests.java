@@ -30,13 +30,23 @@ public class AddressPersistenceTests {
 	@Autowired
 	private AddressRepository addressRepository;
 	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private GalleryRepository galleryRepository;
+	
 	@BeforeEach
 	public void clearDatabse() {
+		accountRepository.deleteAll();
+		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
 	
 	@AfterEach
 	public void clearDatabase() {
+		accountRepository.deleteAll();
+		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
 	
