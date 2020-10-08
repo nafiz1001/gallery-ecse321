@@ -6,6 +6,10 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Identity{
+public Identity(String email, Account account) {
+		this.email = email;
+		this.account = account;
+	}
 private String email;
    
    public void setEmail(String value) {
