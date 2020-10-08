@@ -17,7 +17,7 @@ return this.email;
     }
 private Account account;
 
-@OneToOne(mappedBy="identity")
+@OneToOne(mappedBy="identity", optional=false)
 public Account getAccount() {
    return this.account;
 }
