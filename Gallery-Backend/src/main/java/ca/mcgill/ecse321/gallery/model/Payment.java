@@ -12,17 +12,6 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Payment{
-	public Payment(String transactionNumber, Date paymentDate, PaymentType paymentType,
-		DeliveryType deliveryType, Address address, Set<Listing> listing, Identity identity) {
-		this.transactionNumber = transactionNumber;
-		this.paymentDate = paymentDate;
-		this.paymentType = paymentType;
-		this.deliveryType = deliveryType;
-		this.address = address;
-		this.listing = listing;
-		this.identity = identity;
-	}
-
 	private long confirmationNumber;
 	public void setConfirmationNumber(long value) {
 	   this.confirmationNumber = value;
