@@ -55,7 +55,7 @@ return this.image;
     }
 private Listing listing;
 
-@OneToOne(mappedBy="art", cascade={CascadeType.ALL}, optional=false)
+@OneToOne(mappedBy="art", cascade={CascadeType.ALL})
 public Listing getListing() {
    return this.listing;
 }
