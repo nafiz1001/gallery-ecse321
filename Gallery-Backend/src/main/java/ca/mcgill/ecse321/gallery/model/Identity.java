@@ -2,8 +2,7 @@ package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Set;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Identity{
@@ -16,15 +15,15 @@ this.email = value;
 public String getEmail() {
 return this.email;
     }
-private Set<Payment> payment;
+private Account account;
 
-@OneToMany(mappedBy="identity")
-public Set<Payment> getPayment() {
-   return this.payment;
+@OneToOne(mappedBy="identity")
+public Account getAccount() {
+   return this.account;
 }
 
-public void setPayment(Set<Payment> payments) {
-   this.payment = payments;
+public void setAccount(Account account) {
+   this.account = account;
 }
 
 }

@@ -1,18 +1,44 @@
 package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
 import java.sql.Date;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Account extends Identity{
+public class Account{
+private String accountHolderType;
+   
+   public void setAccountHolderType(String value) {
+this.accountHolderType = value;
+    }
+public String getAccountHolderType() {
+return this.accountHolderType;
+    }
+private String email;
+
+public void setEmail(String value) {
+this.email = value;
+    }
+@Id
+public String getEmail() {
+return this.email;
+    }
+private Identity identity;
+
+@OneToOne(optional=false)
+public Identity getIdentity() {
+   return this.identity;
+}
+
+public void setIdentity(Identity identity) {
+   this.identity = identity;
+}
+
 private Set<Profile> profile;
 
 @OneToMany(mappedBy="account", cascade={CascadeType.ALL})
@@ -29,7 +55,6 @@ private String username;
 public void setUsername(String value) {
 this.username = value;
     }
-@Id
 public String getUsername() {
 return this.username;
     }
@@ -48,16 +73,6 @@ this.dateJoined = value;
     }
 public Date getDateJoined() {
 return this.dateJoined;
-    }
-
-@Enumerated(EnumType.ORDINAL)
-private AccountHolderType accountHolderType;
-
-public void setAccountHolderType(AccountHolderType value) {
-this.accountHolderType = value;
-    }
-public AccountHolderType getAccountHolderType() {
-return this.accountHolderType;
     }
 private Address address;
 
@@ -97,14 +112,13 @@ this.accountNumber = value;
 public String getAccountNumber() {
 return this.accountNumber;
     }
+private String paymentType;
 
-@Enumerated(EnumType.ORDINAL)
-private PaymentType paymentType;
-
-public void setPaymentType(PaymentType value) {
+public void setPaymentType(String value) {
 this.paymentType = value;
     }
-public PaymentType getPaymentType() {
+public String getPaymentType() {
 return this.paymentType;
-       }
-   }
+    }
+
+}
