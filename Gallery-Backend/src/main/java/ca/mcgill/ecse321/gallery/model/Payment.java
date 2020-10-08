@@ -59,7 +59,7 @@ public class Payment{
 	}
 
 	private Address address;
-	@ManyToOne(optional=false)
+	@ManyToOne
 	public Address getAddress() {
 	   return this.address;
 	}
