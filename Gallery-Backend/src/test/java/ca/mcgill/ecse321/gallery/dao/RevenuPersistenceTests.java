@@ -27,15 +27,20 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 public class RevenuPersistenceTests {
 	
 	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
 	private RevenuRepository revenuRepository;
 	
 	@BeforeEach
 	public void clearDatabse() {
+		accountRepository.deleteAll();
 		revenuRepository.deleteAll();
 	}
 	
 	@AfterEach
 	public void clearDatabase() {
+		accountRepository.deleteAll();
 		revenuRepository.deleteAll();
 	}
 	
