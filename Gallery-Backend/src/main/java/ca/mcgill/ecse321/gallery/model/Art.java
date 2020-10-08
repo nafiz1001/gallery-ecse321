@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.gallery.model;
 import javax.persistence.Entity;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
-import Date;
+import java.sql.Date;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
