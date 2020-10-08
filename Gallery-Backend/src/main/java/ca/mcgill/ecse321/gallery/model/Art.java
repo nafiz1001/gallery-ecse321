@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.gallery.model;
 import javax.persistence.Entity;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
+import Date;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
@@ -63,23 +64,23 @@ public void setListing(Listing listing) {
    this.listing = listing;
 }
 
-private String license;
+private Date date;
 
-public void setLicense(String value) {
-this.license = value;
+public void setDate(Date value) {
+this.date = value;
     }
-public String getLicense() {
-return this.license;
+public Date getDate() {
+return this.date;
     }
-private Profile author;
+private Profile owner;
 
 @ManyToOne(optional=false)
-public Profile getAuthor() {
-   return this.author;
+public Profile getOwner() {
+   return this.owner;
 }
 
-public void setAuthor(Profile author) {
-   this.author = author;
+public void setOwner(Profile owner) {
+   this.owner = owner;
 }
 
 private String type;
@@ -106,5 +107,13 @@ this.id = value;
 @Id
 public String getId() {
 return this.id;
+    }
+private String author;
+
+public void setAuthor(String value) {
+this.author = value;
+    }
+public String getAuthor() {
+return this.author;
        }
    }

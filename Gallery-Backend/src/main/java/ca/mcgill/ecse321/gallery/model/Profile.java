@@ -56,7 +56,7 @@ return this.fullname;
     }
 private Set<Art> arts;
 
-@OneToMany(mappedBy="author")
+@OneToMany(mappedBy="owner")
 public Set<Art> getArts() {
    return this.arts;
 }

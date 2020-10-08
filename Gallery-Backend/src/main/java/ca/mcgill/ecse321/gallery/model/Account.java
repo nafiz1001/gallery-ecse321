@@ -19,15 +19,6 @@ this.accountHolderType = value;
 public String getAccountHolderType() {
 return this.accountHolderType;
     }
-private String email;
-
-public void setEmail(String value) {
-this.email = value;
-    }
-@Id
-public String getEmail() {
-return this.email;
-    }
 private Identity identity;
 
 @OneToOne(optional=false)
@@ -55,6 +46,7 @@ private String username;
 public void setUsername(String value) {
 this.username = value;
     }
+@Id
 public String getUsername() {
 return this.username;
     }
