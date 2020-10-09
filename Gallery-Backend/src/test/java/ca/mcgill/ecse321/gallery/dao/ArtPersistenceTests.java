@@ -46,22 +46,22 @@ public class ArtPersistenceTests {
 	@Test
 	public void testCreateAndLoadAddress() {
 		Profile profile = new Profile();
-		profile.setAccount(account);
-		profile.setArts(artss);
+		//profile.setAccount(account);
+		//profile.setArts(artss);
 		profile.setBio("My name is Bob");
 		profile.setFullname("Bob the Builder");
 		profile.setId("#2609");
-		profile.setListings(listingss);
+		//profile.setListings(listingss);
 		profile.setPicture("0");
 		
 		Listing listing = new Listing();
-		listing.setArt(art);
+		//listing.setArt(art);
 		listing.setCanDeliver(true);
 		listing.setCanPickUp(true);
 		listing.setDatePublished(null);
 		listing.setId("abcd");
 		listing.setPrice(100);
-		listing.setPublisher(publisher);
+		//listing.setPublisher(publisher);
 		listing.setQuantity(1);
 		listing.setTags("Abstract");
 		
