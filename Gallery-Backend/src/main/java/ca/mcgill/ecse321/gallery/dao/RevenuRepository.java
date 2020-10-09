@@ -6,4 +6,6 @@ import ca.mcgill.ecse321.gallery.model.Revenu;
 public interface RevenuRepository extends CrudRepository<Revenu, String> {
 
 	Revenu findRevenuById(String id);
+	
+	void deleteAll();
 }

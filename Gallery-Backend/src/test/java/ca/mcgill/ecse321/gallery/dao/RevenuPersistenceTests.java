@@ -46,32 +46,34 @@ public class RevenuPersistenceTests {
 	
 	@Test
 	public void testCreateAndLoadRevenu() {
-		Account account1 = new Account();
+		//Account account1 = new Account();
+		//account1.setUsername("hi");
 		Revenu revenu1 = new Revenu();
-		Listing listing1 = new Listing();
+		//Listing listing1 = new Listing();
 		revenu1.setComission(1);
 		revenu1.setListingPrice(2);
-		revenu1.setAccount(account1);
-		revenu1.setListing(listing1);
+		//revenu1.setAccount(account1);
+		//revenu1.setListing(listing1);
 		revenu1.setId("d");
 		
 		revenuRepository.save(revenu1);
 		
-		Revenu revenu2 = revenuRepository.findRevenuById("b");
+		Revenu revenu2 = revenuRepository.findRevenuById("d");
 		
 		assertNotNull(revenu2);
-		assertEquals(revenu1.getComission(), revenu1.getComission());
+		assertEquals(revenu1.getComission(), revenu2.getComission());
 	}
 	
 	@Test
 	public void testUpdateRevenu() {
-		Account account1 = new Account(); 
+		//Account account1 = new Account(); 
+		//account1.setUsername("hi");
 		Revenu revenu1 = new Revenu();
-		Listing listing1 = new Listing();
+		//Listing listing1 = new Listing();
 		revenu1.setComission(1);
 		revenu1.setListingPrice(2);
-		revenu1.setAccount(account1);
-		revenu1.setListing(listing1);
+		//revenu1.setAccount(account1);
+		//revenu1.setListing(listing1);
 		revenu1.setId("d");
 		
 		revenu1 = revenuRepository.save(revenu1);
@@ -80,6 +82,6 @@ public class RevenuPersistenceTests {
 		
 		revenu1 = revenuRepository.save(revenu1);
 		
-		assertEquals(revenu1.getComission(),1);
+		assertEquals(revenu1.getComission(),2);
 	}
 }
