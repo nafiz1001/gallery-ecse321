@@ -20,3 +20,15 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 |Nafiz Islam | 
 |Thomas Alarcon | 
 |Haluk Calin | 
+
+### Deliverable 1
+
+The project report for this deliverable cna be found [here](https://github.com/McGill-ECSE321-Fall2020/project-group-01/wiki/Sprint-1)
+
+| Name | Contributions | Hours |
+| ------------- | ------------- | ------------- |
+|Thomas Alarcon|
+|Nafiz Islam |
+|Antonia Nistor |
+|Eric Pelletier |
+|Haluk Calin |
