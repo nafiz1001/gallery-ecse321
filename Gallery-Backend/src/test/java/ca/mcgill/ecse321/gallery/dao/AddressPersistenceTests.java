@@ -23,6 +23,12 @@ import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
+/**
+ * 
+ * @author nafiz1001
+ *
+ */
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class AddressPersistenceTests {
