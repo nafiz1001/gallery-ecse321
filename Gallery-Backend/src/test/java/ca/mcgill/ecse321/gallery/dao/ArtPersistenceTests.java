@@ -33,19 +33,27 @@ public class ArtPersistenceTests {
 	@Autowired
 	private ArtRepository artRepository;
 	
+	@Autowired
+	private ProfileRepository profileRepository;
+	
 	@BeforeEach
 	public void clearDatabse() {
+		profileRepository.deleteAll();
 		artRepository.deleteAll();
+		
+			
 	}
 	
 	@AfterEach
 	public void clearDatabase() {
+		profileRepository.deleteAll();
 		artRepository.deleteAll();
+		
 	}
 	
 	@Test
 	public void testCreateAndLoadAddress() {
-//		Profile profile = new Profile();
+		//Profile profile = new Profile();
 //		//profile.setAccount(account);
 //		//profile.setArts(artss);
 //		profile.setBio("My name is Bob");
