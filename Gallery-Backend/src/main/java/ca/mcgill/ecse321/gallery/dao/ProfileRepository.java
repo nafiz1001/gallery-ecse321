@@ -1,3 +1,8 @@
+/**
+ * @author antonianistor
+ * 
+ */
+
 package ca.mcgill.ecse321.gallery.dao;
 
 import org.springframework.data.repository.CrudRepository;

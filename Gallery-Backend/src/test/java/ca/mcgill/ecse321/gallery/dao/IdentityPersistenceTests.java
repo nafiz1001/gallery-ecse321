@@ -1,3 +1,9 @@
+/**
+ * @author antonianistor
+ * 
+ * This class has the purpose of testing the Identity class from the model
+ */
+
 package ca.mcgill.ecse321.gallery.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,64 +37,60 @@ public class IdentityPersistenceTests {
 
 	@Autowired
 	private IdentityRepository identityRepository;
-	
-	@Autowired
-	private PaymentRepository paymentRepository;
-	
-	@Autowired
-	private AccountRepository accountRepository;
-	
+
+	/**
+	 * Clears all identities in database before each test
+	 */
 	@BeforeEach
 	public void clearDatabaseBefore() {
-		
-		paymentRepository.deleteAll();
+
 		identityRepository.deleteAll();
-		accountRepository.deleteAll();
-		
+
 	}
-	
+
+	/**
+	 * Clears all identities from database after each test
+	 */
 	@AfterEach
 	public void clearDatabaseAfter() {
-		paymentRepository.deleteAll();
+
 		identityRepository.deleteAll();
-		accountRepository.deleteAll();
-		
+
 	}
-	
-	
+
+	/**
+	 * Tests to see if identities can be created in the database
+	 */
 	@Test
 	public void testCreateAndLoadIdentity() {
-		
-		
-		
+
 		Identity identity1 = new Identity();
 		identity1.setEmail("123");
-		
-		
+
 		identityRepository.save(identity1);
-		
+
 		Identity identity2 = identityRepository.findIdentityByEmail("123");
-		
+
 		assertNotNull(identity2);
 		assertEquals(identity1.getEmail(), identity2.getEmail());
-		
+
 	}
-	
+
+	/**
+	 * Tests to see if value gets updated in database
+	 */
 	@Test
 	public void testUpdateIdentity() {
-		
-		
+
 		Identity identity1 = new Identity();
 		identity1.setEmail("123");
-		
-		
-		
+
 		identity1 = identityRepository.save(identity1);
-		
+
 		identity1.setEmail("321");
-		
+
 		identity1 = identityRepository.save(identity1);
-		
+
 		assertEquals(identity1.getEmail(), "321");
 	}
 }
