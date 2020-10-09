@@ -27,10 +27,10 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Fall2020/project-group-01/wiki/Sprint-1)
 
-| Name | Contributions | Hours |
-| ------------- | ------------- | ------------- |
-|Thomas Alarcon|
-|Nafiz Islam |
-|Antonia Nistor |
-|Eric Pelletier |
-|Haluk Calin |
+Name|Contributions|Hours
+----|-------------|-----
+Thomas Alarcon|<ul><li>Requirements</li> <li>Detailed Use Case Specification</li> <li>Domain Model</li> <li>Persistence Layer Testing</li> <li>Wiki</li></ul>|18
+Nafiz Islam|<ul><li>Requirements</li> <li>Detailed Use Case Specification</li><li>Initialised Spring Boot Project</li><li>Create Gradle Project</li><li>Setup Heroku</li><li>Setup Travis CI</li><li>Domain Model</li> <li>Persistence Layer Testing</li>|20
+Antonia Nistor|<ul><li>Requirements</li> <li>Use Case Diagram</li> <li>Detailed Use Case Specification</li> <li>Domain Model</li> <li>Persistence Layer Testing</li> <li>Meeting Tracker</li></ul>|20
+Eric Pelletier|<ul><li>Requirements</li> <li>Detailed Use Case Specification</li> <li>Domain Model</li> <li>Persistence Layer Testing</li> <li>ReadMe</li> <ul>|18
+Haluk Calin|<ul><li>Requirements</li> <li>Detailed Use Case Specification</li> <li>Persistence Layer Testing</li> <ul>|13.5
