@@ -44,27 +44,7 @@ public class ArtPersistenceTests {
 	}
 	
 	@Test
-	public void testCreateAndLoadAddress() {
-//		Profile profile = new Profile();
-//		//profile.setAccount(account);
-//		//profile.setArts(artss);
-//		profile.setBio("My name is Bob");
-//		profile.setFullname("Bob the Builder");
-//		profile.setId("#2609");
-//		//profile.setListings(listingss);
-//		profile.setPicture("0");
-//		
-//		Listing listing = new Listing();
-//		//listing.setArt(art);
-//		listing.setCanDeliver(true);
-//		listing.setCanPickUp(true);
-//		listing.setDatePublished(null);
-//		listing.setId("abcd");
-//		listing.setPrice(100);
-//		//listing.setPublisher(publisher);
-//		listing.setQuantity(1);
-//		listing.setTags("Abstract");
-		
+	public void testCreateAndLoadAddress() {		
 		Art art1 = new Art();
 		art1.setAuthor("a");
 		art1.setDate(null);
@@ -73,9 +53,7 @@ public class ArtPersistenceTests {
 		art1.setHeight(10);
 		art1.setId("1234");
 		art1.setImage("d");
-		//art1.setListing(listing);
 		art1.setName("e");
-		//art1.setOwner(profile);
 		art1.setType("f");
 		art1.setWidth(10);
 		
@@ -87,22 +65,28 @@ public class ArtPersistenceTests {
 		assertEquals(art1.getImage(), art2.getImage());
 	}
 	
-//	@Test
-//	public void testUpdateAddress() {
-//		Address address1 = new Address();
-//		address1.setCity("a");
-//		address1.setId("b");
-//		address1.setPostalCode("c");
-//		address1.setProvince("d");
-//		address1.setStreet("d");
-//		address1.setStreetNumber("e");
-//		
-//		address1 = addressRepository.save(address1);
-//		
-//		address1.setCity("Moscow");
-//		
-//		address1 = addressRepository.save(address1);
-//		
-//		assertEquals(address1.getCity(), "Moscow");
-//	}
+	@Test
+	public void testUpdateArt() {
+		Art art1 = new Art();
+		art1.setAuthor("a");
+		art1.setDate(null);
+		art1.setDepth("b");
+		art1.setDescription("c");
+		art1.setHeight(10);
+		art1.setId("1234");
+		art1.setImage("d");
+		art1.setName("Vango");
+		art1.setType("f");
+		art1.setWidth(10);
+		
+		artRepository.save(art1);
+		
+		art1 = artRepository.save(art1);
+		
+		art1.setName("Mona Lisa");
+		
+		art1 = artRepository.save(art1);
+		
+		assertEquals(art1.getName(), "Mona Lisa");
+	}
 }
