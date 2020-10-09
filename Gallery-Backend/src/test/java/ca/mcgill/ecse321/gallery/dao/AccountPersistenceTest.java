@@ -32,6 +32,10 @@ public class AccountPersistenceTest {
 	@Autowired
 	private IdentityRepository identityRepository;
 		
+	/**
+	 * Clears all accounts, addresses and identities in database before each test
+	 */
+	
 	@BeforeEach
 	public void clearDatabse() {
 		accountRepository.deleteAll();
@@ -39,6 +43,10 @@ public class AccountPersistenceTest {
 		identityRepository.deleteAll();
 	}
 
+	/**
+	 * Clears all accounts, addresses and identities in database after each test
+	 */
+	
 	@AfterEach 
 	public void clearDatabase() {
 		accountRepository.deleteAll();
@@ -46,6 +54,9 @@ public class AccountPersistenceTest {
 		identityRepository.deleteAll();
 	}
 	
+	/**
+	 * Tests to see if accounts can be created in the database and loaded from the database
+	 */
 	
 	@Test
 	public void testCreateAndLoadAccount() {
@@ -87,6 +98,11 @@ public class AccountPersistenceTest {
 		assertEquals(account1.getPaymentType(), account2.getPaymentType());
 			
 	}
+	
+	/**
+	 * Tests to see if the account can be updated in the database
+	 */
+	
 	
 	@Test
 	public void testUpdateAccount() {
