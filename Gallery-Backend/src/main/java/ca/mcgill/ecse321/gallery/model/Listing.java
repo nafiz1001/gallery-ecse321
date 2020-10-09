@@ -59,7 +59,7 @@ return this.quantity;
     }
 private Art art;
 
-@OneToOne(optional=false)
+@OneToOne(optional=true)
 public Art getArt() {
    return this.art;
 }
@@ -70,7 +70,7 @@ public void setArt(Art art) {
 
 private Profile publisher;
 
-@ManyToOne(optional=false)
+@ManyToOne(optional=true)
 public Profile getPublisher() {
    return this.publisher;
 }
