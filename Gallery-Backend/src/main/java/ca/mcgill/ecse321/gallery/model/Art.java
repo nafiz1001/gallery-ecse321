@@ -74,7 +74,7 @@ return this.date;
     }
 private Profile owner;
 
-@ManyToOne(optional=false)
+@ManyToOne(optional=true)
 public Profile getOwner() {
    return this.owner;
 }

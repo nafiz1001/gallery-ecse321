@@ -45,25 +45,25 @@ public class ArtPersistenceTests {
 	
 	@Test
 	public void testCreateAndLoadAddress() {
-		Profile profile = new Profile();
-		//profile.setAccount(account);
-		//profile.setArts(artss);
-		profile.setBio("My name is Bob");
-		profile.setFullname("Bob the Builder");
-		profile.setId("#2609");
-		//profile.setListings(listingss);
-		profile.setPicture("0");
-		
-		Listing listing = new Listing();
-		//listing.setArt(art);
-		listing.setCanDeliver(true);
-		listing.setCanPickUp(true);
-		listing.setDatePublished(null);
-		listing.setId("abcd");
-		listing.setPrice(100);
-		//listing.setPublisher(publisher);
-		listing.setQuantity(1);
-		listing.setTags("Abstract");
+//		Profile profile = new Profile();
+//		//profile.setAccount(account);
+//		//profile.setArts(artss);
+//		profile.setBio("My name is Bob");
+//		profile.setFullname("Bob the Builder");
+//		profile.setId("#2609");
+//		//profile.setListings(listingss);
+//		profile.setPicture("0");
+//		
+//		Listing listing = new Listing();
+//		//listing.setArt(art);
+//		listing.setCanDeliver(true);
+//		listing.setCanPickUp(true);
+//		listing.setDatePublished(null);
+//		listing.setId("abcd");
+//		listing.setPrice(100);
+//		//listing.setPublisher(publisher);
+//		listing.setQuantity(1);
+//		listing.setTags("Abstract");
 		
 		Art art1 = new Art();
 		art1.setAuthor("a");
@@ -73,9 +73,9 @@ public class ArtPersistenceTests {
 		art1.setHeight(10);
 		art1.setId("1234");
 		art1.setImage("d");
-		art1.setListing(listing);
+		//art1.setListing(listing);
 		art1.setName("e");
-		art1.setOwner(profile);
+		//art1.setOwner(profile);
 		art1.setType("f");
 		art1.setWidth(10);
 		
