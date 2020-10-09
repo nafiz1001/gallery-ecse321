@@ -24,6 +24,12 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
+/**
+ * 
+ * @author nafiz1001
+ *
+ */
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PaymentPersistenceTests {
@@ -51,6 +57,11 @@ public class PaymentPersistenceTests {
 		identityRepository.deleteAll();
 	}
 	
+	/**
+	 * saves one payment, one identity and one listing to the database;
+	 * they are also linked together somehow
+	 * @return instance of payment with confirmation number
+	 */
 	private Payment savePayment() {
 		Payment payment = new Payment();
 		payment.setDeliveryType(DeliveryType.PICKUP);
@@ -74,6 +85,10 @@ public class PaymentPersistenceTests {
 		return paymentRepository.save(payment);
 	}
 	
+	/**
+	 * test if payment can save successfully
+	 */
+	
 	@Test
 	public void testCreateAndLoad() {
 		Payment savedPayment = savePayment();
@@ -84,6 +99,10 @@ public class PaymentPersistenceTests {
 		assertEquals(foundPayment.getTransactionNumber(), "0");
 	}
 	
+	/**
+	 * test if payment attributes and references have been saved in database successfully
+	 */
+	
 	@Test
 	public void testReadReferenceAndAttribute() {
 		Payment savedPayment = savePayment();
@@ -92,6 +111,10 @@ public class PaymentPersistenceTests {
 		assertEquals(savedPayment.getPaymentType(), PaymentType.CREDIT_CARD);
 		assertEquals(savedPayment.getIdentity().getEmail(), "0");
 	}
+	
+	/**
+	 * test if the database can be updated successfully
+	 */
 	
 	@Test
 	public void testWriteAndUpdateReferenceAndAttribute() {
