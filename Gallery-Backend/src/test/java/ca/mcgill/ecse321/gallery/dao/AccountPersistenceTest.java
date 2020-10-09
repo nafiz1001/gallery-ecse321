@@ -18,6 +18,12 @@ import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.model.Identity;
 
+/**
+ * 
+ * @author Ericpelletier135
+ *
+ */
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
