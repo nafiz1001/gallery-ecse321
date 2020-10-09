@@ -7,7 +7,7 @@ import ca.mcgill.ecse321.gallery.model.Identity;
 import ca.mcgill.ecse321.gallery.model.Profile;
 
 public interface ProfileRepository extends CrudRepository<Profile, String>{
-	Address findProfileById(String id);
+	Profile findProfileById(String id);
 	
 	void deleteAll();
 }
