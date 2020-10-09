@@ -74,7 +74,7 @@ return this.date;
     }
 private Profile owner;
 
-@ManyToOne(optional=false)
+@ManyToOne(optional=true)
 public Profile getOwner() {
    return this.owner;
 }
@@ -91,12 +91,12 @@ this.type = value;
 public String getType() {
 return this.type;
     }
-private String depth;
+private double depth;
 
-public void setDepth(String value) {
+public void setDepth(double value) {
 this.depth = value;
     }
-public String getDepth() {
+public double getDepth() {
 return this.depth;
     }
 private String id;
