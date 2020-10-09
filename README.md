@@ -17,11 +17,11 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 ### Project
 | Name | Role | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-|Eric Pelletier | 
-|Antonia Nistor |
-|Nafiz Islam | 
-|Thomas Alarcon | 
-|Haluk Calin | 
+|Eric Pelletier | Developer |18|
+|Antonia Nistor |Project Manager |20|
+|Nafiz Islam | Developer|20|
+|Thomas Alarcon | Developer| 18|
+|Haluk Calin | Developer| 13.5|
 
 ### Deliverable 1
 
