@@ -21,7 +21,7 @@ return this.accountHolderType;
     }
 private Identity identity;
 
-@OneToOne(optional=false)
+@OneToOne
 public Identity getIdentity() {
    return this.identity;
 }
