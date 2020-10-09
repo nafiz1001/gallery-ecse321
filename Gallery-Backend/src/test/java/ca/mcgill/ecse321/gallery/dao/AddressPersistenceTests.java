@@ -36,6 +36,10 @@ public class AddressPersistenceTests {
 	@Autowired
 	private GalleryRepository galleryRepository;
 	
+	/**
+	 * Clears all accounts, galleries and addresses in database before each test
+	 */
+	
 	@BeforeEach
 	public void clearDatabse() {
 		accountRepository.deleteAll();
@@ -43,12 +47,21 @@ public class AddressPersistenceTests {
 		addressRepository.deleteAll();
 	}
 	
+	/**
+	 * Clears all accounts, galleries and addresses in database after each test
+	 */
+	
 	@AfterEach
 	public void clearDatabase() {
 		accountRepository.deleteAll();
 		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
+	
+	/**
+	 * Tests to see if address can be created in the database and loaded from the database
+	 */
+	
 	
 	@Test
 	public void testCreateAndLoadAddress() {
@@ -67,6 +80,10 @@ public class AddressPersistenceTests {
 		assertNotNull(address2);
 		assertEquals(address1.getCity(), address2.getCity());
 	}
+	
+	/**
+	 * Tests to see if address can be updated in the database
+	 */
 	
 	@Test
 	public void testUpdateAddress() {
