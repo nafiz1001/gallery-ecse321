@@ -121,11 +121,11 @@ public class AccountPersistenceTest {
 		
 		accountRepository.save(account1);
 		
-		account1.setPassword("David");
+		account1.setPassword("Dylan");
 		
 		accountRepository.save(account1);
 		
-		assertEquals(account1.getPassword(), "David");
+		assertEquals(account1.getPassword(), "Dylan");
 	}
 	
 	

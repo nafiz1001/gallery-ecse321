@@ -37,7 +37,8 @@ public void setListings(Set<Listing> listingss) {
 
 private Account account;
 
-@ManyToOne
+
+@ManyToOne(optional=true)
 public Account getAccount() {
    return this.account;
 }

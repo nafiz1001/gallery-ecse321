@@ -24,7 +24,8 @@ return this.listingPrice;
     }
 private Account account;
 
-@ManyToOne
+
+@ManyToOne(optional=true)
 public Account getAccount() {
    return this.account;
 }
@@ -35,7 +36,7 @@ public void setAccount(Account account) {
 
 private Listing listing;
 
-@ManyToOne(optional=false)
+@ManyToOne(optional=true)
 public Listing getListing() {
    return this.listing;
 }
