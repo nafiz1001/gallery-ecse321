@@ -1,3 +1,7 @@
+/**
+ * @author Thomas Alarcon
+ * 
+ */
 package ca.mcgill.ecse321.gallery.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,13 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.model.Art;
-import ca.mcgill.ecse321.gallery.model.DeliveryType;
-import ca.mcgill.ecse321.gallery.model.Listing;
-import ca.mcgill.ecse321.gallery.model.Payment;
-import ca.mcgill.ecse321.gallery.model.PaymentType;
-import ca.mcgill.ecse321.gallery.model.Profile;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -33,16 +31,25 @@ public class ArtPersistenceTests {
 	@Autowired
 	private ArtRepository artRepository;
 	
+	/**
+	 * Clears all Arts in database before each test
+	 */
 	@BeforeEach
 	public void clearDatabse() {
 		artRepository.deleteAll();
 	}
 	
+	/**
+	 * Clears all Arts in database after each test
+	 */
 	@AfterEach
 	public void clearDatabase() {
 		artRepository.deleteAll();
 	}
 	
+	/**
+	 * Tests to see if an Art can be created in the database
+	 */
 	@Test
 	public void testCreateAndLoadAddress() {		
 		Art art1 = new Art();
@@ -65,6 +72,9 @@ public class ArtPersistenceTests {
 		assertEquals(art1.getImage(), art2.getImage());
 	}
 	
+	/**
+	 * Tests to see if Art attribute values can be updated in the database
+	 */
 	@Test
 	public void testUpdateArt() {
 		Art art1 = new Art();

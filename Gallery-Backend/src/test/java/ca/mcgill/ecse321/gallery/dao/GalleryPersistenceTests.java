@@ -1,3 +1,7 @@
+/**
+ * @author Thomas Alarcon
+ * 
+ */
 package ca.mcgill.ecse321.gallery.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,10 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.gallery.model.Address;
-import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.Gallery;
-import ca.mcgill.ecse321.gallery.model.Payment;
-import ca.mcgill.ecse321.gallery.model.PaymentType;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -34,18 +35,27 @@ public class GalleryPersistenceTests {
 	@Autowired
 	private AddressRepository addressRepository;
 	
+	/**
+	 * Clears all Galleries and Addresses in database before each test
+	 */
 	@BeforeEach
 	public void clearDatabse() {
 		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
 	
+	/**
+	 * Clears all Galleries and Addresses in database after each test
+	 */
 	@AfterEach
 	public void clearDatabase() {
 		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
 	
+	/**
+	 * Tests to see if a Gallery can be created in the database
+	 */
 	@Test
 	public void testCreateAndLoadGallery() {
 		Address address = new Address();
@@ -75,6 +85,9 @@ public class GalleryPersistenceTests {
 		assertEquals(gallery1.getPhoneNumber(), gallery2.getPhoneNumber());
 	}
 	
+	/**
+	 * Tests to see if the Gallery attribute values can be updated in the database
+	 */
 	@Test
 	public void testUpdateGallery() {
 		Address address = new Address();
