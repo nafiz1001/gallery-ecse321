@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gallery.dao;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -21,6 +22,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Listing;
+
+/**
+ * 
+ * @author halukcalin
+ *
+ */
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
