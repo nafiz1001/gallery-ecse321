@@ -24,7 +24,7 @@ return this.listingPrice;
     }
 private Account account;
 
-@ManyToOne(optional=false)
+@ManyToOne
 public Account getAccount() {
    return this.account;
 }
