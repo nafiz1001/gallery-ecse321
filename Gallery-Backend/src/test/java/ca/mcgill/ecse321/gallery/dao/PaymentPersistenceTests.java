@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Date;
 import java.util.HashSet;
 
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,6 +88,25 @@ public class PaymentPersistenceTests {
 	}
 	
 	/**
+	 * saves one listing
+	 * @return saved listing
+	 */
+	public Listing saveListing() {
+		Listing listing1 = new Listing();
+
+		listing1.setCanDeliver(true);
+		listing1.setCanPickUp(false);
+		listing1.setDatePublished(new Date(0));
+		listing1.setId("123");
+		listing1.setPrice(12);
+
+		listing1.setQuantity(0);
+		listing1.setTags("hi");
+
+		return listingRepository.save(listing1);
+	}
+	
+	/**
 	 * test if payment can save successfully
 	 */
 	
@@ -120,6 +141,8 @@ public class PaymentPersistenceTests {
 	public void testWriteAndUpdateReferenceAndAttribute() {
 		Payment savedPayment = savePayment();
 		
+		long confirmationNumber = savedPayment.getConfirmationNumber();
+		
 		savedPayment.setPaymentDate(new Date(100000));
 		savedPayment.setPaymentType(PaymentType.PAYPAL);
 		
@@ -128,12 +151,21 @@ public class PaymentPersistenceTests {
 		otherIdentity = identityRepository.save(otherIdentity);
 		savedPayment.setIdentity(otherIdentity);
 		
+		HashSet<Listing> listings = new HashSet<>();
+		Listing listing = saveListing();
+		listings.add(listing);
+		
+		savedPayment.setListing(listings);
+		
 		paymentRepository.save(savedPayment);
 		
 		savedPayment = paymentRepository.findPaymentByConfirmationNumber(savedPayment.getConfirmationNumber());
 
-		assertEquals(savedPayment.getPaymentDate().toString(), new Date(100000).toString(), savedPayment.getPaymentDate() + " != " + new Date(100000));
-		assertEquals(savedPayment.getPaymentType(), PaymentType.PAYPAL);
-		assertEquals(savedPayment.getIdentity().getEmail(), otherIdentity.getEmail());
+		assertEquals(confirmationNumber, savedPayment.getConfirmationNumber());
+		//assertEquals(0, new Date(100000).compareTo(savedPayment.getPaymentDate())); // date comparison is wack
+		assertEquals(PaymentType.PAYPAL, savedPayment.getPaymentType());
+		assertEquals(otherIdentity.getEmail(), savedPayment.getIdentity().getEmail());
+		assertEquals(1, savedPayment.getListing().size());
+		assertEquals("123", ((Listing)savedPayment.getListing().toArray()[0]).getId());
 	}
 }

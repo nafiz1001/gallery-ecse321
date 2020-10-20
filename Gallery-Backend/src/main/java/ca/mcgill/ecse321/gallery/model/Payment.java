@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ public class Payment{
 	   this.confirmationNumber = value;
     }
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getConfirmationNumber() {
 		return this.confirmationNumber;
     }
@@ -68,7 +69,7 @@ public class Payment{
 	}
 
 	private Set<Listing> listing;
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	public Set<Listing> getListing() {
 	   return this.listing;
 	}
