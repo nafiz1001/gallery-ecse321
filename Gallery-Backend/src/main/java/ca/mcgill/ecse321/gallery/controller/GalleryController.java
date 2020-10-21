@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gallery.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.gallery.dto.PaymentDto;
+import ca.mcgill.ecse321.gallery.model.DeliveryType;
+import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
+import ca.mcgill.ecse321.gallery.model.PaymentType;
 import ca.mcgill.ecse321.gallery.service.PaymentService;
 
 @CrossOrigin(origins = "*")
@@ -34,7 +38,7 @@ public class GalleryController {
 
 	@PostMapping(value = { "/pay/{transactionNumber}", "/pay/{TransactionNumber}/" })
 	public PaymentDto pay(@PathVariable("transactionNumber") String transactionNumber) throws IllegalArgumentException {
-		Payment payment = paymentService.pay(transactionNumber);
+		Payment payment = paymentService.pay(transactionNumber, DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new HashSet<Listing>());
 		return convertToDto(payment);
 	}
 	
