@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -24,21 +25,39 @@ public class PaymentService {
 	PaymentRepository paymentRepository;
 	
 	@Transactional
-	public Payment pay(String transactionNumber, DeliveryType deliveryType, PaymentType paymentType, Identity identity, Iterable<Listing> listings) {
-		Payment payment = new Payment();
-		payment.setTransactionNumber(transactionNumber);
-		payment.setDeliveryType(deliveryType);
-		payment.setPaymentType(paymentType);
-		payment.setIdentity(identity);
-		payment.setListing(toSet(listings));
-		payment = paymentRepository.save(payment);
-		return payment;
+	public Optional<Payment> pay(String transactionNumber, DeliveryType deliveryType, PaymentType paymentType, Identity identity, Iterable<Listing> listings) {
+		boolean paymentValid = true;
+		
+		// user attempts to pick shipping when the artist does not want to ship
+		List<Listing> listings2 = toList(listings);
+		for (Listing l : listings2) {
+			if (deliveryType == DeliveryType.SHIPPING && !l.isCanDeliver()) {
+				paymentValid = false;
+			}
+		}
+		
+		// user attempts to buy 0 art
+		if (listings2.size() == 0)
+			paymentValid = false;
+		
+		// insert extreme quantity
+		
+		Payment payment = null;
+		if (paymentValid) {
+			payment = new Payment();
+			payment.setTransactionNumber(transactionNumber);
+			payment.setDeliveryType(deliveryType);
+			payment.setPaymentType(paymentType);
+			payment.setIdentity(identity);
+			payment.setListing(listings2);
+			payment = paymentRepository.save(payment);
+		}
+		return Optional.ofNullable(payment);
 	}
 
 	@Transactional
-	public Payment getPayment(long confirmationNumber) {
-		Payment payment = paymentRepository.findByConfirmationNumber(confirmationNumber);
-		return payment;
+	public Optional<Payment> getPayment(long confirmationNumber) {
+		return paymentRepository.findById(confirmationNumber);
 	}
 
 	@Transactional

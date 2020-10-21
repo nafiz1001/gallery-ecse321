@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -77,7 +79,7 @@ public class PaymentPersistenceTests {
 		nullListing.setDatePublished(new Date(0));
 		nullListing.setId("0");
 		listingRepository.save(nullListing);
-		payment.setListing(new HashSet<>());
+		payment.setListing(new ArrayList<>());
 		payment.getListing().add(nullListing);
 		
 		payment.setPaymentDate(new Date(0));
@@ -151,7 +153,7 @@ public class PaymentPersistenceTests {
 		otherIdentity = identityRepository.save(otherIdentity);
 		savedPayment.setIdentity(otherIdentity);
 		
-		HashSet<Listing> listings = new HashSet<>();
+		List<Listing> listings = new ArrayList<>();
 		Listing listing = saveListing();
 		listings.add(listing);
 		

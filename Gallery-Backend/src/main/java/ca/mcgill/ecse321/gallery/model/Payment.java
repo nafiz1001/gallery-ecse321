@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
 import javax.persistence.ManyToOne;
+
+import java.util.List;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
@@ -68,12 +70,12 @@ public class Payment{
 	   this.address = address;
 	}
 
-	private Set<Listing> listing;
+	private List<Listing> listing;
 	@OneToMany(fetch = FetchType.EAGER)
-	public Set<Listing> getListing() {
+	public List<Listing> getListing() {
 	   return this.listing;
 	}
-	public void setListing(Set<Listing> listings) {
+	public void setListing(List<Listing> listings) {
 	   this.listing = listings;
 	}
 

@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gallery.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,24 @@ public class GalleryController {
 	
 	@GetMapping(value = { "/payment/{confirmationNumber}", "/payment/{confirmationNumber}" })
 	public PaymentDto getPayment(@PathVariable("confirmationNumber") long confirmationNumber) {
-		return convertToDto(paymentService.getPayment(confirmationNumber));
+		
+		Optional<Payment> payment = paymentService.getPayment(confirmationNumber);
+		
+		if (payment.isPresent()) {
+			return convertToDto(payment.get());
+		} else {
+			return null;
+		}
 	}
 
 	@PostMapping(value = { "/pay/{transactionNumber}", "/pay/{TransactionNumber}/" })
 	public PaymentDto pay(@PathVariable("transactionNumber") String transactionNumber) throws IllegalArgumentException {
-		Payment payment = paymentService.pay(transactionNumber, DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new HashSet<Listing>());
-		return convertToDto(payment);
+		Optional<Payment> payment = paymentService.pay(transactionNumber, DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new HashSet<Listing>());
+		if (payment.isPresent()) {
+			return convertToDto(payment.get());
+		} else {
+			return null;
+		}
 	}
 	
 	private PaymentDto convertToDto(Payment p) {
