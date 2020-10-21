@@ -40,6 +40,11 @@ public class PaymentService {
 		return toList(paymentRepository.findAll());
 	}
 	
+	@Transactional
+	public List<Payment> getAllPaymentsByEmail(String email) {
+		return toList(paymentRepository.findByIdentityEmail(email));
+	}
+	
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
