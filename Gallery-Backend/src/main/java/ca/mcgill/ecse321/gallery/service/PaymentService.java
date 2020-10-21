@@ -31,7 +31,7 @@ public class PaymentService {
 
 	@Transactional
 	public Payment getPayment(long confirmationNumber) {
-		Payment payment = paymentRepository.findPaymentByConfirmationNumber(confirmationNumber);
+		Payment payment = paymentRepository.findByConfirmationNumber(confirmationNumber);
 		return payment;
 	}
 

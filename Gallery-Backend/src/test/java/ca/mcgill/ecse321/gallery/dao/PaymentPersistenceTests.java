@@ -114,7 +114,7 @@ public class PaymentPersistenceTests {
 	public void testCreateAndLoad() {
 		Payment savedPayment = savePayment();
 		
-		Payment foundPayment = paymentRepository.findPaymentByConfirmationNumber(savedPayment.getConfirmationNumber());
+		Payment foundPayment = paymentRepository.findByConfirmationNumber(savedPayment.getConfirmationNumber());
 		
 		assertNotNull(foundPayment);
 		assertEquals(foundPayment.getTransactionNumber(), "0");
@@ -159,7 +159,7 @@ public class PaymentPersistenceTests {
 		
 		paymentRepository.save(savedPayment);
 		
-		savedPayment = paymentRepository.findPaymentByConfirmationNumber(savedPayment.getConfirmationNumber());
+		savedPayment = paymentRepository.findByConfirmationNumber(savedPayment.getConfirmationNumber());
 
 		assertEquals(confirmationNumber, savedPayment.getConfirmationNumber());
 		//assertEquals(0, new Date(100000).compareTo(savedPayment.getPaymentDate())); // date comparison is wack
@@ -167,5 +167,18 @@ public class PaymentPersistenceTests {
 		assertEquals(otherIdentity.getEmail(), savedPayment.getIdentity().getEmail());
 		assertEquals(1, savedPayment.getListing().size());
 		assertEquals("123", ((Listing)savedPayment.getListing().toArray()[0]).getId());
+	}
+	
+	@Test
+	public void testFindByEmail() {
+		Payment savedPayment = savePayment();
+		Iterable<Payment> payments = paymentRepository.findByIdentityEmail("0");
+		
+		int size = 0;
+		for (Payment p : payments) {
+			assertEquals(savedPayment.getConfirmationNumber(), p.getConfirmationNumber());
+			++size;
+		}
+		assertEquals(1, size);
 	}
 }
