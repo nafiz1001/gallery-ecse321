@@ -19,7 +19,9 @@ import ca.mcgill.ecse321.gallery.model.PaymentType;
 
 @RepositoryRestResource(collectionResourceRel = "payment_data", path = "payment_data")
 public interface PaymentRepository extends CrudRepository<Payment, Long>{
-	Payment findPaymentByConfirmationNumber(long confirmationNumber);
+	Payment findByConfirmationNumber(long confirmationNumber);
+	
+	Iterable<Payment> findByIdentityEmail(String email);
 	
 	void deleteAll();
 }
