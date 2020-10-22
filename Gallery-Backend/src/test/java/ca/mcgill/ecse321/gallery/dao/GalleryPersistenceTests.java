@@ -28,6 +28,8 @@ import ca.mcgill.ecse321.gallery.model.Gallery;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class GalleryPersistenceTests {
+	@Autowired
+	private AccountRepository accountRepository;
 	
 	@Autowired
 	private GalleryRepository galleryRepository;
@@ -39,18 +41,10 @@ public class GalleryPersistenceTests {
 	 * Clears all Galleries and Addresses in database before each test
 	 */
 	@BeforeEach
-	public void clearDatabse() {
-		galleryRepository.deleteAll();
-		addressRepository.deleteAll();
-	}
-	
-	/**
-	 * Clears all Galleries and Addresses in database after each test
-	 */
-	@AfterEach
 	public void clearDatabase() {
 		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
+		accountRepository.deleteAll();
 	}
 	
 	/**

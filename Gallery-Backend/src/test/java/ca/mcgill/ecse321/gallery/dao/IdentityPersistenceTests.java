@@ -37,25 +37,21 @@ public class IdentityPersistenceTests {
 
 	@Autowired
 	private IdentityRepository identityRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	/**
 	 * Clears all identities in database before each test
 	 */
 	@BeforeEach
 	public void clearDatabaseBefore() {
-
+		paymentRepository.deleteAll();
+		accountRepository.deleteAll();
 		identityRepository.deleteAll();
-
-	}
-
-	/**
-	 * Clears all identities from database after each test
-	 */
-	@AfterEach
-	public void clearDatabaseAfter() {
-
-		identityRepository.deleteAll();
-
 	}
 
 	/**
