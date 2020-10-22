@@ -118,5 +118,16 @@ public class PaymentServiceTests {
 		// listing cannot be empty
 		Optional<Payment> payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
 		assertTrue(payment.isEmpty());
+		
+		// violation of max quantity
+		l1.setQuantity(0);
+		l1.setCanDeliver(true);
+		listings.add(l1);
+		l2.setQuantity(2);
+		l2.setCanPickUp(true);
+		listings.add(l2);
+		
+		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
 	}
 }
