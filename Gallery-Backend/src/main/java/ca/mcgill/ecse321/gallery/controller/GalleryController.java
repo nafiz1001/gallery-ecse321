@@ -27,31 +27,29 @@ public class GalleryController {
 	@Autowired
 	private PaymentService paymentService;
 	
-	@GetMapping(value = { "/payments", "/payments/" })
-	public List<PaymentDto> getAllPayments() {
-		return paymentService.getAllPayments().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
-	}
-	
 	@GetMapping(value = { "/payment/{confirmationNumber}", "/payment/{confirmationNumber}" })
 	public PaymentDto getPayment(@PathVariable("confirmationNumber") long confirmationNumber) {
+//		
+//		Optional<Payment> payment = paymentService.getPayment(confirmationNumber);
+//		
+//		if (payment.isPresent()) {
+//			return convertToDto(payment.get());
+//		} else {
+//			return null;
+//		}
 		
-		Optional<Payment> payment = paymentService.getPayment(confirmationNumber);
-		
-		if (payment.isPresent()) {
-			return convertToDto(payment.get());
-		} else {
-			return null;
-		}
+		return null;
 	}
 
 	@PostMapping(value = { "/pay/{transactionNumber}", "/pay/{TransactionNumber}/" })
 	public PaymentDto pay(@PathVariable("transactionNumber") String transactionNumber) throws IllegalArgumentException {
-		Optional<Payment> payment = paymentService.pay(transactionNumber, DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new HashSet<Listing>());
-		if (payment.isPresent()) {
-			return convertToDto(payment.get());
-		} else {
-			return null;
-		}
+//		Optional<Payment> payment = paymentService.pay(transactionNumber, DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new HashSet<Listing>());
+//		if (payment.isPresent()) {
+//			return convertToDto(payment.get());
+//		} else {
+//			return null;
+//		}
+		return null;
 	}
 	
 	private PaymentDto convertToDto(Payment p) {
@@ -63,6 +61,10 @@ public class GalleryController {
 		paymentDto.setTransactionNumber(p.getTransactionNumber());
 		paymentDto.setDeliveryType(p.getDeliveryType());
 		paymentDto.setPaymentType(p.getPaymentType());
+		//paymentDto.setIdentity(convertToDto(p.getIdentity()));
+		paymentDto.setPaymentDate(p.getPaymentDate());
+		//paymentDto.setAddress(convertToDto(p.getAddress()));
+		//paymentDto.setListing(convertToDto(p.getListing()));
 		return paymentDto;
 	}
 }
