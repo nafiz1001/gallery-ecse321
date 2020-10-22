@@ -130,5 +130,19 @@ public class PaymentServiceTests {
 		
 		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
 		assertTrue(payment.isEmpty());
+		
+		// violation of delivery type
+		listings.clear();
+		l1.setQuantity(2);
+		l1.setCanDeliver(false);
+		listings.add(l1);
+		l2.setQuantity(2);
+		l2.setCanPickUp(false);
+		listings.add(l2);
+		
+		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
+		payment = paymentService.pay(DeliveryType.SHIPPING, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
 	}
 }
