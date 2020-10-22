@@ -144,5 +144,20 @@ public class PaymentServiceTests {
 		assertTrue(payment.isEmpty());
 		payment = paymentService.pay(DeliveryType.SHIPPING, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
 		assertTrue(payment.isEmpty());
+		
+		// address must be available if it's by shipping
+		listings.clear();
+		l1.setQuantity(2);
+		l1.setCanDeliver(true);
+		listings.add(l1);
+		l2.setQuantity(2);
+		l2.setCanPickUp(true);
+		listings.add(l2);
+		address = null;
+		
+		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isPresent());
+		payment = paymentService.pay(DeliveryType.SHIPPING, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
 	}
 }
