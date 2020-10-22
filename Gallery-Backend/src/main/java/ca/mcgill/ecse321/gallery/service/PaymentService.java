@@ -35,6 +35,14 @@ public class PaymentService {
 		boolean isPaymentValid = true;
 		Payment payment = null;
 		
+		// is listing empty?
+		int listingSize = 0;
+		for (Listing l : listings)
+			++listingSize;
+		if (listingSize == 0) {
+			isPaymentValid = false;
+		}
+		
 		// is max quantity violated?
 		HashMap<Listing, Integer> listingCounts = new HashMap<>(); 
 		for (Listing l : listings) {
