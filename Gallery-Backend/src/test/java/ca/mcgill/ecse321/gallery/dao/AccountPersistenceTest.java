@@ -33,29 +33,27 @@ public class AccountPersistenceTest {
 	private AccountRepository accountRepository;
 	
 	@Autowired
+	private GalleryRepository galleryRepository;
+	
+	@Autowired
 	private AddressRepository addressRepository;
 	
 	@Autowired
 	private IdentityRepository identityRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
 		
 	/**
 	 * Clears all accounts, addresses and identities in database before each test
 	 */
 	
 	@BeforeEach
-	public void clearDatabse() {
-		accountRepository.deleteAll();
-		addressRepository.deleteAll();
-		identityRepository.deleteAll();
-	}
-
-	/**
-	 * Clears all accounts, addresses and identities in database after each test
-	 */
-	
-	@AfterEach 
 	public void clearDatabase() {
 		accountRepository.deleteAll();
+		paymentRepository.deleteAll();
+		identityRepository.deleteAll();
+		galleryRepository.deleteAll();
 		addressRepository.deleteAll();
 		identityRepository.deleteAll();
 	}

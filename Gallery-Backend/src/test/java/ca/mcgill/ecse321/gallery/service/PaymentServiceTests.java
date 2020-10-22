@@ -2,10 +2,12 @@ package ca.mcgill.ecse321.gallery.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.lenient;
 import ca.mcgill.ecse321.gallery.dao.IdentityRepository;
 import ca.mcgill.ecse321.gallery.dao.ListingRepository;
 import ca.mcgill.ecse321.gallery.dao.PaymentRepository;
+import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.Identity;
 import ca.mcgill.ecse321.gallery.model.Listing;
@@ -39,65 +42,122 @@ public class PaymentServiceTests {
 	@Mock
 	private PaymentRepository paymentRepository;
 	
+	@Mock
+	private ListingRepository listingRepository;
+	
 	@InjectMocks
 	PaymentService paymentService;
 	
 	private long confirmationNumber = 0;
-	private Optional<Payment> p1;
-	private Optional<Payment> p2;
+	private HashSet<Payment> savedPayments = new HashSet<>();
+	private HashSet<Listing> savedListings = new HashSet<>();
 	
 	@BeforeEach
-	public void setMockOutput() {
+	public void setupMockup() {
 		confirmationNumber = 0;
+		savedPayments.clear();
+		
 		Answer<Payment> updateConfirmationNumberAndReturn = (InvocationOnMock invocation) -> {
 			Payment p = (Payment)invocation.getArgument(0);
 			p.setConfirmationNumber(confirmationNumber);
+			savedPayments.add(p);
 			confirmationNumber++;
 			return p;
 		};
+		
+		Answer<Listing> saveAndReturn = (InvocationOnMock invocation) -> {
+			Listing l = (Listing)invocation.getArgument(0);
+			savedListings.add(l);
+			return l;
+		};
+		
 		lenient().when(paymentRepository.save(any(Payment.class))).thenAnswer(updateConfirmationNumberAndReturn);
 		
-		p1 = paymentService.pay("", DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new ArrayList<>());
-		p2 = paymentService.pay("", DeliveryType.PICKUP, PaymentType.CREDIT_CARD, null, new ArrayList<>());
-		assertTrue(p1.isPresent());
-		assertTrue(p2.isPresent());
+		lenient().when(listingRepository.save(any(Listing.class))).thenAnswer(saveAndReturn);
 		
 		lenient().when(paymentRepository.findById(any())).thenAnswer((InvocationOnMock invocation) -> {
-			int confirmationNumber = ((Long)invocation.getArgument(0)).intValue();
-			switch (confirmationNumber) {
-				case 0:
-					return Optional.ofNullable(p1);
-				case 1:
-					return Optional.ofNullable(p2);
-				default:
-					return Optional.empty();
+			long confirmationNumber = ((Long)invocation.getArgument(0));
+			for (Payment p : savedPayments) {
+				if (p.getConfirmationNumber() == confirmationNumber)
+					return Optional.ofNullable(p);
 			}
+			return Optional.empty();
 		});
 	}
 	
 	@Test
-	void testCreatePayment() {
-		assertTrue(paymentService.getPayment(p1.get().getConfirmationNumber()).isPresent());
-		assertTrue(paymentService.getPayment(p2.get().getConfirmationNumber()).isPresent());
+	void testSuccessfulPayment() {
+		ArrayList<Listing> listings = new ArrayList<>();
+		Listing l = new Listing();
+		l.setQuantity(1);
+		l.setCanDeliver(true);
+		listings.add(l);
+		l = new Listing();
+		l.setQuantity(1);
+		l.setCanPickUp(true);
+		listings.add(l);
+		Address address = new Address();
+		Optional<Payment> payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
 		
-		long notValidId = 2;
-		assertTrue(paymentService.getPayment(notValidId).isEmpty());
-	}
-	
-	@Test
-	void testGetPayments() {
-		lenient().when(paymentRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
-			ArrayList<Payment> payments = new ArrayList<>();
-			payments.add(p1.get());
-			payments.add(p2.get());
-			return payments;
-		});
+		assertTrue(payment.isPresent());
+		assertTrue(paymentRepository.findById(confirmationNumber - 1).isPresent());
 		
-		List<Payment> payments = paymentService.getAllPayments(); 
-		
-		assertEquals(2, payments.size());
-		for (int i = 0; i < payments.size(); ++i) {
-			assertEquals(i, payments.get(i).getConfirmationNumber());
+		assertEquals(2, savedListings.size());
+		for (Listing el : savedListings) {
+			assertEquals(el.getQuantity(), 0);
 		}
+	}
+	
+	@Test
+	void testViolations() {
+		ArrayList<Listing> listings = new ArrayList<>();
+		Address address = new Address();
+		Listing l1 = new Listing();
+		Listing l2 = new Listing();
+		
+		// listing cannot be empty
+		Optional<Payment> payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
+		
+		// violation of max quantity
+		listings.clear();
+		l1.setQuantity(0);
+		l1.setCanDeliver(true);
+		listings.add(l1);
+		l2.setQuantity(2);
+		l2.setCanPickUp(true);
+		listings.add(l2);
+		
+		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
+		
+		// violation of delivery type
+		listings.clear();
+		l1.setQuantity(2);
+		l1.setCanDeliver(false);
+		listings.add(l1);
+		l2.setQuantity(2);
+		l2.setCanPickUp(false);
+		listings.add(l2);
+		
+		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
+		payment = paymentService.pay(DeliveryType.SHIPPING, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
+		
+		// address must be available if it's by shipping
+		listings.clear();
+		l1.setQuantity(2);
+		l1.setCanDeliver(true);
+		listings.add(l1);
+		l2.setQuantity(2);
+		l2.setCanPickUp(true);
+		listings.add(l2);
+		address = null;
+		
+		payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isPresent());
+		payment = paymentService.pay(DeliveryType.SHIPPING, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
 	}
 }

@@ -34,26 +34,27 @@ import ca.mcgill.ecse321.gallery.model.PaymentType;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ListingPersistenceTests {
-
+	@Autowired
+	private ProfileRepository profileRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
+	
 	@Autowired
 	private ListingRepository listingRepository;
+	
+	@Autowired
+	private RevenuRepository revenuRepository;
 
 	/**
 	 * Clears all listings in database before each test
 	 */
 	@BeforeEach
 	public void clearDatabaseBefore() {
+		revenuRepository.deleteAll();
+		paymentRepository.deleteAll();
+		profileRepository.deleteAll();
 		listingRepository.deleteAll();
-
-	}
-
-	/**
-	 * Clears all listings from database after each test
-	 */
-	@AfterEach
-	public void clearDatabaseAfter() {
-		listingRepository.deleteAll();
-
 	}
 
 	/**
