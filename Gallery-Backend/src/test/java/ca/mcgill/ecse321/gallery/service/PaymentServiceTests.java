@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.gallery.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
@@ -29,6 +30,7 @@ import static org.mockito.Mockito.lenient;
 import ca.mcgill.ecse321.gallery.dao.IdentityRepository;
 import ca.mcgill.ecse321.gallery.dao.ListingRepository;
 import ca.mcgill.ecse321.gallery.dao.PaymentRepository;
+import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.Identity;
 import ca.mcgill.ecse321.gallery.model.Listing;
@@ -81,5 +83,28 @@ public class PaymentServiceTests {
 			}
 			return Optional.empty();
 		});
+	}
+	
+	@Test
+	void testSuccessfulPayment() {
+		ArrayList<Listing> listings = new ArrayList<>();
+		Listing l = new Listing();
+		l.setQuantity(1);
+		l.setCanDeliver(true);
+		listings.add(l);
+		l = new Listing();
+		l.setQuantity(1);
+		l.setCanPickUp(true);
+		listings.add(l);
+		Address address = new Address();
+		Optional<Payment> payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		
+		assertTrue(payment.isPresent());
+		assertTrue(paymentRepository.findById(confirmationNumber - 1).isPresent());
+		
+		assertEquals(2, savedListings.size());
+		for (Listing el : savedListings) {
+			assertEquals(el.getQuantity(), 0);
+		}
 	}
 }
