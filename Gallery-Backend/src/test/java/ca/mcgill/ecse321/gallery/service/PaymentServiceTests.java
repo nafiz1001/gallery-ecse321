@@ -109,7 +109,7 @@ public class PaymentServiceTests {
 	}
 	
 	@Test
-	void testListingViolation() {
+	void testViolations() {
 		ArrayList<Listing> listings = new ArrayList<>();
 		Address address = new Address();
 		Listing l1 = new Listing();
