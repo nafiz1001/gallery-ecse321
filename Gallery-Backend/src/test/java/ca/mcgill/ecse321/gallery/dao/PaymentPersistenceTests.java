@@ -109,7 +109,7 @@ public class PaymentPersistenceTests {
 	public void testCreateAndLoad() {
 		Payment savedPayment = savePayment();
 		
-		Payment foundPayment = paymentRepository.findByConfirmationNumber(savedPayment.getConfirmationNumber());
+		Payment foundPayment = paymentRepository.findById(savedPayment.getConfirmationNumber()).get();
 		
 		assertNotNull(foundPayment);
 		assertEquals(foundPayment.getTransactionNumber(), "0");
@@ -154,7 +154,7 @@ public class PaymentPersistenceTests {
 		
 		paymentRepository.save(savedPayment);
 		
-		savedPayment = paymentRepository.findByConfirmationNumber(savedPayment.getConfirmationNumber());
+		savedPayment = paymentRepository.findById(savedPayment.getConfirmationNumber()).get();
 
 		assertEquals(confirmationNumber, savedPayment.getConfirmationNumber());
 		//assertEquals(0, new Date(100000).compareTo(savedPayment.getPaymentDate())); // date comparison is wack
