@@ -107,4 +107,16 @@ public class PaymentServiceTests {
 			assertEquals(el.getQuantity(), 0);
 		}
 	}
+	
+	@Test
+	void testListingViolation() {
+		ArrayList<Listing> listings = new ArrayList<>();
+		Address address = new Address();
+		Listing l1 = new Listing();
+		Listing l2 = new Listing();
+		
+		// listing cannot be empty
+		Optional<Payment> payment = paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
+		assertTrue(payment.isEmpty());
+	}
 }
