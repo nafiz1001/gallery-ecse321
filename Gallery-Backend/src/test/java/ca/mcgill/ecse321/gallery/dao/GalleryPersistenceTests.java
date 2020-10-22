@@ -43,8 +43,8 @@ public class GalleryPersistenceTests {
 	@BeforeEach
 	public void clearDatabase() {
 		galleryRepository.deleteAll();
-		addressRepository.deleteAll();
 		accountRepository.deleteAll();
+		addressRepository.deleteAll();
 	}
 	
 	/**
