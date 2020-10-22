@@ -54,13 +54,6 @@ public class PaymentPersistenceTests {
 		identityRepository.deleteAll();
 	}
 	
-	@AfterEach
-	public void clearDatabase() {
-		paymentRepository.deleteAll();
-		listingRepository.deleteAll();
-		identityRepository.deleteAll();
-	}
-	
 	/**
 	 * saves one payment, one identity and one listing to the database;
 	 * they are also linked together somehow
