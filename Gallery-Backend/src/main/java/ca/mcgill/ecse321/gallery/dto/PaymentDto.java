@@ -64,12 +64,12 @@ public class PaymentDto {
 	   this.address = address;
 	}
 
-	private Set<ListingDto> Seting;
-	public Set<ListingDto> getSeting() {
-	   return this.Seting;
+	private Set<ListingDto> listing;
+	public Set<ListingDto> getListing() {
+	   return this.listing;
 	}
-	public void setSeting(Set<ListingDto> Setings) {
-	   this.Seting = Setings;
+	public void setListings(Set<ListingDto> listing) {
+	   this.listing = listing;
 	}
 
 	private IdentityDto identity;
