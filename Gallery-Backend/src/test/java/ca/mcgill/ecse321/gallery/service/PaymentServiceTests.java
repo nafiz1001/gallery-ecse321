@@ -120,6 +120,7 @@ public class PaymentServiceTests {
 		assertTrue(payment.isEmpty());
 		
 		// violation of max quantity
+		listings.clear();
 		l1.setQuantity(0);
 		l1.setCanDeliver(true);
 		listings.add(l1);
