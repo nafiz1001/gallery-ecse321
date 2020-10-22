@@ -31,7 +31,7 @@ public class PaymentService {
 	ListingRepository listingRepository;
 	
 	@Transactional
-	public Optional<Payment> pay(String transactionNumber, DeliveryType deliveryType, PaymentType paymentType, Optional<Identity> identity, Iterable<Listing> listings, Optional<Address> address) {
+	public Optional<Payment> pay(DeliveryType deliveryType, PaymentType paymentType, Optional<Identity> identity, Iterable<Listing> listings, Optional<Address> address) {
 		boolean isPaymentValid = true;
 		Payment payment = null;
 		
@@ -46,7 +46,8 @@ public class PaymentService {
 		// is max quantity violated?
 		HashMap<Listing, Integer> listingCounts = new HashMap<>(); 
 		for (Listing l : listings) {
-			listingCounts.put(l, listingCounts.putIfAbsent(l, 0) + 1);
+			listingCounts.putIfAbsent(l, 0);
+			listingCounts.put(l, listingCounts.get(l) + 1);
 		}
 		
 		for (Listing l : listingCounts.keySet()) {
@@ -93,11 +94,11 @@ public class PaymentService {
 			
 			// create payment
 			payment = new Payment();
-			payment.setTransactionNumber(transactionNumber);
+			payment.setTransactionNumber("69");
 			payment.setDeliveryType(deliveryType);
 			payment.setPaymentType(paymentType);
-			payment.setIdentity(identity.get());
-			payment.setAddress(address.get());
+			payment.setIdentity(identity.isPresent() ? identity.get() : null);
+			payment.setAddress(address.isPresent() ? address.get() : null);
 			payment.setListing(toList(listings));
 			payment = paymentRepository.save(payment);
 		}
