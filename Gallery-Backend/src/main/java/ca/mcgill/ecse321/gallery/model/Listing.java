@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
 import javax.persistence.OneToOne;
@@ -14,6 +16,7 @@ private String id;
 this.id = value;
     }
 @Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 public String getId() {
 return this.id;
     }
