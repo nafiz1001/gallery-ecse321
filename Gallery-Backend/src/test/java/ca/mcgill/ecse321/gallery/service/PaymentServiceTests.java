@@ -85,6 +85,22 @@ public class PaymentServiceTests {
 			}
 			return Optional.empty();
 		});
+		
+		lenient().when(paymentRepository.findByIdentityEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			String email = ((String)invocation.getArgument(0));
+			ArrayList<Payment> payments = new ArrayList<>();
+			
+			if (email == null) {
+				return payments;
+			}
+			
+			for (Payment p : savedPayments) {
+				if (p.getIdentity() != null && email.equals(p.getIdentity().getEmail())) {
+					payments.add(p);
+				}
+			}
+			return payments;
+		});
 	}
 	
 	@Test
@@ -176,4 +192,20 @@ public class PaymentServiceTests {
 		assertTrue(paymentService.getPayment(0).isPresent());
 	}
 	
+	@Test
+	void testFindByEmail() {
+		assertEquals(0, paymentService.getAllPaymentsByEmail("69").size());
+		
+		Listing l = new Listing();
+		l.setQuantity(1);
+		l.setCanPickUp(true);
+		ArrayList<Listing> ls = new ArrayList<>();
+		ls.add(l);
+		
+		Identity identity = new Identity();
+		identity.setEmail("69");
+		
+		paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.ofNullable(identity), ls, Optional.empty());
+		assertEquals(1, paymentService.getAllPaymentsByEmail("69").size());
+	}
 }
