@@ -37,7 +37,7 @@ public class ProfileService {
 	@Autowired
 	AccountRepository accountRepository;
 	
-	
+	@Transactional
 	public Optional<Profile> createProfile(String bio, String picture, String fullname, String id ) {
 		if (bio == null || bio.trim().length() == 0) {
 			throw new IllegalArgumentException("Bio cannot be empty!");
@@ -62,6 +62,11 @@ public class ProfileService {
 		
 		return Optional.ofNullable(profile);
 
+	}
+	
+	@Transactional
+	public Optional<Profile> getProfile(String id) {
+		return profileRepository.findById(id);
 	}
 
 	
