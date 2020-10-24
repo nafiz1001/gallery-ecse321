@@ -163,5 +163,17 @@ public class PaymentServiceTests {
 		assertTrue(payment.isEmpty());
 	}
 	
+	@Test
+	void testGetPayment() {
+		assertTrue(paymentService.getPayment(0).isEmpty());
+		
+		Listing l = new Listing();
+		l.setQuantity(1);
+		l.setCanPickUp(true);
+		ArrayList<Listing> ls = new ArrayList<>();
+		ls.add(l);
+		paymentService.pay(DeliveryType.PICKUP, PaymentType.CREDIT_CARD, Optional.empty(), ls, Optional.empty());
+		assertTrue(paymentService.getPayment(0).isPresent());
+	}
 	
 }
