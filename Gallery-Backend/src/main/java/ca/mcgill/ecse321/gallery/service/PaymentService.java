@@ -56,6 +56,10 @@ public class PaymentService {
 		}
 		
 		// is delivery type valid?
+		if (deliveryType == null) {
+			isPaymentValid = false;
+		}
+		
 		if (deliveryType == DeliveryType.SHIPPING) {
 			int errorCount = 0;
 			int size = 0;
@@ -83,6 +87,11 @@ public class PaymentService {
 		// is address available for delivery?
 		if (deliveryType == DeliveryType.SHIPPING && address.isEmpty()) {
 				isPaymentValid = false;
+		}
+		
+		// is payment type valid?
+		if (paymentType == null) {
+			isPaymentValid = false;
 		}
 		
 		if (isPaymentValid) {
