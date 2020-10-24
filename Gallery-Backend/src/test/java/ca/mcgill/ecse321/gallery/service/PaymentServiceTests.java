@@ -55,7 +55,9 @@ public class PaymentServiceTests {
 	@BeforeEach
 	public void setupMockup() {
 		confirmationNumber = 0;
+		
 		savedPayments.clear();
+		savedListings.clear();
 		
 		Answer<Payment> updateConfirmationNumberAndReturn = (InvocationOnMock invocation) -> {
 			Payment p = (Payment)invocation.getArgument(0);
@@ -109,7 +111,7 @@ public class PaymentServiceTests {
 	}
 	
 	@Test
-	void testViolations() {
+	void testPaymentViolations() {
 		ArrayList<Listing> listings = new ArrayList<>();
 		Address address = new Address();
 		Listing l1 = new Listing();
@@ -160,4 +162,6 @@ public class PaymentServiceTests {
 		payment = paymentService.pay(DeliveryType.SHIPPING, PaymentType.CREDIT_CARD, Optional.empty(), listings, Optional.ofNullable(address));
 		assertTrue(payment.isEmpty());
 	}
+	
+	
 }
