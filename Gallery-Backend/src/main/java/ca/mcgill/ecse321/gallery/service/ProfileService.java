@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.gallery.service;
 
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,6 +59,7 @@ public class ProfileService {
 		profile.setPicture(picture);
 		profile.setFullname(fullname);
 		profile.setId(id);
+		profileRepository.save(profile);
 	/*	profile.setAccount(account);
 		profile. */
 		
@@ -70,6 +72,10 @@ public class ProfileService {
 		return profileRepository.findById(id);
 	}
 
-	
+	@Transactional 
+	public List<Profile> getAllProfiles() {
+		List<Profile> profiles = (List<Profile>) profileRepository.findAll();
+		return profiles;
+	}
 
 }
