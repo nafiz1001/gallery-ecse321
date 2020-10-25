@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.gallery.dto;
 import java.sql.Date;
 import java.util.Set;
 
+import ca.mcgill.ecse321.gallery.model.PaymentType;
+
 public class AccountDto{
 	private String accountHolderType;
 	   
@@ -91,8 +93,8 @@ public class AccountDto{
 	   return this.revenus;
 	}
 	
-	public void setRevenus(Set<RevenuDto> revenuss) {
-	   this.revenus = revenuss;
+	public void setRevenus(Set<RevenuDto> revenus) {
+	   this.revenus = revenus;
 	}
 	
 	private String accountNumber;
@@ -105,13 +107,13 @@ public class AccountDto{
 		return this.accountNumber;
     }
 	
-	private String paymentType;
+	private PaymentType paymentType;
 	
-	public void setPaymentType(String value) {
+	public void setPaymentType(PaymentType value) {
 		this.paymentType = value;
     }
 	
-	public String getPaymentType() {
+	public PaymentType getPaymentType() {
 		return this.paymentType;
     }
 

@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -92,8 +95,8 @@ public Set<Revenu> getRevenus() {
    return this.revenus;
 }
 
-public void setRevenus(Set<Revenu> revenuss) {
-   this.revenus = revenuss;
+public void setRevenus(Set<Revenu> revenus) {
+   this.revenus = revenus  ;
 }
 
 private String accountNumber;
@@ -101,6 +104,7 @@ private String accountNumber;
 public void setAccountNumber(String value) {
 this.accountNumber = value;
     }
+
 public String getAccountNumber() {
 return this.accountNumber;
     }
