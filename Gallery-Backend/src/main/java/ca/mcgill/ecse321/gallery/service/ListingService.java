@@ -48,7 +48,8 @@ public class ListingService {
 	public Optional<Listing> findListingById(String id) {
 		return listingRepository.findById(id)	;
 	}
-		
+
+	@Transactional
 	public List<Listing> findListingsByPublisher(Profile publisher){
 		
 		List<Listing> allListings = getAllListings();
@@ -61,7 +62,27 @@ public class ListingService {
 		}
 		
 		return byPublisher;
+	}
 	
+	
+	@Transactional
+	public List<Listing> findListingByPriceRange(int minPrice, int maxPrice) {
+		
+		if (minPrice < 0 || maxPrice < 0) throw new IllegalArgumentException("You cannot enter a negative value");
+		if (minPrice == maxPrice) throw new IllegalArgumentException("Range too small");
+		if (minPrice>maxPrice) throw new IllegalArgumentException("Minimum price cannot be larger than Maximum price");
+		
+		List<Listing> allListings = getAllListings();
+		List<Listing> byPrice = new ArrayList();
+		
+		for(Listing l : allListings) {
+			if (l.getPrice()>=minPrice && l.getPrice()<=maxPrice) {
+				byPrice.add(l);
+			}
+		}
+		
+		return byPrice;
+		
 	}
 		
 	
