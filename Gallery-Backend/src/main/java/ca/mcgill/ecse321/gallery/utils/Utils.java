@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Utils {
 
-	public <T> List<T> toList(Iterable<T> iterable){
+	public static <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
 			resultList.add(t);
@@ -15,7 +15,7 @@ public class Utils {
 		return resultList;
 	}
 	
-	public <T> Set<T> toSet(Iterable<T> iterable){
+	public static <T> Set<T> toSet(Iterable<T> iterable){
 		Set<T> resultList = new HashSet<T>();
 		for (T t : iterable) {
 			resultList.add(t);
