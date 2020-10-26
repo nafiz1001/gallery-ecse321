@@ -4,6 +4,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.gallery.dao.IdentityRepository;
 import ca.mcgill.ecse321.gallery.model.Identity;
@@ -13,6 +14,7 @@ public class IdentityService {
 	@Autowired
 	IdentityRepository identityRepository;
 	
+	@Transactional
 	public Optional<Identity> createIdentity(String email){
 		boolean emailValid = Utils.isEmailValid(email);
 		if (emailValid == false) throw new IllegalArgumentException("Email entered is not valid");
@@ -29,6 +31,7 @@ public class IdentityService {
 		
 	}
 	
+	@Transactional
 	public Optional<Identity> getIdentity(String email) {
 		
 		boolean emailValid = Utils.isEmailValid(email);
