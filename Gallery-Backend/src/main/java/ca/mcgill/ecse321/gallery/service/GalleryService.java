@@ -25,9 +25,6 @@ public class GalleryService {
 	@Autowired
 	GalleryRepository galleryRepository;
 
-	@Autowired
-	AddressRepository addressRepository;
-
 	@Transactional
 	public Optional<Gallery> createGallery(String name, String phoneNumber, Time openingTime, Time closingTime,
 			String email, int commissionPercentage, Address address) {
