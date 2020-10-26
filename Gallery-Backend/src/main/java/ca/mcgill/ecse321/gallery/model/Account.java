@@ -92,8 +92,8 @@ public Set<Revenu> getRevenus() {
    return this.revenus;
 }
 
-public void setRevenus(Set<Revenu> revenuss) {
-   this.revenus = revenuss;
+public void setRevenus(Set<Revenu> revenus) {
+   this.revenus = revenus;
 }
 
 private String accountNumber;

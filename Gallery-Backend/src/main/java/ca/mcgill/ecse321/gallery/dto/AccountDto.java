@@ -91,8 +91,8 @@ public class AccountDto{
 	   return this.revenus;
 	}
 	
-	public void setRevenus(Set<RevenuDto> revenuss) {
-	   this.revenus = revenuss;
+	public void setRevenus(Set<RevenuDto> revenus) {
+	   this.revenus = revenus;
 	}
 	
 	private String accountNumber;
