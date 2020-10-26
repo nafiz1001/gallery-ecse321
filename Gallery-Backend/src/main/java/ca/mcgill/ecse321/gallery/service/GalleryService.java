@@ -29,7 +29,7 @@ public class GalleryService {
 	public Optional<Gallery> createGallery(String name, String phoneNumber, Time openingTime, Time closingTime,
 			String email, int commissionPercentage, Address address) {
 		boolean isGalleryValid = true;
-		Gallery gallery = null;
+		Gallery validGallery = null;
 
 		// does phoneNumber have exactly 10 digits?
 		if (phoneNumber.length() != 10) {
@@ -60,7 +60,7 @@ public class GalleryService {
 		if (isGalleryValid) {
 
 			// create Gallery
-			Gallery validGallery = new Gallery();
+			validGallery = new Gallery();
 			validGallery.setName(name);
 			validGallery.setPhoneNumber(phoneNumber);
 			validGallery.setEmail(email);
@@ -71,7 +71,7 @@ public class GalleryService {
 
 			galleryRepository.save(validGallery);
 		}
-		return Optional.ofNullable(gallery);
+		return Optional.ofNullable(validGallery);
 	}
 
 	@Transactional
