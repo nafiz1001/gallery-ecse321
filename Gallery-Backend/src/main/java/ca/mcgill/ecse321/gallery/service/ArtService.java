@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.mcgill.ecse321.gallery.dao.ArtRepository;
 import ca.mcgill.ecse321.gallery.dao.GalleryRepository;
+import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.model.Art;
 import ca.mcgill.ecse321.gallery.model.Gallery;
@@ -27,11 +28,11 @@ public class ArtService {
 
 	@Transactional
 	public Optional<Art> createArt(String title, String description, double height, double width, String depth,
-			String image, Date creationDate, Profile uploader, String type, String author) {
+			String image, Date creationDate, Profile publisher, String type, String author) {
 		boolean isArtValid = true;
 		Art validArt = null;
 
-		// does title already exist?
+		// is title unique?
 		List<Art> allArt = getAllArt();
 
 		for (Art art : allArt) {
@@ -67,7 +68,6 @@ public class ArtService {
 		
 		// if Art is valid
 		if (isArtValid) {
-
 			// create Art
 			validArt = new Art();
 			validArt.setAuthor(author);
@@ -79,7 +79,7 @@ public class ArtService {
 			validArt.setName(title);
 			validArt.setType(type);
 			validArt.setWidth(width);
-			validArt.setOwner(uploader);
+			validArt.setOwner(publisher);
 
 			artRepository.save(validArt);
 		}
@@ -93,7 +93,7 @@ public class ArtService {
 	
 	@Transactional
 	public List<Art> getAllArt() {
-		return (List<Art>) artRepository.findAll();
+		return Utils.toList(artRepository.findAll());
 	}
 	
 	@Transactional
@@ -138,19 +138,19 @@ public class ArtService {
 		return byType;
 	}
 	
-	@Transactional
-	public List<Art> findArtByTitle(String title) {
-
-		List<Art> allArt = getAllArt();
-		List<Art> byTitle = new ArrayList<Art>();
-
-		for (Art art : allArt) {
-			if (art.getName().equals(title)) {
-				byTitle.add(art);
-			}
-		}
-		return byTitle;
-	}
+//	@Transactional
+//	public List<Art> findArtByTitle(String title) {
+//
+//		List<Art> allArt = getAllArt();
+//		List<Art> byTitle = new ArrayList<Art>();
+//
+//		for (Art art : allArt) {
+//			if (art.getName().equals(title)) {
+//				byTitle.add(art);
+//			}
+//		}
+//		return byTitle;
+//	}
 	
 	@Transactional
 	public List<Art> findArtByDate(Date creationDate) {
@@ -166,4 +166,8 @@ public class ArtService {
 		return byDate;
 	}
 	
+	@Transactional
+	public Optional<Art> getArtById(String id) {
+		return artRepository.findById(id);
+	}
 }
