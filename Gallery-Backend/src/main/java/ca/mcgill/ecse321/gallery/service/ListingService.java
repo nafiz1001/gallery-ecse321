@@ -31,8 +31,11 @@ public class ListingService {
 		
 		if(canPickUp == false && canDeliver==false) throw new IllegalArgumentException("At least one shipping method needs to be selected");
 		
+		if(art.getListing()!=null) throw new IllegalArgumentException("Art already associated to a listing");
+		
 		Listing listing = new Listing();
 		listing.setArt(art);
+		art.setListing(listing);
 		listing.setPublisher(art.getOwner());
 		listing.setPrice(price);
 		listing.setQuantity(quantity);
@@ -67,6 +70,7 @@ public class ListingService {
 				byPublisher.add(l);
 			}
 		}
+		
 
 		return byPublisher;
 	}

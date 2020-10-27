@@ -24,7 +24,7 @@ import ca.mcgill.ecse321.gallery.dao.ListingRepository;
 import ca.mcgill.ecse321.gallery.dao.PaymentRepository;
 import ca.mcgill.ecse321.gallery.model.Art;
 import ca.mcgill.ecse321.gallery.model.Listing;
-
+import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.service.ListingService;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,12 +105,31 @@ public class ListingServiceTests {
 	}
 	
 	@Test
+	void testInvalidArt() {
+		boolean exceptionCaught = false;
+		assertEquals(0, listingService.getAllListings().size());
+		Art art = new Art();
+		Optional<Listing> listing1 = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		try {
+			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+			}
+		catch (IllegalArgumentException e){
+				exceptionCaught=true;
+			}
+		assertTrue(exceptionCaught);
+		assertEquals(1, listingService.getAllListings().size());
+		
+		
+		
+	}
+	
+	@Test
 	void testInvalidPriceAtCreation() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
 		try {
-		Art art = new Art();
-		Optional<Listing> listing = listingService.createListing(art, -120, 2, "tagA, tagB", true, false, new Date(21102020));
+			Art art = new Art();
+			Optional<Listing> listing = listingService.createListing(art, -120, 2, "tagA, tagB", true, false, new Date(21102020));
 		}
 		catch (IllegalArgumentException e){
 			exceptionCaught=true;
@@ -202,6 +221,121 @@ public class ListingServiceTests {
 		assertEquals(0, listingService.getAllListings().size());
 	}
 	
+	@Test
+	void testFindAllListings() {
+		assertEquals(0, listingService.getAllListings().size());
+		
+		Art art = new Art();
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		Art art1 = new Art();
+		Optional<Listing> listing1 = listingService.createListing(art1, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		assertEquals(2, listingService.getAllListings().size());
+		
+	}
+	
+	@Test
+	void testFindListingById () {
+		assertEquals(0, listingService.getAllListings().size());
+		
+		Art art = new Art();
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		assertTrue(listingService.findListingById("0").isPresent());
+		
+	}
+	
+	@Test
+	void testFindListingByPublisher() {
+		assertEquals(0, listingService.getAllListings().size());
+		
+		Art art = new Art();
+		Profile prof = new Profile();
+		//test 0 
+		assertEquals(0, listingService.findListingsByPublisher(prof).size());
+		
+		art.setOwner(prof);
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		//assertEquals(1,listingService.findListingsByPublisher(prof).size());
+		
+		Art art2 = new Art();
+		art2.setOwner(prof);
+		Optional<Listing> listing2 = listingService.createListing(art2, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		//test multiple
+		assertEquals(2,listingService.findListingsByPublisher(prof).size());
+			
+	}
+	
+	@Test
+	void testFindListingByPriceRangeSuccess() {
+		assertEquals(0, listingService.getAllListings().size());
+		
+		Art art = new Art();
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		Art art1 = new Art();
+		Optional<Listing> listing1 = listingService.createListing(art1, 125, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		//test 0
+		assertEquals(0,listingService.findListingByPriceRange(0,10).size());
+		
+		//test multiple
+		assertEquals(2, listingService.findListingByPriceRange(115, 140).size());
+		
+	}
+	
+	@Test
+	void testInvalidFindListingByPriceRange() {
+		boolean exceptionCaught=false;
+		assertEquals(0, listingService.getAllListings().size());
+		Art art = new Art();
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		
+		//negative price1
+		try {
+			listingService.findListingByPriceRange(-1,0);
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		
+		exceptionCaught=false;
+		
+		//negative price2
+		try {
+			listingService.findListingByPriceRange(-10,-2);
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		
+		exceptionCaught=false;
+		
+		//max<min
+		try {
+			listingService.findListingByPriceRange(-1,0);
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		
+		exceptionCaught=false;
+		
+		//range too small
+		try {
+			listingService.findListingByPriceRange(5,5);
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		
+	}
 	
 	
 
