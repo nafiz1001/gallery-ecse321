@@ -51,6 +51,7 @@ public void setId(String value) {
 this.id = value;
     }
 @Id
+//@GeneratedValue(strategy = GenerationType.IDENTITY)
 public String getId() {
 return this.id;
        }

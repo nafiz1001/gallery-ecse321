@@ -43,13 +43,13 @@ public class GalleryService {
 			}
 		}
 
-		// is closing time before opening time?
-		if (openingTime.after(closingTime)) {
+		// is closing time before opening time or at opening time?
+		if (openingTime.after(closingTime) || openingTime.equals(closingTime)) {
 			isGalleryValid = false;
 		}
 
 		// is email valid?
-		isGalleryValid = Utils.isEmailValid(email);
+		isGalleryValid = Utils.isEmailValid(email, isGalleryValid);
 
 		// is commisionPercentage in between 0 and 100?
 		if (commissionPercentage <= 0 || commissionPercentage >= 100) {
@@ -57,8 +57,8 @@ public class GalleryService {
 		}
 
 		// if Gallery is valid
-		if (isGalleryValid) {
-
+		if (isGalleryValid == true) {
+			//System.out.println("ValidLoop");
 			// create Gallery
 			validGallery = new Gallery();
 			validGallery.setName(name);
@@ -71,6 +71,7 @@ public class GalleryService {
 
 			galleryRepository.save(validGallery);
 		}
+		//System.out.println(isGalleryValid);
 		return Optional.ofNullable(validGallery);
 	}
 

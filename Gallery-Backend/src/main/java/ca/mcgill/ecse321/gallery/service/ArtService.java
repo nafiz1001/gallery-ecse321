@@ -64,7 +64,7 @@ public class ArtService {
 			isArtValid = false;
 		}
 		// is creation date before current day
-
+		
 		// if Art is valid
 		if (isArtValid) {
 

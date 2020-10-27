@@ -24,8 +24,8 @@ public class Utils {
 		return resultList;
 	}
 	
-	public static Boolean isEmailValid(String email) {
-		Boolean isValid = true;
+	public static Boolean isEmailValid(String email, Boolean isValidAlready) {
+		Boolean isValid = isValidAlready;
 		int numAts = 0;
 		int atIndex = 0;
 		int numDots = 0;
