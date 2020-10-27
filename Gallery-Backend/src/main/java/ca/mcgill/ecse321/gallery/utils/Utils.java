@@ -48,4 +48,16 @@ public class Utils {
 		}
 		return isValid;
 	}
+	
+	public static Boolean areTagsValid(String tags) {
+		Boolean tagsValid = true;
+		String[] allTags = tags.split(", ");
+		
+		for (String tag: allTags) {
+			if(tag.matches("[a-zA-Z]+")==false) tagsValid=false;
+		
+		}
+		return tagsValid;	
+		
+	}
 }

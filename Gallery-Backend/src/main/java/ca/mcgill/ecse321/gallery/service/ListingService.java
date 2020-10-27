@@ -23,6 +23,14 @@ public class ListingService {
 	public Optional<Listing> createListing(Art art, int price, int quantity, String tags, boolean canPickUp,
 			boolean canDeliver, Date datePublished) {
 
+		if(price<0) throw new IllegalArgumentException("You cannot enter a negative price");
+		
+		if(quantity<=0) throw new IllegalArgumentException("Quantity needs to be 1 or more");
+		
+		if(Utils.areTagsValid(tags)==false) throw new IllegalArgumentException("Tags must only contain letters and must be separated by a comma and space");
+		
+		if(canPickUp == false && canDeliver==false) throw new IllegalArgumentException("At least one shipping method needs to be selected");
+		
 		Listing listing = new Listing();
 		listing.setArt(art);
 		listing.setPublisher(art.getOwner());
@@ -40,7 +48,7 @@ public class ListingService {
 
 	@Transactional
 	public List<Listing> getAllListings() {
-		return (List<Listing>) listingRepository.findAll();
+		return Utils.toList(listingRepository.findAll());
 	}
 
 	@Transactional

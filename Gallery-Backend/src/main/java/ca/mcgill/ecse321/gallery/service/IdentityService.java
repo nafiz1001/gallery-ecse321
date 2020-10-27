@@ -16,7 +16,7 @@ public class IdentityService {
 	
 	@Transactional
 	public Optional<Identity> createIdentity(String email){
-		boolean emailValid = Utils.isEmailValid(email);
+		boolean emailValid = Utils.isEmailValid(email,true);
 		if (emailValid == false) throw new IllegalArgumentException("Email entered is not valid");
 		
 		else {
@@ -34,7 +34,7 @@ public class IdentityService {
 	@Transactional
 	public Optional<Identity> getIdentity(String email) {
 		
-		boolean emailValid = Utils.isEmailValid(email);
+		boolean emailValid = Utils.isEmailValid(email,true);
 	
 		if (emailValid == false) throw new IllegalArgumentException("Email entered is not valid");
 		else return Optional.ofNullable(identityRepository.findIdentityByEmail(email));
