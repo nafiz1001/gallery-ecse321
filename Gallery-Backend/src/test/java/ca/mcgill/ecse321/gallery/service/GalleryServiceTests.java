@@ -6,9 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
-import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -23,16 +21,8 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.gallery.dao.AddressRepository;
 import ca.mcgill.ecse321.gallery.dao.GalleryRepository;
-import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Address;
-import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.Gallery;
-import ca.mcgill.ecse321.gallery.model.Identity;
-import ca.mcgill.ecse321.gallery.model.Listing;
-import ca.mcgill.ecse321.gallery.model.Payment;
-import ca.mcgill.ecse321.gallery.model.PaymentType;
-import ca.mcgill.ecse321.gallery.model.Profile;
-import ca.mcgill.ecse321.gallery.model.Revenu;
 
 @ExtendWith(MockitoExtension.class)
 public class GalleryServiceTests {
@@ -58,7 +48,7 @@ public class GalleryServiceTests {
 		savedGallery.clear();
 		savedAddress.clear();
 
-		// lambda for simulating saving gallery
+		// lambda for simulating saving Gallery
 		Answer<Gallery> saveGalleryAndReturn = (InvocationOnMock invocation) -> {
 			Gallery gallery = (Gallery) invocation.getArgument(0);
 			savedGallery.add(gallery);
@@ -98,16 +88,16 @@ public class GalleryServiceTests {
 		String email = "McGill@yahoo.com";
 		int commissionPercentage = 25;
 		Address address = new Address();
-		
-		Optional<Gallery> gallery = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery.isPresent());
 	}
 
 	@Test
 	void testPhoneNumberViolations() {
-		//phoneNumber length is too long
+		// phoneNumber length is too long
 		String name = "McGill";
 		String phoneNumber = "12312312345";
 		Time openingTime = new Time(100000);
@@ -115,24 +105,24 @@ public class GalleryServiceTests {
 		String email = "McGill@yahoo.com";
 		int commissionPercentage = 25;
 		Address address = new Address();
-		
-		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery1.isEmpty());
-		
+
 		// phoneNumber contains non-digits
 		phoneNumber = "123-123-1234";
-		
-		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery2.isEmpty());
 	}
-	
+
 	@Test
 	void testTimingViolations() {
-		//opening time happens after closing time
+		// opening time happens after closing time
 		String name = "McGill";
 		String phoneNumber = "1231231234";
 		Time openingTime = new Time(170000);
@@ -140,24 +130,24 @@ public class GalleryServiceTests {
 		String email = "McGill@yahoo.com";
 		int commissionPercentage = 25;
 		Address address = new Address();
-		
-		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery1.isEmpty());
-		
-		// opening time is at closing time
-				openingTime.setTime(100000);
-				
-				Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-						email, commissionPercentage, address);
 
-				assertTrue(gallery2.isEmpty());
+		// opening time is at closing time
+		openingTime.setTime(100000);
+
+		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
+
+		assertTrue(gallery2.isEmpty());
 	}
-	
+
 	@Test
 	void testEmailViolations() {
-		//email has more than one period
+		// email has more than one period
 		String name = "McGill";
 		String phoneNumber = "1231231234";
 		Time openingTime = new Time(100000);
@@ -165,48 +155,48 @@ public class GalleryServiceTests {
 		String email = "McGill@mail.mcgill.ca";
 		int commissionPercentage = 25;
 		Address address = new Address();
-		
-		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery1.isEmpty());
-		
+
 		// email has no period
 		email = "McGill@yahooca";
-		
-		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery2.isEmpty());
-		
-		// email has period but to the left of @
-				email = "McGill.yahoo@yahooca";
-				
-				Optional<Gallery> gallery3 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-						email, commissionPercentage, address);
 
-				assertTrue(gallery3.isEmpty());
-		
+		// email has period but to the left of @
+		email = "McGill.yahoo@yahooca";
+
+		Optional<Gallery> gallery3 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
+
+		assertTrue(gallery3.isEmpty());
+
 		// email missing @
 		email = "McGillyahoo.ca";
-		
-		Optional<Gallery> gallery4 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery4 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery4.isEmpty());
-		
-		// email has more than 1 @
-				email = "McGill@mail@mcgill.ca";
-				
-				Optional<Gallery> gallery5 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-						email, commissionPercentage, address);
 
-				assertTrue(gallery5.isEmpty());
+		// email has more than 1 @
+		email = "McGill@mail@mcgill.ca";
+
+		Optional<Gallery> gallery5 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
+
+		assertTrue(gallery5.isEmpty());
 	}
-	
+
 	@Test
 	void testCommissionPercentageViolations() {
-		//commissionPercentage >= 100
+		// commissionPercentage >= 100
 		String name = "McGill";
 		String phoneNumber = "1231231234";
 		Time openingTime = new Time(100000);
@@ -214,24 +204,24 @@ public class GalleryServiceTests {
 		String email = "McGill@yahoo.ca";
 		int commissionPercentage = 101;
 		Address address = new Address();
-		
-		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery1 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery1.isEmpty());
-		
+
 		// commissionPercentage <= 0
 		commissionPercentage = -1;
-		
-		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery2 = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertTrue(gallery2.isEmpty());
 	}
-	
+
 	@Test
 	void testGetGalleryByName() {
-		
+
 		String name = "McGill";
 		String phoneNumber = "1231231234";
 		Time openingTime = new Time(100000);
@@ -239,9 +229,9 @@ public class GalleryServiceTests {
 		String email = "McGill@yahoo.ca";
 		int commissionPercentage = 25;
 		Address address = new Address();
-		
-		Optional<Gallery> gallery = galleryService.createGallery(name, phoneNumber, openingTime, closingTime,
-				email, commissionPercentage, address);
+
+		Optional<Gallery> gallery = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
+				commissionPercentage, address);
 
 		assertEquals(gallery, galleryService.getGallery("McGill"));
 	}
