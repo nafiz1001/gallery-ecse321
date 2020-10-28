@@ -104,19 +104,67 @@ public class ProfileServiceTests {
 	
 	@Test
 	void testSuccessfullProfile() {
-		
-		Account account = new Account();
+		String bio = "Hello, welcome to my bio";
+		String picture = "pic";
 		ArrayList<Listing> listings = new ArrayList<Listing>();
+		Account account = new Account();
+		String fullname = "Haluk Calin";
 		ArrayList<Art> arts = new ArrayList<Art>();
 
 		
-		Optional<Profile> profile = profileService.createProfile("Bio","Pic", listings, account, "Haluk", arts);
+		Optional<Profile> profile = profileService.createProfile(bio, picture, listings, account, fullname, arts);
 		
 		assertTrue(profile.isPresent());
 
 
 	}
 	
+	@Test
+	void testBioViolation() {
+		
+	}
+	
+	
+	@Test
+	void testGetProfile() {
+		assertTrue(profileService.getProfile("0").isEmpty());
+		
+		String bio = "Hello, welcome to my bio";
+		String picture = "pic";
+		ArrayList<Listing> listings = new ArrayList<Listing>();
+		Account account = new Account();
+		String fullname = "Haluk Calin";
+		ArrayList<Art> arts = new ArrayList<Art>();
+		
+		Optional<Profile> profile = profileService.createProfile(bio, picture, listings, account, fullname, arts);
+		
+		assertTrue(profileService.getProfile("0").isPresent());
+
+		
+	}
+	
+	@Test
+	void testgetAllProfiles() {
+		assertEquals(0,profileService.getAllProfiles().size());
+		
+		String bio = "Hello, welcome to my bio";
+		String picture = "pic";
+		ArrayList<Listing> listings = new ArrayList<Listing>();
+		Account account = new Account();
+		String fullname = "Haluk Calin";
+		ArrayList<Art> arts = new ArrayList<Art>();
+		
+		Optional<Profile> profile1 = profileService.createProfile(bio, picture, listings, account, fullname, arts);
+		
+		bio = "Hello";
+		
+		
+		Optional<Profile> profile2 = profileService.createProfile(bio, picture, listings, account, fullname, arts);
+
+		
+		assertEquals(2,profileService.getAllProfiles().size());
+		
+	}
 	
 	
 	

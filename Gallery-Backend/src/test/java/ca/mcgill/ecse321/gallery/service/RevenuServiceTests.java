@@ -21,14 +21,58 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.gallery.dao.RevenuRepository;
 import ca.mcgill.ecse321.gallery.dao.AccountRepository;
+import ca.mcgill.ecse321.gallery.dao.AddressRepository;
+import ca.mcgill.ecse321.gallery.dao.GalleryRepository;
 import ca.mcgill.ecse321.gallery.dao.ListingRepository;
 
 
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.model.Account;
+import ca.mcgill.ecse321.gallery.model.Gallery;
 import ca.mcgill.ecse321.gallery.model.Listing;
 
-
+@ExtendWith(MockitoExtension.class)
 public class RevenuServiceTests {
+	@Mock
+	private RevenuRepository revenuRepository;
+
+
+	@InjectMocks
+	RevenuService revenuService;
+	
+	private String id = "0";
+	private HashSet<Revenu> savedRevenu= new HashSet<>();
+	
+	@BeforeEach
+	public void setupMockup() {
+		// address id generator mock
+		id = "0";
+
+		// database mock
+		savedRevenu.clear();
+		
+		// lambda for simulating saving Revenu
+				Answer<Revenu> saveRevenuAndReturn = (InvocationOnMock invocation) -> {
+					Revenu revenu = (Revenu) invocation.getArgument(0);
+					savedRevenu.add(revenu);
+					return revenu;
+				};
+				
+				// simulate saving revenu
+				lenient().when(revenuRepository.save(any(Revenu.class))).thenAnswer(saveRevenuAndReturn);
+				
+				// simulate finding gallery by Id 
+				lenient().when(revenuRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+					String id = ((String) invocation.getArgument(0));
+					for (Revenu revenu : savedRevenu) {
+						if (revenu.getId().equals(id))
+							return Optional.ofNullable(revenu);
+					}
+					return Optional.empty();
+				});
+		
+	}
+
+	
 
 }

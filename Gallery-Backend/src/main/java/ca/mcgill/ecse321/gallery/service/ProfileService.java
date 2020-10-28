@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.gallery.service;
 
 
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -77,7 +76,7 @@ public class ProfileService {
 	
 	@Transactional
 	public Optional<Profile> getProfile(String id) {
-		return profileRepository.findById(id);
+		return profileRepository.findById(id);  // find profile by id not working why?
 	}
 
 	@Transactional 
@@ -88,7 +87,8 @@ public class ProfileService {
 	
 }
 	
-/**	@Transactional
+/**
+    @Transactional
 	public List<Profile> getProfileByFullname(String fullname) {
 		List<Profile> profile = new ArrayList<Profile>();
 		if (profileRepository.findProfileByFullname != null) {
