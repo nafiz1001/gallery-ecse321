@@ -97,26 +97,26 @@ public class IdentityServiceTests {
 		assertEquals(0,identityService.getAllIdentities().size());
 	}
 	
-//	@Test
-//	void testEmailAlreadyUsed() {
-//		boolean exceptionCaught = false;
-//		assertEquals(0, identityService.getAllIdentities().size());
-//		Optional<Identity> identity= identityService.createIdentity("test3@test.com");
-//		
-//		try {
-//			Optional<Identity> identity2= identityService.createIdentity("test3@test.com");
-//
-//		}
-//		catch (IllegalArgumentException e) {
-//			exceptionCaught= true;	
-//		}
-//		
-//		assertTrue(exceptionCaught);
-//		assertEquals(1, identityService.getAllIdentities().size());
-//	
-//	
-//	
-//	}
+	@Test
+	void testEmailAlreadyUsed() {
+		boolean exceptionCaught = false;
+		assertEquals(0, identityService.getAllIdentities().size());
+		Optional<Identity> identity= identityService.createIdentity("test3@test.com");
+		
+		try {
+			Optional<Identity> identity2= identityService.createIdentity("test3@test.com");
+
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught= true;	
+		}
+		
+		assertTrue(exceptionCaught);
+		assertEquals(1, identityService.getAllIdentities().size());
+	
+	
+	
+	}
 	
 	@Test
 	void testFindAllIdentities() {

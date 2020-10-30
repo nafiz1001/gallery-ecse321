@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gallery.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class IdentityService {
 		if (emailValid == false)
 			throw new IllegalArgumentException("Email entered is not valid");
 
-		if(identityRepository.findIdentityByEmail(email)!=null) throw new IllegalArgumentException("Email entered is already in use");
+		if(isEmailAlreadyUsed(email)==true) throw new IllegalArgumentException("Email entered is already in use");
 		
 		Identity identity = new Identity();
 		identity.setEmail(email);
@@ -39,13 +40,32 @@ public class IdentityService {
 
 		if (emailValid == false)
 			throw new IllegalArgumentException("Email entered is not valid");
-		else
-			return Optional.ofNullable(identityRepository.findIdentityByEmail(email));
+		else {
+			List<Identity> identity = new ArrayList<Identity>();
+			if(identityRepository.findIdentityByEmail(email)!=null) identity.add(identityRepository.findIdentityByEmail(email));
+			return Optional.ofNullable(identity.get(0));
+			
+		}
+			
 	}
 
 	@Transactional
 	public List<Identity> getAllIdentities() {
 		return Utils.toList(identityRepository.findAll());
+	}
+	
+	
+	public boolean isEmailAlreadyUsed(String email) {
+		
+		boolean emailUsed = false;
+		List<Identity> allId = getAllIdentities();
+		
+		for (Identity id : allId) {
+			if(id.getEmail().equalsIgnoreCase(email))
+				emailUsed =true;
+		}
+		return emailUsed;
+		
 	}
 
 }
