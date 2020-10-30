@@ -81,8 +81,8 @@ public class ProfileService {
 
 	@Transactional 
 	public List<Profile> getAllProfiles() {
-		List<Profile> profiles = (List<Profile>) profileRepository.findAll();
-		return profiles;
+		return Utils.toList(profileRepository.findAll());
+
 	}
 	
 }
