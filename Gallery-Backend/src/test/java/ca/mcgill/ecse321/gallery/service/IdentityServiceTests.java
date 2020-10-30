@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gallery.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.gallery.dao.IdentityRepository;
 import ca.mcgill.ecse321.gallery.model.Identity;
 import ca.mcgill.ecse321.gallery.model.Listing;
+import ca.mcgill.ecse321.gallery.model.Payment;
 
 import static org.mockito.Mockito.lenient;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,7 +61,7 @@ public class IdentityServiceTests {
 			return savedIdentities;
 		});
 		
-		//sim find identity by email
+		//sim find identity by id
 		lenient().when(identityRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation)-> {
 			
 			String email = ((String)invocation.getArgument(0));
@@ -69,6 +71,23 @@ public class IdentityServiceTests {
 							
 			}
 			return Optional.empty();
+		});
+		
+		//sim find identity by email
+		lenient().when(identityRepository.findIdentityByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			String email = ((String)invocation.getArgument(0));
+			ArrayList<Identity> identities = new ArrayList<>();
+			
+			if (email == null) {
+				return identities;
+			}
+			
+			for (Identity id : savedIdentities) {
+				if (id != null && email.equals(id.getEmail())) {
+					identities.add(id);
+				}
+			}
+			return identities;
 		});
 		
 	}
