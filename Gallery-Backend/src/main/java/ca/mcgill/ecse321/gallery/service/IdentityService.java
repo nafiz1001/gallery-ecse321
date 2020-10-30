@@ -40,10 +40,8 @@ public class IdentityService {
 
 		if (emailValid == false)
 			throw new IllegalArgumentException("Email entered is not valid");
-		else {
-			List<Identity> identity = new ArrayList<Identity>();
-			if(identityRepository.findIdentityByEmail(email)!=null) identity.add(identityRepository.findIdentityByEmail(email));
-			return Optional.ofNullable(identity.get(0));
+		else { 
+			return Optional.ofNullable(identityRepository.findIdentityByEmail(email));
 			
 		}
 			

@@ -39,17 +39,17 @@ public class IdentityServiceTests {
 	@BeforeEach
 	public void setupMockup() {
 		
-		email="0";
+//		email="0";
 		savedIdentities.clear();
 		
 		//lambda for sim saving identity
 		Answer<Identity> updateEmailAndReturn = (InvocationOnMock invocation) -> {
 			Identity i = (Identity)invocation.getArgument(0);
-			i.setEmail(email);
+//			i.setEmail(email);
 			savedIdentities.add(i);
-			int emailAsNum = Integer.parseInt(email);
-			emailAsNum++;
-			email=Integer.toString(emailAsNum);
+//			int emailAsNum = Integer.parseInt(email);
+//			emailAsNum++;
+//			email=Integer.toString(emailAsNum);
 			return i;
 		};
 		
@@ -76,24 +76,18 @@ public class IdentityServiceTests {
 		//sim find identity by email
 		lenient().when(identityRepository.findIdentityByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			String email = ((String)invocation.getArgument(0));
-			ArrayList<Identity> identities = new ArrayList<>();
-			
-			if (email == null) {
-				return identities;
+			for (Identity i: savedIdentities) {
+				if (i.getEmail().equals(email))
+					return i;
+							
 			}
-			
-			for (Identity id : savedIdentities) {
-				if (id != null && email.equals(id.getEmail())) {
-					identities.add(id);
-				}
-			}
-			return identities;
+			return null;
 		});
 		
 	}
 	
 	@Test
-	void testSuccesfulIdentityCreation() {
+	void testSuccessfulIdentityCreation() {
 		assertEquals(0, identityService.getAllIdentities().size());
 		
 		Optional<Identity> identity= identityService.createIdentity("te3st@test.com");
@@ -147,14 +141,16 @@ public class IdentityServiceTests {
 		assertEquals(2, identityService.getAllIdentities().size());
 	}
 	
-//	@Test
-//	void testFindByEmail() {
-//		assertEquals(0, identityService.getAllIdentities().size());
-//		Optional<Identity> identity2= identityService.createIdentity("test25@test.com");
-//
-//		assertTrue(identityService.findIdentityByEmail("test25@test.com").isPresent());
-//		
-//	}
+	@Test
+	void testFindByEmail() {
+		assertEquals(0, identityService.getAllIdentities().size());
+		
+		
+		Optional<Identity> identity2= identityService.createIdentity("test25@test.com");
+
+		assertTrue(identityService.findIdentityByEmail("test25@test.com").isPresent());
+		
+	}
 	
 	
 }
