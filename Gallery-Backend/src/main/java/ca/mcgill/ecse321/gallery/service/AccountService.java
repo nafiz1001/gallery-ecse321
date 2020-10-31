@@ -80,6 +80,59 @@ public class AccountService {
 		
 	}
 	
+	public Optional<Account> editAccount(String accountHolderType, Identity identity, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
+		Account account = null;
+		Boolean isAccountValid = true;
+		
+		// is username and identity unique?
+		List<Account> accounts = getAllAccounts();
+		for(Account a : accounts) {
+			if (a.getUsername().equals(username)) {
+				// is password valid?
+				if (password.length() < 6) isAccountValid = false;
+				else {
+					Boolean upperCase = false;
+					Boolean hasDigit = false;
+					for (int i = 0; i < password.length(); i++) {
+						char b = password.charAt(i);
+						if (Character.isUpperCase(b)) {
+							upperCase = true;
+						} else if (Character.isDigit(b)) {
+							hasDigit = true;
+						}
+					}
+					if (!upperCase || !hasDigit) {
+						isAccountValid = false;
+					}
+					
+				}
+				
+				if(!a.getIdentity().equals(identity)) {
+					isAccountValid = false;
+				}
+				
+				if(isAccountValid) {
+					a.setAccountHolderType(accountHolderType);
+					a.setIdentity(identity);
+					a.setProfile(Utils.toSet(profiles));
+					a.setUsername(username);
+					a.setPassword(password);
+					a.setDateJoined(date);
+					a.setAddress(address);
+					a.setDateOfBirth(dateOfBirth);
+					a.setRevenus(Utils.toSet(revenus));
+					a.setPaymentType(paymentType);
+					a.setAccountNumber("1");
+					
+					accountRepository.save(account);
+				
+				}
+			}
+		}
+		
+		return Optional.ofNullable(account);
+	}
+	
 	@Transactional
 	public List<Account> getAllAccounts() {
 		return Utils.toList(accountRepository.findAll());
