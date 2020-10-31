@@ -43,6 +43,7 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
+
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.service.AccountService;
@@ -55,13 +56,17 @@ import ca.mcgill.ecse321.gallery.service.PaymentService;
 import ca.mcgill.ecse321.gallery.service.ProfileService;
 import ca.mcgill.ecse321.gallery.service.RevenuService;
 
+import ca.mcgill.ecse321.gallery.service.*;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class GalleryController {
+
 	@Autowired
 	private PaymentService paymentService;
 	
 	@Autowired
+
 	private AccountService accountService;
 
 	@Autowired
