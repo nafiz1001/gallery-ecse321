@@ -96,7 +96,7 @@ public class GalleryController {
 	}
 	
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
-	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto) {
+	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto, @RequestParam(name = "password") String password) {
 		return null;
 	}
 	
@@ -147,8 +147,24 @@ public class GalleryController {
 	}
 	
 	@GetMapping(value = { "/revenus", "/revenus/" })
-	private RevenuDto getAllRevenus(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-		return null;
+	private ArrayList<RevenuDto> getAllRevenus(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+		Optional<Account> account = accountService.getAccountById(username);
+		if (account.isEmpty())
+			throw new IllegalArgumentException("There is no such Account!");
+		
+		Account acc = account.get();
+		
+		if (!acc.getPassword().equals(password)) {
+			throw new IllegalArgumentException("The password is incorrect!");
+		}
+		
+		Set<Revenu> revenus = acc.getRevenus();
+		ArrayList<RevenuDto> revenusDto = new ArrayList<>();
+		for (Revenu r : revenus) {
+			revenusDto.add(convertToDto(r));
+		}
+		
+		return revenusDto;
 	}
 	
 	@GetMapping(value = { "/listings", "/listings/" })
