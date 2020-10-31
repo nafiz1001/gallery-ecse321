@@ -72,6 +72,19 @@ public class RevenuServiceTests {
 				});
 		
 	}
+	
+	@Test 
+	void testSuccesfullRevenu() {
+		
+		int comission = 1;
+		int listingprice= 2;
+		Account account = new Account();
+		Listing listing = new Listing();
+		Optional<Revenu> revenu = revenuService.createRevenu(comission, listingprice, account, listing);
+		assertTrue(revenu.isPresent());
+
+
+	}
 
 	
 
