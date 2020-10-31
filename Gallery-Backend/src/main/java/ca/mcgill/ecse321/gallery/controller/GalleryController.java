@@ -106,9 +106,31 @@ public class GalleryController {
 	}
 	
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
-	private ProfileDto createProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-		return null;
+	private ProfileDto createProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) 
+	{
+	Optional<Account> account = accountService.getAccountById(username);
+	if (account.isEmpty())
+		throw new IllegalArgumentException("There is no such Account!");
+	
+	Account acc = account.get();
+	
+	if (!acc.getPassword().equals(password)) {
+		throw new IllegalArgumentException("The password is incorrect!");
 	}
+	Set<Listing> listings = new HashSet<Listing>();
+	for(ListingDto l : pDto.getListingDtos()) {
+		listings.addAll(listingService.getAllListings());          
+	}
+	Set<Art> arts = new HashSet<Art>();
+	for(ArtDto a : pDto.getArts()) {
+		arts.addAll(artService.getAllArt());          
+	}
+	
+	Optional<Profile> p = profileService.createProfile(pDto.getBio(), pDto.getPicture(), listings, acc, pDto.getFullname(), arts);
+	Profile profile = p.get();
+	
+	return convertToDto(profile);
+}
 	
 	@PostMapping(value = { "/profile/edit", "/profile/edit/"})
 	private ProfileDto editProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {

@@ -55,7 +55,15 @@ public class ProfileService {
 		}
 		if (fullname == null || fullname.trim().length() == 0) {
 			throw new IllegalArgumentException("Full Name cannot be empty!");
-		} 																				//add something for account?
+		} 				
+		
+		//is profile already associated with account ?
+		
+		if (!(account.getProfile() == null)) {
+			
+			throw new IllegalArgumentException("This profile is already associated with an account");
+			
+		}
 		
 		Profile profile = new Profile();
 		
