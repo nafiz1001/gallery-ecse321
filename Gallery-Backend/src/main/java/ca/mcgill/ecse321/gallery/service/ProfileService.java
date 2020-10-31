@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.gallery.service;
 
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,66 +33,97 @@ import ca.mcgill.ecse321.gallery.utils.Utils;
 public class ProfileService {
 	@Autowired
 	ProfileRepository profileRepository;
-	
+
 	@Autowired
 	ListingRepository listingRepository;
-	
+
 	@Autowired
 	AccountRepository accountRepository;
-	
+
 	@Autowired
 	ArtRepository artRepository;
-	
+
 	@Transactional
-	public Optional<Profile> createProfile(String bio, String picture, Iterable<Listing> listings, Account account, String fullname, Iterable<Art> arts ) {
+	public Optional<Profile> createProfile(String bio, String picture, Iterable<Listing> listings, Account account,
+			String fullname, Iterable<Art> arts) {
 		if (bio == null || bio.trim().length() == 0) {
 			throw new IllegalArgumentException("Bio cannot be empty!");
 		}
 		if (picture == null || picture.trim().length() == 0) {
-				throw new IllegalArgumentException("Picture cannot be empty!");
+			throw new IllegalArgumentException("Picture cannot be empty!");
 		}
 		if (fullname == null || fullname.trim().length() == 0) {
 			throw new IllegalArgumentException("Full Name cannot be empty!");
-		} 																				//add something for account?
-		
+		} // add something for account?
+
 		Profile profile = new Profile();
-		
+
 		profile.setBio(bio);
 		profile.setPicture(picture);
 		profile.setListings(Utils.toSet(listings));
 		profile.setAccount(account);
 		profile.setFullname(fullname);
 		profile.setArts(Utils.toSet(arts));
-		
+
 		profileRepository.save(profile);
-		
-	
-		
+
 		return Optional.ofNullable(profile);
 
 	}
-	
+
 	@Transactional
-	public Optional<Profile> getProfile(String id) {
-		return profileRepository.findById(id);  // find profile by id not working why?
+	public Optional<Profile> editProfile(String bio, String picture, Iterable<Listing> listings, Account account,
+			String fullname, Iterable<Art> arts) {
+		
+		// Does profile to edit include the account linked to that profile?
+		List<Profile> allProfiles = getAllProfiles();
+		for (Profile profile : allProfiles) {
+			if (profile.getAccount().equals(account)) {
+
+				if (bio == null || bio.trim().length() == 0) {
+					throw new IllegalArgumentException("Bio cannot be empty!");
+				}
+				if (picture == null || picture.trim().length() == 0) {
+					throw new IllegalArgumentException("Picture cannot be empty!");
+				}
+				if (fullname == null || fullname.trim().length() == 0) {
+					throw new IllegalArgumentException("Full Name cannot be empty!");
+				} // add something for account?
+
+				profile.setBio(bio);
+				profile.setPicture(picture);
+				profile.setListings(Utils.toSet(listings));
+				profile.setAccount(account);
+				profile.setFullname(fullname);
+				profile.setArts(Utils.toSet(arts));
+
+				profileRepository.save(profile);
+
+				return Optional.ofNullable(profile);
+			}
+		}
+		return null;
 	}
 
-	@Transactional 
+	@Transactional
+	public Optional<Profile> getProfile(String id) {
+		return profileRepository.findById(id); // find profile by id not working why?
+	}
+
+	@Transactional
 	public List<Profile> getAllProfiles() {
 		return Utils.toList(profileRepository.findAll());
 
 	}
-	
-}
-	
-/**
-    @Transactional
-	public List<Profile> getProfileByFullname(String fullname) {
-		List<Profile> profile = new ArrayList<Profile>();
-		if (profileRepository.findProfileByFullname != null) {
-			profile.add(profileRepository.findProfileByFullname("username"));
-		}
-		return profile;
-	}
 
-} */
+}
+
+/**
+ * @Transactional public List<Profile> getProfileByFullname(String fullname) {
+ *                List<Profile> profile = new ArrayList<Profile>(); if
+ *                (profileRepository.findProfileByFullname != null) {
+ *                profile.add(profileRepository.findProfileByFullname("username"));
+ *                } return profile; }
+ * 
+ *                }
+ */

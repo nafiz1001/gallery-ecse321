@@ -143,7 +143,21 @@ public class GalleryController {
 	@PostMapping(value = { "/profile/edit", "/profile/edit/" })
 	private ProfileDto editProfile(@RequestParam(name = "profile") ProfileDto pDto,
 			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-		return null;
+		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getAccountNumber());
+		
+		Set<Listing> listings = new HashSet<Listing>();
+		for (ListingDto l : pDto.getListingDtos()) {
+			listings.add(listingService.findListingById(l.getId()).get());
+		}
+		
+		Set<Art> arts = new HashSet<Art>();
+		for (ArtDto a : pDto.getArts()) {
+			arts.add(artService.getArtById(a.getId()).get());
+		}
+
+		Profile profile = profileService.editProfile(pDto.getBio(), pDto.getPicture(), listings, account.get(), pDto.getFullname(), arts).get();
+
+		return convertToDto(profile);
 	}
 
 	@GetMapping(value = { "/profile/{id}", "/profile/{id}/" })
