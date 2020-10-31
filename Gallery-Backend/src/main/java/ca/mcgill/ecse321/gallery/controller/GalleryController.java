@@ -130,12 +130,20 @@ public class GalleryController {
 	
 	@GetMapping(value = { "/listings", "/listings/" })
 	private List<ListingDto> getAllListings() {
-		return null;
+		
+		return listingService.getAllListings().stream().map(l -> convertToDto(l)).collect(Collectors.toList());
 	}
 	
 	@PostMapping(value = { "/listing/create", "/listing/create/" })
-	private ListingDto createListing(@RequestParam(name = "listing") ListingDto lDto) {
-		return null;
+	private ListingDto createListing(@RequestParam(name = "listing") ListingDto lDto) throws
+	IllegalArgumentException {
+		
+		Optional<Art> art = artService.getArtById(lDto.getArt().getId()); 
+		
+		Optional<Listing> l =listingService.createListing(art.get(), lDto.getPrice(), lDto.getQuantity(), lDto.getTags(), lDto.isCanPickUp(), lDto.isCanDeliver(), lDto.getDatePublished());
+		Listing listing = l.get();
+		
+		return convertToDto(listing);
 	}
 	
 	@PostMapping(value = { "/listing/edit", "/listing/edit/" })
