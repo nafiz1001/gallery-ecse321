@@ -31,14 +31,19 @@ public class AccountService {
 		for(Account a : accounts) {
 			if (a.getUsername().equals(username)) {
 				isAccountValid = false;
+				throw new IllegalArgumentException("Username already taken.");
 			}
 			if (a.getIdentity().equals(identity)) {
 				isAccountValid = false;
+				throw new IllegalArgumentException("An account is already created for this Identity");
 			}
 		}
 		
 		// is password valid?
-		if (password.length() < 6) isAccountValid = false;
+		if (password.length() < 6) {
+			isAccountValid = false;
+			throw new IllegalArgumentException("Password must be at least 6 characters long.");
+		}
 		else {
 			Boolean upperCase = false;
 			Boolean hasDigit = false;
@@ -52,6 +57,7 @@ public class AccountService {
 			}
 			if (!upperCase || !hasDigit) {
 				isAccountValid = false;
+				throw new IllegalArgumentException("Password must contain at least one number and one upper case character.");
 			}
 			
 		}
@@ -88,7 +94,10 @@ public class AccountService {
 		for(Account a : accounts) {
 			if (a.getUsername().equals(username) && a.getPassword().equals(OldPassword)) {
 				// is password valid?
-				if (password.length() < 6) isAccountValid = false;
+				if (password.length() < 6) {
+					isAccountValid = false;
+					throw new IllegalArgumentException("Password must be at least 6 characters long.");
+				}
 				else {
 					Boolean upperCase = false;
 					Boolean hasDigit = false;
@@ -102,6 +111,7 @@ public class AccountService {
 					}
 					if (!upperCase || !hasDigit) {
 						isAccountValid = false;
+						throw new IllegalArgumentException("Password must contain at least one number and one upper case character.");
 					}
 					
 				}

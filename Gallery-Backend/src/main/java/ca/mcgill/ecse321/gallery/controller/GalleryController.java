@@ -121,7 +121,12 @@ public class GalleryController {
 	
 	@GetMapping(value = { "/account", "/account/" })
 	private AccountDto viewAccount(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-		return null;
+		Account account = accountService.getAccountById(username).get();
+		if(account.getPassword().equals(password)) {
+			return convertToDto(account);
+		} else {
+			throw new IllegalArgumentException("Password entered is incorrect");
+		}
 	}
 	
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
