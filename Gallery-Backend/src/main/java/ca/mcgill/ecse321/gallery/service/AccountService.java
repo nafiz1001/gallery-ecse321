@@ -80,14 +80,13 @@ public class AccountService {
 		
 	}
 	
-	public Optional<Account> editAccount(String accountHolderType, Identity identity, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
-		Account account = null;
+	public Optional<Account> editAccount(String accountHolderType, Iterable<Profile> profiles,String username, String password, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType, String OldPassword) {
 		Boolean isAccountValid = true;
 		
 		// is username and identity unique?
 		List<Account> accounts = getAllAccounts();
 		for(Account a : accounts) {
-			if (a.getUsername().equals(username)) {
+			if (a.getUsername().equals(username) && a.getPassword().equals(OldPassword)) {
 				// is password valid?
 				if (password.length() < 6) isAccountValid = false;
 				else {
@@ -107,30 +106,22 @@ public class AccountService {
 					
 				}
 				
-				if(!a.getIdentity().equals(identity)) {
-					isAccountValid = false;
-				}
-				
 				if(isAccountValid) {
 					a.setAccountHolderType(accountHolderType);
-					a.setIdentity(identity);
 					a.setProfile(Utils.toSet(profiles));
-					a.setUsername(username);
 					a.setPassword(password);
-					a.setDateJoined(date);
 					a.setAddress(address);
 					a.setDateOfBirth(dateOfBirth);
 					a.setRevenus(Utils.toSet(revenus));
 					a.setPaymentType(paymentType);
 					a.setAccountNumber("1");
-					
-					accountRepository.save(account);
-				
+					accountRepository.save(a);
+					return Optional.ofNullable(a);
 				}
 			}
 		}
 		
-		return Optional.ofNullable(account);
+		return null;
 	}
 	
 	@Transactional

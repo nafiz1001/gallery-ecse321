@@ -82,22 +82,41 @@ public class GalleryController {
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestParam(name = "account") AccountDto aDto) {
 		Optional<Identity> identity = identityService.findIdentityByEmail(aDto.getIdentity().getEmail());
+		
 		Set<Profile> profiles = new HashSet<Profile>();
 		for(ProfileDto p : aDto.getProfile()) {
 			profiles.add(profileService.getProfile(p.getId()).get());
 		}
+		
 		Optional<Address> address = addressService.getAddressById(aDto.getAddress().getId());
+		
 		Set<Revenu> revenus = new HashSet<Revenu>();
 		for(RevenuDto r : aDto.getRevenus()) {
 			revenus.add(revenuService.getRevenu(r.getId()).get());
 		}
+		
 		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles, aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType()).get();
+		
 		return convertToDto(account);
 	}
 	
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
 	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto, @RequestParam(name = "password") String password) {
-		return null;
+		Set<Profile> profiles = new HashSet<Profile>();
+		for(ProfileDto p : aDto.getProfile()) {
+			profiles.add(profileService.getProfile(p.getId()).get());
+		}
+		
+		Optional<Address> address = addressService.getAddressById(aDto.getAddress().getId());
+		
+		Set<Revenu> revenus = new HashSet<Revenu>();
+		for(RevenuDto r : aDto.getRevenus()) {
+			revenus.add(revenuService.getRevenu(r.getId()).get());
+		}
+		
+		Account account = accountService.editAccount(aDto.getAccountHolderType(), profiles, aDto.getUsername(), aDto.getUsername(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType(), password).get();
+		
+		return convertToDto(account);
 	}
 	
 	@GetMapping(value = { "/account", "/account/" })
