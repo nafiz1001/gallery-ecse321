@@ -79,9 +79,6 @@ public class GalleryController {
 	@Autowired
 	private RevenuService revenuService;
 	
-	@Autowired
-	private IdentityService identityService;
-	
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestParam(name = "account") AccountDto aDto) {
 		Optional<Identity> identity = identityService.findIdentityByEmail(aDto.getIdentity().getEmail());
