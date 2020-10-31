@@ -8,8 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.mcgill.ecse321.gallery.dao.ListingRepository;
+import ca.mcgill.ecse321.gallery.dto.ListingDto;
+import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Art;
 import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Profile;
@@ -47,6 +50,48 @@ public class ListingService {
 		listing.setDatePublished(datePublished);
 
 		listingRepository.save(listing);
+
+		return Optional.ofNullable(listing);
+	}
+	
+	@Transactional
+	public Optional<Listing> editListing(Art art, int price, int quantity, String tags, boolean canPickUp,
+			boolean canDeliver, Date datePublished) {
+		Boolean isListingEditable = false;
+		Listing listing = null;
+		
+		//Does listing to edit include an art that is listed?
+		List<Listing> allListings = getAllListings();
+		for(Listing l : allListings) {
+			if (l.getArt().equals(art)) {
+				isListingEditable = true;
+			}
+		}
+		
+		if(price<0) throw new IllegalArgumentException("You cannot enter a negative price");
+		
+		if(quantity<=0) throw new IllegalArgumentException("Quantity needs to be 1 or more");
+		
+		if(Utils.areTagsValid(tags)==false) throw new IllegalArgumentException("Tags must only contain letters and must be separated by a comma and space");
+		
+		if(canPickUp == false && canDeliver==false) throw new IllegalArgumentException("At least one shipping method needs to be selected");
+		
+		if(art.getListing()!=null) throw new IllegalArgumentException("Art already associated to a listing");
+		
+		if (isListingEditable) {
+		listing = new Listing();
+		listing.setArt(art);
+		art.setListing(listing);
+		listing.setPublisher(art.getOwner());
+		listing.setPrice(price);
+		listing.setQuantity(quantity);
+		listing.setCanDeliver(canDeliver);
+		listing.setCanPickUp(canPickUp);
+		listing.setTags(tags);
+		listing.setDatePublished(datePublished);
+
+		listingRepository.save(listing);
+		}
 
 		return Optional.ofNullable(listing);
 	}
@@ -99,5 +144,4 @@ public class ListingService {
 		return byPrice;
 
 	}
-
 }

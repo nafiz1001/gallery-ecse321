@@ -43,7 +43,6 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
-
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.service.*;
@@ -54,7 +53,7 @@ public class GalleryController {
 
 	@Autowired
 	private PaymentService paymentService;
-	
+
 	@Autowired
 	private AccountService accountService;
 
@@ -66,161 +65,172 @@ public class GalleryController {
 
 	@Autowired
 	private GalleryService galleryService;
-	
+
 	@Autowired
 	private IdentityService identityService;
 
 	@Autowired
 	private ListingService listingService;
-	
+
 	@Autowired
 	private ProfileService profileService;
 
 	@Autowired
 	private RevenuService revenuService;
-	
+
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestParam(name = "account") AccountDto aDto) {
 		Optional<Identity> identity = identityService.findIdentityByEmail(aDto.getIdentity().getEmail());
-		
+
 		Set<Profile> profiles = new HashSet<Profile>();
-		for(ProfileDto p : aDto.getProfile()) {
+		for (ProfileDto p : aDto.getProfile()) {
 			profiles.add(profileService.getProfile(p.getId()).get());
 		}
-		
+
 		Optional<Address> address = addressService.getAddressById(aDto.getAddress().getId());
-		
+
 		Set<Revenu> revenus = new HashSet<Revenu>();
-		for(RevenuDto r : aDto.getRevenus()) {
+		for (RevenuDto r : aDto.getRevenus()) {
 			revenus.add(revenuService.getRevenu(r.getId()).get());
 		}
-		
-		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles, aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType()).get();
-		
+
+		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles,
+				aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address.get(), aDto.getDateOfBirth(),
+				revenus, aDto.getPaymentType()).get();
+
 		return convertToDto(account);
 	}
-	
+
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
-	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto, @RequestParam(name = "password") String password) {
+	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto,
+			@RequestParam(name = "password") String password) {
 		Set<Profile> profiles = new HashSet<Profile>();
-		for(ProfileDto p : aDto.getProfile()) {
+		for (ProfileDto p : aDto.getProfile()) {
 			profiles.add(profileService.getProfile(p.getId()).get());
 		}
-		
+
 		Optional<Address> address = addressService.getAddressById(aDto.getAddress().getId());
-		
+
 		Set<Revenu> revenus = new HashSet<Revenu>();
-		for(RevenuDto r : aDto.getRevenus()) {
+		for (RevenuDto r : aDto.getRevenus()) {
 			revenus.add(revenuService.getRevenu(r.getId()).get());
 		}
-		
-		Account account = accountService.editAccount(aDto.getAccountHolderType(), profiles, aDto.getUsername(), aDto.getUsername(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType(), password).get();
-		
+
+		Account account = accountService.editAccount(aDto.getAccountHolderType(), profiles, aDto.getUsername(),
+				aDto.getUsername(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType(), password)
+				.get();
+
 		return convertToDto(account);
 	}
-	
+
 	@GetMapping(value = { "/account", "/account/" })
-	private AccountDto viewAccount(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+	private AccountDto viewAccount(@RequestParam(name = "username") String username,
+			@RequestParam(name = "password") String password) {
 		Account account = accountService.getAccountById(username).get();
-		if(account.getPassword().equals(password)) {
+		if (account.getPassword().equals(password)) {
 			return convertToDto(account);
 		} else {
 			throw new IllegalArgumentException("Password entered is incorrect");
 		}
 	}
-	
-	@PostMapping(value = { "/profile/create", "/profile/create/"})
-	private ProfileDto createProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+
+	@PostMapping(value = { "/profile/create", "/profile/create/" })
+	private ProfileDto createProfile(@RequestParam(name = "profile") ProfileDto pDto,
+			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
 		return null;
 	}
-	
-	@PostMapping(value = { "/profile/edit", "/profile/edit/"})
-	private ProfileDto editProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+
+	@PostMapping(value = { "/profile/edit", "/profile/edit/" })
+	private ProfileDto editProfile(@RequestParam(name = "profile") ProfileDto pDto,
+			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
 		return null;
 	}
-	
+
 	@GetMapping(value = { "/profile/{id}", "/profile/{id}/" })
 	private ProfileDto viewProfile(@PathVariable("id") String id) {
 		return null;
 	}
-	
+
 	@PostMapping(value = { "/pay", "/pay/" })
 	private PaymentDto pay(@RequestParam(name = "payment") PaymentDto pDto) {
 		List<Listing> listings = listingService.getAllListings();
 		ArrayList<Listing> relevantListings = new ArrayList<>();
-		
+
 		for (Listing l : listings) {
 			for (ListingDto lDto : pDto.getListing()) {
 				if (l.equals(lDto.getId()))
 					relevantListings.add(l);
 			}
 		}
-		
+
 		Optional<Identity> relevantIdentity = identityService.findIdentityByEmail(pDto.getIdentity().getEmail());
-		
+
 		Optional<Address> relevantAddress = addressService.getAddressById(pDto.getAddress().getId());
-		
-		Optional<Payment> payment = paymentService.pay(
-				pDto.getDeliveryType(), 
-				pDto.getPaymentType(), 
-				relevantIdentity, 
-				relevantListings, 
-				relevantAddress);
-		
+
+		Optional<Payment> payment = paymentService.pay(pDto.getDeliveryType(), pDto.getPaymentType(), relevantIdentity,
+				relevantListings, relevantAddress);
+
 		return convertToDto(payment);
 	}
-	
+
 	@GetMapping(value = { "/revenus", "/revenus/" })
-	private ArrayList<RevenuDto> getAllRevenus(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+	private ArrayList<RevenuDto> getAllRevenus(@RequestParam(name = "username") String username,
+			@RequestParam(name = "password") String password) {
 		Optional<Account> account = accountService.getAccountById(username);
 		if (account.isEmpty())
 			throw new IllegalArgumentException("There is no such Account!");
-		
+
 		Account acc = account.get();
-		
+
 		if (!acc.getPassword().equals(password)) {
 			throw new IllegalArgumentException("The password is incorrect!");
 		}
-		
+
 		Set<Revenu> revenus = acc.getRevenus();
 		ArrayList<RevenuDto> revenusDto = new ArrayList<>();
 		for (Revenu r : revenus) {
 			revenusDto.add(convertToDto(r));
 		}
-		
+
 		return revenusDto;
 	}
-	
+
 	@GetMapping(value = { "/listings", "/listings/" })
 	private List<ListingDto> getAllListings() {
-		
+
 		return listingService.getAllListings().stream().map(l -> convertToDto(l)).collect(Collectors.toList());
 	}
-	
+
 	@PostMapping(value = { "/listing/create", "/listing/create/" })
-	private ListingDto createListing(@RequestParam(name = "listing") ListingDto lDto) throws
-	IllegalArgumentException {
-		
-		Optional<Art> art = artService.getArtById(lDto.getArt().getId()); 
-		
-		Optional<Listing> l =listingService.createListing(art.get(), lDto.getPrice(), lDto.getQuantity(), lDto.getTags(), lDto.isCanPickUp(), lDto.isCanDeliver(), lDto.getDatePublished());
+	private ListingDto createListing(@RequestParam(name = "listing") ListingDto lDto) throws IllegalArgumentException {
+
+		Optional<Art> art = artService.getArtById(lDto.getArt().getId());
+
+		Optional<Listing> l = listingService.createListing(art.get(), lDto.getPrice(), lDto.getQuantity(),
+				lDto.getTags(), lDto.isCanPickUp(), lDto.isCanDeliver(), lDto.getDatePublished());
 		Listing listing = l.get();
-		
+
 		return convertToDto(listing);
 	}
-	
+
 	@PostMapping(value = { "/listing/edit", "/listing/edit/" })
 	private ListingDto editListing(@RequestParam(name = "listing") ListingDto lDto) {
-		return null;
+
+		Optional<Art> art = artService.getArtById(lDto.getArt().getId());
+
+		Listing listing = listingService.editListing(art.get(), lDto.getPrice(), lDto.getQuantity(), lDto.getTags(),
+				lDto.isCanPickUp(), lDto.isCanDeliver(), lDto.getDatePublished()).get();
+
+		return convertToDto(listing);
 	}
-	
+
 	@GetMapping(value = { "/aboutus", "/aboutus/" })
 	private GalleryDto aboutUs() {
 		GalleryDto gallery = new GalleryDto();
 		gallery.setName("Gallery");
 		return gallery;
 	}
-	
+
 	private PaymentDto convertToDto(Optional<Payment> payment) {
 		if (payment.isEmpty()) {
 			throw new IllegalArgumentException("There is no such Payment!");
@@ -235,13 +245,12 @@ public class GalleryController {
 		paymentDto.setPaymentDate(p.getPaymentDate());
 		paymentDto.setAddress(convertToDto(p.getAddress()));
 		Set<ListingDto> listingsDto = new HashSet<ListingDto>();
-		for(Listing l : p.getListing()) {
+		for (Listing l : p.getListing()) {
 			listingsDto.add(convertToDto(l));
 		}
 		paymentDto.setListings(listingsDto);
 		return paymentDto;
 	}
-	
 
 	private AddressDto convertToDto(Address a) {
 		if (a == null) {
@@ -256,7 +265,7 @@ public class GalleryController {
 		addressDto.setStreetNumber(a.getStreetNumber());
 		return addressDto;
 	}
-	
+
 	private AccountDto convertToDto(Account a) {
 		if (a == null) {
 			throw new IllegalArgumentException("There is no such Account!");
@@ -271,19 +280,19 @@ public class GalleryController {
 		accountDto.setPassword(a.getPassword());
 		accountDto.setPaymentType(a.getPaymentType());
 		Set<ProfileDto> profilesDto = new HashSet<ProfileDto>();
-		for(Profile p : a.getProfile()) {
+		for (Profile p : a.getProfile()) {
 			profilesDto.add(convertToDto(p));
 		}
 		accountDto.setProfile(profilesDto);
 		Set<RevenuDto> revenusDto = new HashSet<RevenuDto>();
-		for(Revenu r : a.getRevenus()) {
+		for (Revenu r : a.getRevenus()) {
 			revenusDto.add(convertToDto(r));
 		}
 		accountDto.setRevenus(revenusDto);
 		accountDto.setUsername(a.getUsername());
 		return accountDto;
 	}
-	
+
 	private ArtDto convertToDto(Art a) {
 		if (a == null) {
 			throw new IllegalArgumentException("There is no such Art!");
@@ -302,14 +311,14 @@ public class GalleryController {
 		artDto.setType(a.getType());
 		artDto.setWidth(a.getWidth());
 		return artDto;
-		
+
 	}
-	
+
 	private GalleryDto convertToDto(Gallery g) {
 		if (g == null) {
 			throw new IllegalArgumentException("There is no such Gallery!");
 		}
-		GalleryDto galleryDto = new GalleryDto(); 
+		GalleryDto galleryDto = new GalleryDto();
 		galleryDto.setAddress(convertToDto(g.getAddress()));
 		galleryDto.setClosingTime(g.getClosingTime());
 		galleryDto.setCommissionPercentage(g.getCommissionPercentage());
@@ -319,7 +328,7 @@ public class GalleryController {
 		galleryDto.setPhoneNumber(g.getPhoneNumber());
 		return galleryDto;
 	}
-	
+
 	private IdentityDto convertToDto(Identity i) {
 		if (i == null) {
 			throw new IllegalArgumentException("There is no such Identity!");
@@ -329,7 +338,7 @@ public class GalleryController {
 		identityDto.setEmail(i.getEmail());
 		return identityDto;
 	}
-	
+
 	private ListingDto convertToDto(Listing l) {
 		if (l == null) {
 			throw new IllegalArgumentException("There is no such Identity!");
@@ -346,7 +355,7 @@ public class GalleryController {
 		listingDto.setTags(l.getTags());
 		return listingDto;
 	}
-	
+
 	private ProfileDto convertToDto(Profile p) {
 		if (p == null) {
 			throw new IllegalArgumentException("There is no such Profile!");
@@ -354,7 +363,7 @@ public class GalleryController {
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setAccountDto(convertToDto(p.getAccount()));
 		Set<ArtDto> artsDto = new HashSet<ArtDto>();
-		for(Art a : p.getArts()) {
+		for (Art a : p.getArts()) {
 			artsDto.add(convertToDto(a));
 		}
 		profileDto.setArts(artsDto);
@@ -362,14 +371,14 @@ public class GalleryController {
 		profileDto.setFullname(p.getFullname());
 		profileDto.setId(p.getId());
 		Set<ListingDto> listingsDto = new HashSet<ListingDto>();
-		for(Listing l : p.getListings()) {
+		for (Listing l : p.getListings()) {
 			listingsDto.add(convertToDto(l));
 		}
 		profileDto.setListingDtos(listingsDto);
 		profileDto.setPicture(p.getPicture());
 		return profileDto;
 	}
-	
+
 	private RevenuDto convertToDto(Revenu r) {
 		if (r == null) {
 			throw new IllegalArgumentException("There is no such Revenu!");
