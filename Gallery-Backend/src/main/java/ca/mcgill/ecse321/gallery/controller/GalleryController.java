@@ -27,17 +27,34 @@ import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
-import ca.mcgill.ecse321.gallery.service.ListingService;
-import ca.mcgill.ecse321.gallery.service.PaymentService;
+import ca.mcgill.ecse321.gallery.service.*;
 
 @CrossOrigin(origins = "*")
 @RestController
 public class GalleryController {
 	@Autowired
+	private AccountService accountService;
+	
+	@Autowired
+	private AddressService addressService;
+	
+	@Autowired
+	private ArtService artService;
+	
+	@Autowired
+	private GalleryService galleryService;
+	
+	@Autowired
+	private ListingService listingService;
+	
+	@Autowired
 	private PaymentService paymentService;
 	
-	//@Autowired
-	//private ListingService listingService;
+	@Autowired
+	private ProfileService profileService;
+	
+	@Autowired
+	private RevenuService revenuService;
 	
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestParam(name = "account") AccountDto aDto) {
