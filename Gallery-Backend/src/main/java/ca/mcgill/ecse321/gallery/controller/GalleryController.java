@@ -96,7 +96,7 @@ public class GalleryController {
 	}
 	
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
-	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto) {
+	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto, @RequestParam(name = "password") String password) {
 		return null;
 	}
 	
