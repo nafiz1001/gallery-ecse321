@@ -28,16 +28,22 @@ public class ListingService {
 	public Optional<Listing> createListing(Art art, int price, int quantity, String tags, boolean canPickUp,
 			boolean canDeliver, Date datePublished) {
 
-		if(price<0) throw new IllegalArgumentException("You cannot enter a negative price");
-		
-		if(quantity<=0) throw new IllegalArgumentException("Quantity needs to be 1 or more");
-		
-		if(Utils.areTagsValid(tags)==false) throw new IllegalArgumentException("Tags must only contain letters and must be separated by a comma and space");
-		
-		if(canPickUp == false && canDeliver==false) throw new IllegalArgumentException("At least one shipping method needs to be selected");
-		
-		if(art.getListing()!=null) throw new IllegalArgumentException("Art already associated to a listing");
-		
+		if (price < 0)
+			throw new IllegalArgumentException("You cannot enter a negative price");
+
+		if (quantity <= 0)
+			throw new IllegalArgumentException("Quantity needs to be 1 or more");
+
+		if (Utils.areTagsValid(tags) == false)
+			throw new IllegalArgumentException(
+					"Tags must only contain letters and must be separated by a comma and space");
+
+		if (canPickUp == false && canDeliver == false)
+			throw new IllegalArgumentException("At least one shipping method needs to be selected");
+
+		if (art.getListing() != null)
+			throw new IllegalArgumentException("Art already associated to a listing");
+
 		Listing listing = new Listing();
 		listing.setArt(art);
 		art.setListing(listing);
@@ -53,47 +59,48 @@ public class ListingService {
 
 		return Optional.ofNullable(listing);
 	}
-	
+
 	@Transactional
 	public Optional<Listing> editListing(Art art, int price, int quantity, String tags, boolean canPickUp,
 			boolean canDeliver, Date datePublished) {
-		Boolean isListingEditable = false;
-		Listing listing = null;
-		
-		//Does listing to edit include an art that is listed?
+
+		// Does listing to edit include an art that is listed?
 		List<Listing> allListings = getAllListings();
-		for(Listing l : allListings) {
-			if (l.getArt().equals(art)) {
-				isListingEditable = true;
+		for (Listing listing : allListings) {
+			if (listing.getArt().equals(art)) {
+
+				if (price < 0)
+					throw new IllegalArgumentException("You cannot enter a negative price");
+
+				if (quantity <= 0)
+					throw new IllegalArgumentException("Quantity needs to be 1 or more");
+
+				if (Utils.areTagsValid(tags) == false)
+					throw new IllegalArgumentException(
+							"Tags must only contain letters and must be separated by a comma and space");
+
+				if (canPickUp == false && canDeliver == false)
+					throw new IllegalArgumentException("At least one shipping method needs to be selected");
+
+				if (art.getListing() != null)
+					throw new IllegalArgumentException("Art already associated to a listing");
+
+				listing.setArt(art);
+				art.setListing(listing);
+				listing.setPublisher(art.getOwner());
+				listing.setPrice(price);
+				listing.setQuantity(quantity);
+				listing.setCanDeliver(canDeliver);
+				listing.setCanPickUp(canPickUp);
+				listing.setTags(tags);
+				listing.setDatePublished(datePublished);
+
+				listingRepository.save(listing);
+				return Optional.ofNullable(listing);
+
 			}
 		}
-		
-		if(price<0) throw new IllegalArgumentException("You cannot enter a negative price");
-		
-		if(quantity<=0) throw new IllegalArgumentException("Quantity needs to be 1 or more");
-		
-		if(Utils.areTagsValid(tags)==false) throw new IllegalArgumentException("Tags must only contain letters and must be separated by a comma and space");
-		
-		if(canPickUp == false && canDeliver==false) throw new IllegalArgumentException("At least one shipping method needs to be selected");
-		
-		if(art.getListing()!=null) throw new IllegalArgumentException("Art already associated to a listing");
-		
-		if (isListingEditable) {
-		listing = new Listing();
-		listing.setArt(art);
-		art.setListing(listing);
-		listing.setPublisher(art.getOwner());
-		listing.setPrice(price);
-		listing.setQuantity(quantity);
-		listing.setCanDeliver(canDeliver);
-		listing.setCanPickUp(canPickUp);
-		listing.setTags(tags);
-		listing.setDatePublished(datePublished);
-
-		listingRepository.save(listing);
-		}
-
-		return Optional.ofNullable(listing);
+		return null;
 	}
 
 	@Transactional
@@ -117,7 +124,6 @@ public class ListingService {
 				byPublisher.add(l);
 			}
 		}
-		
 
 		return byPublisher;
 	}
