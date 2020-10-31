@@ -59,7 +59,6 @@ public class AccountService {
 		
 		if(isAccountValid) {
 			account = new Account();
-			
 			account.setAccountHolderType(accountHolderType);
 			account.setIdentity(identity);
 			account.setProfile(Utils.toSet(profiles));
@@ -71,6 +70,7 @@ public class AccountService {
 			account.setRevenus(Utils.toSet(revenus));
 			account.setPaymentType(paymentType);
 			account.setAccountNumber("1");
+			identity.setAccount(account);
 			
 			accountRepository.save(account);
 		
