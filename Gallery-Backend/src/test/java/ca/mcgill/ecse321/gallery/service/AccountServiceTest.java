@@ -119,7 +119,7 @@ public class AccountServiceTest {
 	
 	@Test
 	void testUsernameViolation() {
-		// there should be no accounts before the creation of the first one
+		boolean exceptionCaught = false;
 		assertEquals(0, accountService.getAllAccounts().size());
 		
 		Identity identity = new Identity();
@@ -134,15 +134,19 @@ public class AccountServiceTest {
 		assertEquals(1, accountService.getAllAccounts().size());
 		
 		Identity identity2 = new Identity();
-		Optional<Account> account2 = accountService.createAccount("Artist", identity2, profiles, "peller1", "Mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
-		
-		// there should still be 1 account
+		try {
+			Optional<Account> account2 = accountService.createAccount("Artist", identity2, profiles, "peller1", "Mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
 		assertEquals(1, accountService.getAllAccounts().size());
 	}
 	
 	@Test
 	void testIdentityViolation() {
-		// there should be no accounts before the creation of the first one
+		boolean exceptionCaught = false;
 		assertEquals(0, accountService.getAllAccounts().size());
 		
 		Identity identity = new Identity();
@@ -156,32 +160,71 @@ public class AccountServiceTest {
 		// there should be 1 account after creating one
 		assertEquals(1, accountService.getAllAccounts().size());
 		
-		Optional<Account> account2 = accountService.createAccount("Artist", identity, profiles, "EricPelletier", "Mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
-		
-		// there should still be 1 account
+		try { 
+			Optional<Account> account2 = accountService.createAccount("Artist", identity, profiles, "EricPelletier", "Mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
 		assertEquals(1, accountService.getAllAccounts().size());
 		
 	}
 	
 	@Test
-	void testPasswordVioaltions() {
+	void testPasswordVioaltionNumber() {
+		boolean exceptionCaught1 = false;
+		boolean exceptionCaught2 = false;
+		boolean exceptionCaught3 = false;
 		Identity identity = new Identity();
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		Date date = new Date(25102020);
 		Address address = new Address();
 		Date dateOfBirth = new Date(25102020);
 		ArrayList<Revenu> revenus = new ArrayList<Revenu>();
-		Optional<Account> account = accountService.createAccount("Artist", identity, profiles, "peller1", "mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
+		try {
+			Optional<Account> account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mcgill", date, address, dateOfBirth, revenus, "MasterCard");
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught1 = true;
+		}
+		assertTrue(exceptionCaught1);
+		assertEquals(0, accountService.getAllAccounts().size());
 		
-		assertTrue(account.isEmpty());
+		try {
+			Optional<Account> account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mcgill", date, address, dateOfBirth, revenus, "MasterCard");
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught2 = true;
+		}
+		assertTrue(exceptionCaught2);
+		assertEquals(0, accountService.getAllAccounts().size());
 		
-		account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mcgill", date, address, dateOfBirth, revenus, "MasterCard");
-
-		assertTrue(account.isEmpty());
+		try {
+			Optional<Account> account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mc1gi", date, address, dateOfBirth, revenus, "MasterCard");
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught3 = true;
+		}
+		assertTrue(exceptionCaught3);
+		assertEquals(0, accountService.getAllAccounts().size());
 		
-		account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mc1gi", date, address, dateOfBirth, revenus, "MasterCard");
-
-		assertTrue(account.isEmpty());
+	}
+	
+	@Test
+	void testEditAccountValid() {
+		Identity identity = new Identity();
+		ArrayList<Profile> profiles = new ArrayList<Profile>();
+		Date date = new Date(25102020);
+		Address address = new Address();
+		Date dateOfBirth = new Date(25102020);
+		ArrayList<Revenu> revenus = new ArrayList<Revenu>();
+		Optional<Account> account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
+		
+		Optional<Account> accountEdit = accountService.editAccount("Arist", profiles, "peller1", "Mcgill1234", address, dateOfBirth, revenus, "MasterCard", "Mcgill13");
+		
+		assertEquals("Mcgill1234", accountService.getAccountByUsername("peller1").get(0).getPassword());
+		
 	}
 	
 	@Test

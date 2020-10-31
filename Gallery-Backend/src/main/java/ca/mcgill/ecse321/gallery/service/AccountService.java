@@ -143,7 +143,7 @@ public class AccountService {
 	public List<Account> getAccountByUsername(String username) {
 		List<Account> account = new ArrayList<Account>();
 		if (accountRepository.findAccountByUsername(username) != null) {
-			account.add(accountRepository.findAccountByUsername("username"));
+			account.add(accountRepository.findAccountByUsername(username));
 		}
 		return account;
 	}
