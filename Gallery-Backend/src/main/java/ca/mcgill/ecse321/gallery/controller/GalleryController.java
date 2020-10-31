@@ -46,16 +46,6 @@ import ca.mcgill.ecse321.gallery.model.PaymentType;
 
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
-import ca.mcgill.ecse321.gallery.service.AccountService;
-import ca.mcgill.ecse321.gallery.service.AddressService;
-import ca.mcgill.ecse321.gallery.service.ArtService;
-import ca.mcgill.ecse321.gallery.service.GalleryService;
-import ca.mcgill.ecse321.gallery.service.ListingService;
-
-import ca.mcgill.ecse321.gallery.service.PaymentService;
-import ca.mcgill.ecse321.gallery.service.ProfileService;
-import ca.mcgill.ecse321.gallery.service.RevenuService;
-
 import ca.mcgill.ecse321.gallery.service.*;
 
 @CrossOrigin(origins = "*")
@@ -76,6 +66,9 @@ public class GalleryController {
 
 	@Autowired
 	private GalleryService galleryService;
+	
+	@Autowired
+	private IdentityService identityService;
 
 	@Autowired
 	private ListingService listingService;
@@ -132,7 +125,28 @@ public class GalleryController {
 	
 	@PostMapping(value = { "/pay", "/pay/" })
 	private PaymentDto pay(@RequestParam(name = "payment") PaymentDto pDto) {
-		return null;
+		List<Listing> listings = listingService.getAllListings();
+		ArrayList<Listing> relevantListings = new ArrayList<>();
+		
+		for (Listing l : listings) {
+			for (ListingDto lDto : pDto.getListing()) {
+				if (l.equals(lDto.getId()))
+					relevantListings.add(l);
+			}
+		}
+		
+		Optional<Identity> relevantIdentity = identityService.findIdentityByEmail(pDto.getIdentity().getEmail());
+		
+		Optional<Address> relevantAddress = addressService.getAddressById(pDto.getAddress().getId());
+		
+		Optional<Payment> payment = paymentService.pay(
+				pDto.getDeliveryType(), 
+				pDto.getPaymentType(), 
+				relevantIdentity, 
+				relevantListings, 
+				relevantAddress);
+		
+		return convertToDto(payment);
 	}
 	
 	@GetMapping(value = { "/revenus", "/revenus/" })
@@ -162,10 +176,11 @@ public class GalleryController {
 		return gallery;
 	}
 	
-	private PaymentDto convertToDto(Payment p) {
-		if (p == null) {
+	private PaymentDto convertToDto(Optional<Payment> payment) {
+		if (payment.isEmpty()) {
 			throw new IllegalArgumentException("There is no such Payment!");
 		}
+		Payment p = payment.get();
 		PaymentDto paymentDto = new PaymentDto();
 		paymentDto.setConfirmationNumber(p.getConfirmationNumber());
 		paymentDto.setTransactionNumber(p.getTransactionNumber());
