@@ -151,15 +151,17 @@ public class GalleryController {
 
 	@PostMapping(value = { "/profile/edit", "/profile/edit/" })
 	private ProfileDto editProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
-		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
+		Optional<Profile> profile = profileService.getProfile(pDto.getId());
 		
-		Set<Listing> listings = new HashSet<Listing>();
+		if (profile.isEmpty()) {
+			throw new IllegalArgumentException("There is no such profile with id " + pDto.getId());
+		}
 		
-		Set<Art> arts = new HashSet<Art>();
-
-		if (password.equals(account.get().getPassword())) {
-			Profile profile = profileService.editProfile(pDto.getBio(), pDto.getPicture(), listings, account.get(), pDto.getFullname(), arts).get();
-			return convertToDto(profile);
+		if (password.equals(profile.get().getAccount().getPassword())) {
+			profile = profileService.editProfile(
+					pDto.getBio(), pDto.getPicture(), profile.get().getListings(), 
+					profile.get().getAccount(), pDto.getFullname(), profile.get().getArts());
+			return convertToDto(profile.get());
 		} else {
 			throw new IllegalArgumentException("Password entered is incorrect");
 		}
