@@ -107,9 +107,16 @@ public class AccountService {
 	
 	public Optional<Account> editAccount(String accountHolderType,String username, String password, Address address, Date dateOfBirth, String paymentType, String OldPassword) {
 		Boolean isAccountValid = true;
+		Account account = null;
 		
-		// is username and identity unique?
-		Account account = getAccountByUsername(username).get(0);
+		List<Account> accounts = getAccountByUsername(username);
+		if(accounts.size() != 0) {
+			account = accounts.get(0);
+		} else {
+			throw new IllegalArgumentException("No account found with such username");
+		}
+		
+		
 		if (account.getPassword().equals(OldPassword)) {
 			// is password valid?
 			if (password.length() < 6) {
