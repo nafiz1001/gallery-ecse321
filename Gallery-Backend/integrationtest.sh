@@ -2,8 +2,7 @@
 
 curl --location --request GET 'http://localhost:8080/gallery/view'
 
-curl --location --request POST 'http://localhost:8080/identity/create?email=hi@gmail.com' \
---data-raw ''
+curl --location --request POST 'http://localhost:8080/identity/create?email=hi@gmail.com'
 
 curl --location --request POST 'http://localhost:8080/account/create' \
 --header 'Content-Type: application/json' \
@@ -39,7 +38,7 @@ curl --location --request POST 'http://localhost:8080/account/edit?password=A123
   "revenus": [],
   "accountNumber": null,
   "paymentType": "0"
-}'
+}' | grep 'MASTER'
 
 curl --location --request GET 'http://localhost:8080/account?username=hi&password=A123456'
 
@@ -66,7 +65,7 @@ curl --location --request POST 'http://localhost:8080/profile/edit?password=A123
     },
     "fullname": "diego",
     "id": "hi:diego"
-}'
+}' | grep 'bad'
 
 curl --location --request POST 'http://localhost:8080/art/create?password=A123456' \
 --header 'Content-Type: application/json' \
@@ -118,7 +117,7 @@ curl --location --request POST 'http://localhost:8080/listing/edit?password=A123
     },
     "tags": "sos"
     "id": 1
-}'
+}' | grep 'price' | grep '19'
 
 curl --location --request GET 'http://localhost:8080/listings'
 
