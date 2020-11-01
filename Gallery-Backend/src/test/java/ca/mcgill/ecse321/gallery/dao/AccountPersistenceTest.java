@@ -139,11 +139,11 @@ public class AccountPersistenceTest {
 		account1.setPaymentType("MasterCard");
 		account1.setIdentity(identity);
 		
-		accountRepository.save(account1);
+		account1 = accountRepository.save(account1);
 		
 		account1.setPassword("Dylan");
 		
-		accountRepository.save(account1);
+		account1 = accountRepository.save(account1);
 		
 		assertEquals(account1.getPassword(), "Dylan");
 	}

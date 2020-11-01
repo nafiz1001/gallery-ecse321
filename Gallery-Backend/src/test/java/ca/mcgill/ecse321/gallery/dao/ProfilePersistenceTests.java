@@ -87,7 +87,7 @@ public class ProfilePersistenceTests {
 		profile1.setId("1");
 		profile1.setPicture("url");
 
-		profileRepository.save(profile1);
+		profile1 = profileRepository.save(profile1);
 
 		profile1.setFullname("john");
 
