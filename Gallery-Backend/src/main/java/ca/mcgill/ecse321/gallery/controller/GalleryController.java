@@ -218,13 +218,13 @@ public class GalleryController {
 		if (account.isEmpty())
 			throw new IllegalArgumentException("There is no such Account!");
 
-		Account acc = account.get();
+		Account relevantAccount = account.get();
 
-		if (!acc.getPassword().equals(password)) {
+		if (!relevantAccount.getPassword().equals(password)) {
 			throw new IllegalArgumentException("The password is incorrect!");
 		}
 
-		Set<Revenu> revenus = acc.getRevenus();
+		Set<Revenu> revenus = relevantAccount.getRevenus();
 		ArrayList<RevenuDto> revenusDto = new ArrayList<>();
 		for (Revenu r : revenus) {
 			revenusDto.add(convertToDto(r));
