@@ -38,7 +38,7 @@ public class ArtService {
 		List<Art> allArt = getAllArt();
 
 		for (Art art : allArt) {
-			if (art.getName().equals(title)) {
+			if (art.getName().equals(title) && art.getOwner().equals(publisher)) {
 				isArtValid = false;
 			}
 		}
