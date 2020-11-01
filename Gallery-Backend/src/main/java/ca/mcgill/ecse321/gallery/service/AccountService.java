@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.gallery.dao.AccountRepository;
+import ca.mcgill.ecse321.gallery.dao.IdentityRepository;
 import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.model.Identity;
@@ -23,10 +24,17 @@ public class AccountService {
 	@Autowired
 	AccountRepository accountRepository;
 	
+	@Autowired
+	IdentityService identityService;
+	
+	@Autowired
+	IdentityRepository identityRepository;
+	
 	@Transactional
-	public Optional<Account> createAccount(String accountHolderType, Identity identity, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
+	public Optional<Account> createAccount(String accountHolderType, String Email, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
 		Account account = null;
 		Boolean isAccountValid = true;
+		Identity identity = null;
 		
 		// is username and identity unique?
 		List<Account> accounts = getAllAccounts();
@@ -35,11 +43,18 @@ public class AccountService {
 				isAccountValid = false;
 				throw new IllegalArgumentException("Username already taken.");
 			}
-			if (a.getIdentity().equals(identity)) {
+			if (a.getIdentity().getEmail().equals(Email)) {
 				isAccountValid = false;
 				throw new IllegalArgumentException("An account is already created for this Identity");
 			}
 		}
+		
+		if (identityService.findIdentityByEmail(Email).isEmpty()) {
+			identity = identityService.createIdentity(Email).get();
+		} else {
+			identity = identityService.findIdentityByEmail(Email).get(); 
+		}
+		
 		
 		// is password valid?
 		if (password.length() < 6) {
@@ -78,10 +93,12 @@ public class AccountService {
 			account.setRevenus(Utils.toSet(revenus));
 			account.setPaymentType(paymentType);
 			account.setAccountNumber("1");
-			identity.setAccount(account);
 			
 			account = accountRepository.save(account);
 		
+			identity.setAccount(account);
+			
+			identityRepository.save(identity);
 		}
 		
 		return Optional.ofNullable(account);
