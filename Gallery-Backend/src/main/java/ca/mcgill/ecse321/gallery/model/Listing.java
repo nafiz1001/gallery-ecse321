@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.gallery.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
 import javax.persistence.OneToOne;
@@ -8,13 +10,14 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Listing{
-private String id;
+private long id;
    
-   public void setId(String value) {
+   public void setId(long value) {
 this.id = value;
     }
 @Id
-public String getId() {
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+public long getId() {
 return this.id;
     }
 private int price;

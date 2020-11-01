@@ -67,7 +67,7 @@ public class ListingPersistenceTests {
 		listing1.setCanDeliver(true);
 		listing1.setCanPickUp(false);
 		listing1.setDatePublished(new Date(0));
-		listing1.setId("123");
+		listing1.setId((long)123);
 		listing1.setPrice(12);
 
 		listing1.setQuantity(0);
@@ -75,7 +75,7 @@ public class ListingPersistenceTests {
 
 		listingRepository.save(listing1);
 
-		Listing listing2 = listingRepository.findListingById("123");
+		Listing listing2 = listingRepository.findListingById((long)123);
 
 		assertNotNull(listing2);
 		assertEquals(listing1.getPrice(), listing2.getPrice());
@@ -92,7 +92,7 @@ public class ListingPersistenceTests {
 		listing1.setCanDeliver(true);
 		listing1.setCanPickUp(false);
 		listing1.setDatePublished(new Date(0));
-		listing1.setId("123");
+		listing1.setId((long)123);
 		listing1.setPrice(12);
 
 		listing1.setQuantity(0);

@@ -70,7 +70,7 @@ public class PaymentPersistenceTests {
 		
 		Listing nullListing = new Listing();
 		nullListing.setDatePublished(new Date(0));
-		nullListing.setId("0");
+		nullListing.setId((long)0);
 		listingRepository.save(nullListing);
 		payment.setListing(new ArrayList<>());
 		payment.getListing().add(nullListing);
@@ -92,7 +92,7 @@ public class PaymentPersistenceTests {
 		listing1.setCanDeliver(true);
 		listing1.setCanPickUp(false);
 		listing1.setDatePublished(new Date(0));
-		listing1.setId("123");
+		listing1.setId((long)123);
 		listing1.setPrice(12);
 
 		listing1.setQuantity(0);
