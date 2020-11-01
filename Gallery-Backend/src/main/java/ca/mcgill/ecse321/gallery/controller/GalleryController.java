@@ -79,7 +79,7 @@ public class GalleryController {
 
 	@Autowired
 	private RevenuService revenuService;
-
+	
 	@PostMapping(value = { "/identity/create", "identity/create/"} )
 	private IdentityDto createIdentity(@RequestParam(name = "email") String email) {
 		Optional<Identity> identity = identityService.findIdentityByEmail(email);
@@ -98,22 +98,14 @@ public class GalleryController {
 			identity = identityService.createIdentity(aDto.getIdentity().getEmail());
 
 		Set<Profile> profiles = new HashSet<Profile>();
-		for (ProfileDto p : aDto.getProfile()) {
-			Optional<Profile> profile = profileService.getProfile(p.getId());
-			
-			if (profile.isEmpty())
-				throw new IllegalArgumentException("There is no such Profile with id " + p.getId());
-			
-			profiles.add(profile.get());
-		}
 
 		Set<Revenu> revenus = new HashSet<Revenu>();
-
+		
 		Address address = null;
 		if (aDto.getAddress() != null) {
 			Optional<Address> optionalAddress = addressService.createAddress(
-						aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
-						aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode());
+							aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
+							aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode());
 			address = optionalAddress.get();
 		}
 		
@@ -127,23 +119,24 @@ public class GalleryController {
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
 	private AccountDto editAccount(@RequestBody AccountDto aDto,
 			@RequestParam(name = "password") String password) {
-		Set<Profile> profiles = new HashSet<Profile>();
-		for (ProfileDto p : aDto.getProfile()) {
-			profiles.add(profileService.getProfile(p.getId()).get());
+		
+		Optional<Account> account = accountService.getAccountById(aDto.getUsername());
+		if (account.isEmpty())
+			throw new IllegalArgumentException("There is no such Account with username " + aDto.getUsername());
+				
+		Address address = null;
+		if (aDto.getAddress() != null) {
+			Optional<Address> optionalAddress = addressService.createAddress(
+							aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
+							aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode());
+			address = optionalAddress.get();
 		}
 
-		Optional<Address> address = addressService.getAddressById(aDto.getAddress().getId());
+		account = Optional.ofNullable(accountService.editAccount(aDto.getAccountHolderType(), aDto.getUsername(),
+				aDto.getPassword(), address, aDto.getDateOfBirth(), aDto.getPaymentType(), password)
+				.get());
 
-		Set<Revenu> revenus = new HashSet<Revenu>();
-		for (RevenuDto r : aDto.getRevenus()) {
-			revenus.add(revenuService.getRevenu(r.getId()).get());
-		}
-
-		Account account = accountService.editAccount(aDto.getAccountHolderType(), profiles, aDto.getUsername(),
-				aDto.getPassword(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType(), password)
-				.get();
-
-		return convertToDto(account);
+		return convertToDto(account.get());
 	}
 
 	@GetMapping(value = { "/account", "/account/" })
@@ -289,7 +282,7 @@ public class GalleryController {
 		Optional<Gallery> gallery = galleryService.getGallery("Gallery");
 		if (gallery.isEmpty()) {
 			Optional<Address> address = addressService.createAddress("0", "0", "Montreal", "Quebec", "H0H 0H0");
-			return convertToDto(galleryService.createGallery("Gallery", "911", new Time(0), new Time(0), "gallery@gallery.com", 10, address.get()).get());
+			return convertToDto(galleryService.createGallery("Gallery", "0123456789", new Time(0), new Time(1), "gallery@gallery.com", 10, address.get()).get());
 		} else {
 			return convertToDto(gallery.get());
 		}
@@ -356,7 +349,7 @@ public class GalleryController {
 		AccountDto accountDto = new AccountDto();
 		accountDto.setAccountHolderType(a.getAccountHolderType());
 		accountDto.setAccountNumber(a.getAccountNumber());
-		accountDto.setAddress(convertToDto(a.getAddress()));
+		accountDto.setAddress(null);
 		accountDto.setDateJoined(a.getDateJoined());
 		accountDto.setDateOfBirth(a.getDateOfBirth());
 		accountDto.setIdentity(convertToDto(a.getIdentity()));
@@ -417,7 +410,7 @@ public class GalleryController {
 			throw new IllegalArgumentException("There is no such Identity!");
 		}
 		IdentityDto identityDto = new IdentityDto();
-		identityDto.setAccount(convertToDto(i.getAccount()));
+		identityDto.setAccount(null);
 		identityDto.setEmail(i.getEmail());
 		return identityDto;
 	}
