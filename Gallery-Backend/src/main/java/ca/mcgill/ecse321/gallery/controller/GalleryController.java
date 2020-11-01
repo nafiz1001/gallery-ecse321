@@ -269,6 +269,25 @@ public class GalleryController {
 		gallery.setName("Gallery");
 		return gallery;
 	}
+	
+	@GetMapping(value = { "/arts/{id}", "/arts/{id}/" })
+	private List<ArtDto> getAllArts(@PathVariable("id") String id) {
+		Optional<Profile> profile = profileService.getProfile(id);
+		if (profile.isEmpty())
+			throw new IllegalArgumentException("There is no such Profile with id " + id);
+		
+		return profile.get().getArts().stream().map(l -> convertToDto(l)).collect(Collectors.toList());
+	}
+
+	@PostMapping(value = { "/art/create", "/art/create/" })
+	private ArtDto createArt(@RequestParam(name = "art") ArtDto aDto) throws IllegalArgumentException {
+		Optional<Profile> profile = profileService.getProfile(aDto.getOwner().getId());
+		Optional<Art> art = artService.createArt(
+				aDto.getName(), aDto.getDescription(), aDto.getHeight(), aDto.getWidth(), aDto.getDepth(), aDto.getImage(), aDto.getDate(), profile.get(), aDto.getType(), aDto.getAuthor()
+				);
+
+		return convertToDto(art.get());
+	}
 
 	private PaymentDto convertToDto(Optional<Payment> payment) {
 		if (payment.isEmpty()) {
