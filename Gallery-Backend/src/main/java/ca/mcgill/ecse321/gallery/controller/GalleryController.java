@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -91,7 +92,7 @@ public class GalleryController {
 
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestBody AccountDto aDto) {
-
+		
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (ProfileDto p : aDto.getProfile()) {
 			profiles.add(profileService.getProfile(p.getId()).get());
@@ -170,7 +171,7 @@ public class GalleryController {
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
 	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) 
 	{
-	Optional<Account> account = accountService.getAccountById(username);
+	Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
 	if (account.isEmpty())
 		throw new IllegalArgumentException("There is no such Account!");
 	
