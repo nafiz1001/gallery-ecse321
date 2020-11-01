@@ -371,9 +371,16 @@ public class GalleryController {
 		artDto.setHeight(a.getHeight());
 		artDto.setId(a.getId());
 		artDto.setImage(a.getImage());
-		artDto.setListing(convertToDto(a.getListing()));
+		ListingDto lDto = null;
+		if (a.getListing() != null) {
+			lDto = new ListingDto();
+			lDto.setId(a.getListing().getId());
+		}
+		artDto.setListing(lDto);
 		artDto.setName(a.getName());
-		artDto.setOwner(convertToDto(a.getOwner()));
+		ProfileDto pDto = new ProfileDto();
+		pDto.setId(a.getOwner().getId());
+		artDto.setOwner(pDto);
 		artDto.setType(a.getType());
 		artDto.setWidth(a.getWidth());
 		return artDto;
@@ -416,7 +423,9 @@ public class GalleryController {
 		listingDto.setDatePublished(l.getDatePublished());
 		listingDto.setId(l.getId());
 		listingDto.setPrice(l.getPrice());
-		listingDto.setPublisher(convertToDto(l.getPublisher()));
+		ProfileDto pDto = new ProfileDto();
+		pDto.setId(l.getPublisher().getId());
+		listingDto.setPublisher(pDto);
 		listingDto.setQuantity(l.getQuantity());
 		listingDto.setTags(l.getTags());
 		return listingDto;
@@ -427,7 +436,9 @@ public class GalleryController {
 			throw new IllegalArgumentException("There is no such Profile!");
 		}
 		ProfileDto profileDto = new ProfileDto();
-		profileDto.setAccountDto(convertToDto(p.getAccount()));
+		AccountDto aDto = new AccountDto();
+		aDto.setUsername(p.getAccount().getUsername());
+		profileDto.setAccountDto(aDto);
 		Set<ArtDto> artsDto = new HashSet<ArtDto>();
 		for (Art a : p.getArts()) {
 			artsDto.add(convertToDto(a));
@@ -438,7 +449,9 @@ public class GalleryController {
 		profileDto.setId(p.getId());
 		Set<ListingDto> listingsDto = new HashSet<ListingDto>();
 		for (Listing l : p.getListings()) {
-			listingsDto.add(convertToDto(l));
+			ListingDto lDto = new ListingDto();
+			lDto.setId(l.getId());
+			listingsDto.add(lDto);
 		}
 		profileDto.setListingDtos(listingsDto);
 		profileDto.setPicture(p.getPicture());
