@@ -68,7 +68,7 @@ return this.dateJoined;
     }
 private Address address;
 
-@ManyToOne(optional=false)
+@ManyToOne(optional=true)
 public Address getAddress() {
    return this.address;
 }
