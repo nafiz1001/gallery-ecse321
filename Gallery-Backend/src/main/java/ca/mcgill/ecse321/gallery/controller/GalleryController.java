@@ -185,7 +185,8 @@ public class GalleryController {
 
 	@GetMapping(value = { "/profile/{id}", "/profile/{id}/" })
 	private ProfileDto viewProfile(@PathVariable("id") String id) {
-		return null;
+		Optional<Profile> profile = profileService.getProfile(id);
+		return convertToDto(profile.get());
 	}
 
 	@PostMapping(value = { "/pay", "/pay/" })
