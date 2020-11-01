@@ -98,20 +98,15 @@ public class GalleryController {
 			identity = identityService.createIdentity(aDto.getIdentity().getEmail());
 
 		Set<Profile> profiles = new HashSet<Profile>();
-		for (ProfileDto p : aDto.getProfile()) {
-			Optional<Profile> profile = profileService.getProfile(p.getId());
 			
-			if (profile.isEmpty())
-				throw new IllegalArgumentException("There is no such Profile with id " + p.getId());
-			
-			profiles.add(profile.get());
-		}
-
 		Set<Revenu> revenus = new HashSet<Revenu>();
 
-		Address address = addressService.createAddress(
+		Address address = null;
+		if (aDto.getAddress() != null) {
+			address = addressService.createAddress(
 						aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
 						aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode()).get();
+		}
 		
 		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles,
 				aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address, aDto.getDateOfBirth(),
@@ -128,9 +123,12 @@ public class GalleryController {
 		if (listAccount.isEmpty())
 			throw new IllegalArgumentException("There is no such Account with username " + aDto.getUsername());
 				
-		Address address = addressService.createAddress(
+		Address address = null;
+		if (aDto.getAddress() != null) {
+			address = addressService.createAddress(
 				aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
 				aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode()).get();
+		}
 
 		Optional<Account> account = Optional.ofNullable(accountService.editAccount(aDto.getAccountHolderType(), aDto.getUsername(),
 				aDto.getPassword(), address, aDto.getDateOfBirth(), aDto.getPaymentType(), password)
