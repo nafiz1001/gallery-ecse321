@@ -88,6 +88,7 @@ public class GalleryServiceTests {
 		String email = "McGill@yahoo.com";
 		int commissionPercentage = 25;
 		Address address = new Address();
+		addressRepository.save(address);
 
 		Optional<Gallery> gallery = galleryService.createGallery(name, phoneNumber, openingTime, closingTime, email,
 				commissionPercentage, address);
@@ -234,5 +235,10 @@ public class GalleryServiceTests {
 				commissionPercentage, address);
 
 		assertEquals(gallery, galleryService.getGallery("McGill"));
+	}
+	
+	@Test
+	void testCannotGetGalleryByName() {
+		assertEquals(Optional.empty(), galleryService.getGallery("McGill"));
 	}
 }
