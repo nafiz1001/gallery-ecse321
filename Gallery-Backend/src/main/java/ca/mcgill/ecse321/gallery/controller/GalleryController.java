@@ -94,6 +94,8 @@ public class GalleryController {
 	private AccountDto createAccount(@RequestBody AccountDto aDto) {
 		IdentityDto email = aDto.getIdentity();
 		Optional<Identity> identity = identityService.findIdentityByEmail(aDto.getIdentity().getEmail());
+		if (identity.isEmpty())
+			identity = identityService.createIdentity(aDto.getIdentity().getEmail());
 
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (ProfileDto p : aDto.getProfile()) {
@@ -106,23 +108,16 @@ public class GalleryController {
 		}
 
 		Set<Revenu> revenus = new HashSet<Revenu>();
-		for (RevenuDto r : aDto.getRevenus()) {
-			revenus.add(revenuService.getRevenu(r.getId()).get());
-		}
 
 		Address address = null;
 		if (aDto.getAddress() != null) {
-			Optional<Address> optionalAddress = addressService.getAddressById(aDto.getAddress().getPostalCode() + aDto.getAddress().getStreetNumber());
-		
-			if (optionalAddress.isEmpty())
-				optionalAddress = addressService.createAddress(
+			Optional<Address> optionalAddress = addressService.createAddress(
 						aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
 						aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode());
-			
 			address = optionalAddress.get();
 		}
 		
-		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles,
+		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get().getEmail(), profiles,
 				aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address, aDto.getDateOfBirth(),
 				revenus, aDto.getPaymentType()).get();
 
