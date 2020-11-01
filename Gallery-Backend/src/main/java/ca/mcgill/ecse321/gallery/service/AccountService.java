@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.gallery.dao.AccountRepository;
@@ -16,6 +17,7 @@ import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+@Service
 public class AccountService {
 	
 	@Autowired
@@ -78,7 +80,7 @@ public class AccountService {
 			account.setAccountNumber("1");
 			identity.setAccount(account);
 			
-			accountRepository.save(account);
+			account = accountRepository.save(account);
 		
 		}
 		
