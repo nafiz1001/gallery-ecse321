@@ -348,7 +348,9 @@ public class GalleryController {
 		accountDto.setPaymentType(a.getPaymentType());
 		Set<ProfileDto> profilesDto = new HashSet<ProfileDto>();
 		for (Profile p : a.getProfile()) {
-			profilesDto.add(convertToDto(p));
+			ProfileDto pDto = new ProfileDto();
+			pDto.setFullname(p.getFullname());
+			profilesDto.add(pDto);
 		}
 		accountDto.setProfile(profilesDto);
 		Set<RevenuDto> revenusDto = new HashSet<RevenuDto>();
