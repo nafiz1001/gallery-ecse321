@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.gallery.controller;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -262,11 +263,15 @@ public class GalleryController {
 		return convertToDto(listing);
 	}
 
-	@GetMapping(value = { "/aboutus", "/aboutus/" })
+	@GetMapping(value = { "/gallery/view", "/gallery/view" })
 	private GalleryDto aboutUs() {
-		GalleryDto gallery = new GalleryDto();
-		gallery.setName("Gallery");
-		return gallery;
+		Optional<Gallery> gallery = galleryService.getGallery("Gallery");
+		if (gallery.isEmpty()) {
+			Optional<Address> address = addressService.createAddress("0", "0", "Montreal", "Quebec", "H0H 0H0");
+			return convertToDto(galleryService.createGallery("Gallery", "911", new Time(0), new Time(0), "gallery@gallery.com", 10, address.get()).get());
+		} else {
+			return convertToDto(gallery.get());
+		}
 	}
 	
 	@GetMapping(value = { "/arts/{id}", "/arts/{id}/" })
