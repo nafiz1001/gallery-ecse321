@@ -40,52 +40,121 @@ public class RevenuServiceTests {
 	@InjectMocks
 	RevenuService revenuService;
 	
-	private String id = "0";
 	private HashSet<Revenu> savedRevenu= new HashSet<>();
 	
 	@BeforeEach
 	public void setupMockup() {
-		// address id generator mock
-		id = "0";
 
 		// database mock
 		savedRevenu.clear();
 		
 		// lambda for simulating saving Revenu
-				Answer<Revenu> saveRevenuAndReturn = (InvocationOnMock invocation) -> {
-					Revenu revenu = (Revenu) invocation.getArgument(0);
-					savedRevenu.add(revenu);
-					return revenu;
-				};
-				
-				// simulate saving revenu
-				lenient().when(revenuRepository.save(any(Revenu.class))).thenAnswer(saveRevenuAndReturn);
-				
-				// simulate finding gallery by Id 
-				lenient().when(revenuRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-					String id = ((String) invocation.getArgument(0));
-					for (Revenu revenu : savedRevenu) {
-						if (revenu.getId().equals(id))
-							return Optional.ofNullable(revenu);
-					}
-					return Optional.empty();
-				});
+		Answer<Revenu> saveRevenuAndReturn = (InvocationOnMock invocation) -> {
+			Revenu revenu = (Revenu) invocation.getArgument(0);
+			savedRevenu.add(revenu);
+			return revenu;
+		};
+		
+		// simulate saving revenu
+		lenient().when(revenuRepository.save(any(Revenu.class))).thenAnswer(saveRevenuAndReturn);
+		
+		// simulate finding gallery by Id 
+		lenient().when(revenuRepository.findById(any())).thenAnswer((InvocationOnMock invocation) -> {
+			long id = ((long) invocation.getArgument(0));
+			for (Revenu revenu : savedRevenu) {
+				if (revenu.getId() == id)
+					return Optional.ofNullable(revenu);
+			}
+			return Optional.empty();
+		});
+		
+		// simulate finding all accounts
+		lenient().when(revenuRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			return savedRevenu;
+		});
 		
 	}
 	
 	@Test 
 	void testSuccesfullRevenu() {
 		
-		int comission = 1;
+		int commission = 1;
 		int listingprice= 2;
 		Account account = new Account();
 		Listing listing = new Listing();
-		Optional<Revenu> revenu = revenuService.createRevenu(comission, listingprice, account, listing);
+		Optional<Revenu> revenu = revenuService.createRevenu(commission, listingprice, account, listing);
 		assertTrue(revenu.isPresent());
 
 
 	}
+	
+	@Test
+	void testListingPriceViolation() {
+		assertEquals(0, revenuService.getAllRevenu().size());
+		boolean exceptionCaught = false;
+		int commission = 1;
+		int listingprice= -2;
+		Account account = new Account();
+		Listing listing = new Listing();
+		try {
+		Optional<Revenu> revenu = revenuService.createRevenu(commission, listingprice, account, listing);
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
+		assertEquals(0, revenuService.getAllRevenu().size());
+	}
+	
+	@Test
+	void testCommissionViolation() {
+		assertEquals(0, revenuService.getAllRevenu().size());
+		boolean exceptionCaught = false;
+		int commission = -1;
+		int listingprice= 2;
+		Account account = new Account();
+		Listing listing = new Listing();
+		try {
+		Optional<Revenu> revenu = revenuService.createRevenu(commission, listingprice, account, listing);
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
+		assertEquals(0, revenuService.getAllRevenu().size());
+	}
+	
+	
+	@Test
+	void testGetRevenu() {
+		assertTrue(revenuService.getRevenu((long)0).isEmpty());
+		
+		int commission = 1;
+		int listingprice= 2;
+		Account account = new Account();
+		Listing listing = new Listing();
+		Optional<Revenu> revenu = revenuService.createRevenu(commission, listingprice, account, listing);
+		
+		assertTrue(revenuService.getRevenu((long)0).isPresent());
+		
+	}
 
+	@Test
+	void testGetAllRevenu() {
+		assertEquals(0, revenuService.getAllRevenu().size());
+		
+		int commission = 1;
+		int listingprice= 2;
+		Account account = new Account();
+		Listing listing = new Listing();
+		Optional<Revenu> revenu = revenuService.createRevenu(commission, listingprice, account, listing);
+		
+		assertEquals(1, revenuService.getAllRevenu().size());
+		
+		Optional<Revenu> revenu1 =  revenuService.createRevenu(commission, listingprice, account, listing);
+		
+		assertEquals(2, revenuService.getAllRevenu().size());
+	}
 	
 
 }

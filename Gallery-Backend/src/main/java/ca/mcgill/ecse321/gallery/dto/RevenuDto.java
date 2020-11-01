@@ -39,13 +39,13 @@ public class RevenuDto{
 	   this.listing = listing;
 	}
 	
-	private String id;
+	private long id;
 	
-	public void setId(String value) {
+	public void setId(long value) {
 		this.id = value;
 	}
 
-	public String getId() {
+	public long getId() {
 		return this.id;
     }
  }
