@@ -98,14 +98,14 @@ public class GalleryController {
 			identity = identityService.createIdentity(aDto.getIdentity().getEmail());
 
 		Set<Profile> profiles = new HashSet<Profile>();
-			
+
 		Set<Revenu> revenus = new HashSet<Revenu>();
 
 		Address address = null;
 		if (aDto.getAddress() != null) {
 			address = addressService.createAddress(
-						aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
-						aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode()).get();
+							aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
+							aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode()).get();
 		}
 		
 		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles,
@@ -126,8 +126,8 @@ public class GalleryController {
 		Address address = null;
 		if (aDto.getAddress() != null) {
 			address = addressService.createAddress(
-				aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
-				aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode()).get();
+							aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
+							aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode()).get();
 		}
 
 		Optional<Account> account = Optional.ofNullable(accountService.editAccount(aDto.getAccountHolderType(), aDto.getUsername(),
@@ -167,27 +167,24 @@ public class GalleryController {
 	
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
 	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
-	Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
-	if (account.isEmpty())
-		throw new IllegalArgumentException("There is no such Account!");
+		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
+		if (account.isEmpty())
+			throw new IllegalArgumentException("There is no such Account!");
+		
+		Account acc = account.get();
+		
+		if (!acc.getPassword().equals(password)) {
+			throw new IllegalArgumentException("The password is incorrect!");
+		}
+		Set<Listing> listings = new HashSet<Listing>();
+		
+		Set<Art> arts = new HashSet<Art>();
+		
+		Optional<Profile> p = profileService.createProfile(pDto.getBio(), pDto.getPicture(), listings, acc, pDto.getFullname(), arts);
+		Profile profile = p.get();
 	
-	Account acc = account.get();
-	
-	if (!acc.getPassword().equals(password)) {
-		throw new IllegalArgumentException("The password is incorrect!");
+		return convertToDto(profile);
 	}
-	Set<Listing> listings = new HashSet<Listing>();
-	
-	Set<Art> arts = new HashSet<Art>();
-	
-	Optional<Profile> p = profileService.createProfile(pDto.getBio(), pDto.getPicture(), listings, acc, pDto.getFullname(), arts);
-	Profile profile = p.get();
-	
-	return convertToDto(profile);
-}
-	
-
-	
 
 	@GetMapping(value = { "/profile/{id}", "/profile/{id}/" })
 	private ProfileDto viewProfile(@PathVariable("id") String id) {
