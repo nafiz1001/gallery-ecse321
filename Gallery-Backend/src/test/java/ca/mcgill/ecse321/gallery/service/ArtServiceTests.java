@@ -111,7 +111,7 @@ public class ArtServiceTests {
 	void testTitleViolation() {
 		// art with chosen title matches already existing title
 		assertEquals(0, artService.getAllArt().size());
-		String title = "McGill";
+		String title = null;
 		String description = "A painting of McGill";
 		double height = 10.0;
 		double width = 10.0;
@@ -125,9 +125,9 @@ public class ArtServiceTests {
 		Optional<Art> art1 = artService.createArt(title, description, height, width, depth, image, creationDate,
 				publisher, type, author);
 
-		assertEquals(1, artService.getAllArt().size());
+		assertEquals(0, artService.getAllArt().size());
 
-		title = "McGill";
+		title = " ";
 		description = "A bigger painting of McGill";
 		height = 20.0;
 		width = 20.0;
@@ -141,7 +141,7 @@ public class ArtServiceTests {
 		Optional<Art> art2 = artService.createArt(title, description, height, width, depth, image, creationDate,
 				publisher, type, author);
 
-		assertEquals(1, artService.getAllArt().size());
+		assertEquals(0, artService.getAllArt().size());
 	}
 
 	@Test

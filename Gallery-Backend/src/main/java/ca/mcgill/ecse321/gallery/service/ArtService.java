@@ -57,7 +57,10 @@ public class ArtService {
 		if (depth < 0) {
 			isArtValid = false;
 		}
-		// is creation date before current day
+		// is title not empty or null?
+		if (title == null || title.trim().length() == 0) {
+			isArtValid = false;
+		}
 		
 		// if Art is valid
 		if (isArtValid) {
