@@ -25,10 +25,10 @@ public class AccountService {
 	AccountRepository accountRepository;
 	
 	@Autowired
-	IdentityService identityService;
+	IdentityRepository identityRepository;
 	
 	@Autowired
-	IdentityRepository identityRepository;
+	IdentityService identityService = new IdentityService();
 	
 	@Transactional
 	public Optional<Account> createAccount(String accountHolderType, String Email, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
@@ -105,52 +105,49 @@ public class AccountService {
 		
 	}
 	
-	public Optional<Account> editAccount(String accountHolderType, Iterable<Profile> profiles,String username, String password, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType, String OldPassword) {
+	public Optional<Account> editAccount(String accountHolderType,String username, String password, Address address, Date dateOfBirth, String paymentType, String OldPassword) {
 		Boolean isAccountValid = true;
 		
 		// is username and identity unique?
-		List<Account> accounts = getAllAccounts();
-		for(Account a : accounts) {
-			if (a.getUsername().equals(username) && a.getPassword().equals(OldPassword)) {
-				// is password valid?
-				if (password.length() < 6) {
-					isAccountValid = false;
-					throw new IllegalArgumentException("Password must be at least 6 characters long.");
+		Account account = getAccountByUsername(username).get(0);
+		if (account.getPassword().equals(OldPassword)) {
+			// is password valid?
+			if (password.length() < 6) {
+				isAccountValid = false;
+				throw new IllegalArgumentException("Password must be at least 6 characters long.");
+			}
+			else {
+				Boolean upperCase = false;
+				Boolean hasDigit = false;
+				for (int i = 0; i < password.length(); i++) {
+					char b = password.charAt(i);
+					if (Character.isUpperCase(b)) {
+						upperCase = true;
+					} else if (Character.isDigit(b)) {
+						hasDigit = true;
+					}
 				}
-				else {
-					Boolean upperCase = false;
-					Boolean hasDigit = false;
-					for (int i = 0; i < password.length(); i++) {
-						char b = password.charAt(i);
-						if (Character.isUpperCase(b)) {
-							upperCase = true;
-						} else if (Character.isDigit(b)) {
-							hasDigit = true;
-						}
-					}
-					if (!upperCase || !hasDigit) {
-						isAccountValid = false;
-						throw new IllegalArgumentException("Password must contain at least one number and one upper case character.");
-					}
-					
+				if (!upperCase || !hasDigit) {
+					isAccountValid = false;
+					throw new IllegalArgumentException("Password must contain at least one number and one upper case character.");
 				}
 				
-				if(isAccountValid) {
-					a.setAccountHolderType(accountHolderType);
-					a.setProfile(Utils.toSet(profiles));
-					a.setPassword(password);
-					a.setAddress(address);
-					a.setDateOfBirth(dateOfBirth);
-					a.setRevenus(Utils.toSet(revenus));
-					a.setPaymentType(paymentType);
-					a.setAccountNumber("1");
-					accountRepository.save(a);
-					return Optional.ofNullable(a);
-				}
+			}
+			
+			if(isAccountValid) {
+				account.setAccountHolderType(accountHolderType);
+				account.setPassword(password);
+				account.setAddress(address);
+				account.setDateOfBirth(dateOfBirth);
+				account.setPaymentType(paymentType);
+				account.setAccountNumber("1");
+				accountRepository.save(account);
+				return Optional.ofNullable(account);
 			}
 		}
 		
 		return null;
+		
 	}
 	
 	@Transactional
