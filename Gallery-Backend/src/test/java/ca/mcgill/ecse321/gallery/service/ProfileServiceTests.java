@@ -100,6 +100,7 @@ public class ProfileServiceTests {
 		String picture = "pic";
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
+		account.setUsername("Eric");
 		accountRepository.save(account);
 		String fullname = "Haluk Calin";
 		ArrayList<Art> arts = new ArrayList<Art>();
@@ -118,6 +119,7 @@ public class ProfileServiceTests {
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
 		account.setUsername("Eric");
+		accountRepository.save(account);
 		ArrayList<Art> arts = new ArrayList<Art>();
 		
 		try {
@@ -148,6 +150,7 @@ public class ProfileServiceTests {
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
 		account.setUsername("Eric");
+		accountRepository.save(account);
 		ArrayList<Art> arts = new ArrayList<Art>();
 		
 		try {
@@ -177,6 +180,7 @@ public class ProfileServiceTests {
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
 		account.setUsername("Eric");
+		accountRepository.save(account);
 		ArrayList<Art> arts = new ArrayList<Art>();
 		
 		try {
@@ -209,6 +213,7 @@ public class ProfileServiceTests {
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
 		account.setUsername("Haluk");
+		accountRepository.save(account);
 		String fullname = "Haluk Calin";
 		ArrayList<Art> arts = new ArrayList<Art>();
 		
@@ -226,6 +231,7 @@ public class ProfileServiceTests {
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
 		account.setUsername("Eric");
+		accountRepository.save(account);
 		String fullname = "Haluk Calin";
 		ArrayList<Art> arts = new ArrayList<Art>();
 		
