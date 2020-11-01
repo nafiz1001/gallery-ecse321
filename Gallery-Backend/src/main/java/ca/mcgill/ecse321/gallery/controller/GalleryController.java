@@ -171,13 +171,8 @@ public class GalleryController {
 		throw new IllegalArgumentException("The password is incorrect!");
 	}
 	Set<Listing> listings = new HashSet<Listing>();
-	for(ListingDto l : pDto.getListingDtos()) {
-		listings.addAll(listingService.getAllListings());          
-	}
+	
 	Set<Art> arts = new HashSet<Art>();
-	for(ArtDto a : pDto.getArts()) {
-		arts.addAll(artService.getAllArt());          
-	}
 	
 	Optional<Profile> p = profileService.createProfile(pDto.getBio(), pDto.getPicture(), listings, acc, pDto.getFullname(), arts);
 	Profile profile = p.get();
