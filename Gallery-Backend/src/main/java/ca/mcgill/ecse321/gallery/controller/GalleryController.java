@@ -297,6 +297,9 @@ public class GalleryController {
 	@PostMapping(value = { "/art/create", "/art/create/" })
 	private ArtDto createArt(@RequestBody ArtDto aDto, @RequestParam(name = "password") String password) throws IllegalArgumentException {
 		Optional<Profile> profile = profileService.getProfile(aDto.getOwner().getId());
+		if (profile.isEmpty()) {
+			throw new IllegalArgumentException("There is no profile with id " + aDto.getOwner().getId());
+		}
 		Optional<Art> art = artService.createArt(
 				aDto.getName(), aDto.getDescription(), aDto.getHeight(), aDto.getWidth(), aDto.getDepth(), aDto.getImage(), aDto.getDate(), profile.get(), aDto.getType(), aDto.getAuthor()
 				);
