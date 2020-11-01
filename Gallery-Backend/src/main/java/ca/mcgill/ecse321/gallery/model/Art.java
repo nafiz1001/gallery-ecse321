@@ -101,14 +101,14 @@ this.depth = value;
 public String getDepth() {
 return this.depth;
     }
-private String id;
+private Long id;
 
-public void setId(String value) {
+public void setId(Long value) {
 this.id = value;
     }
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-public String getId() {
+public Long getId() {
 return this.id;
     }
 private String author;
@@ -119,4 +119,5 @@ this.author = value;
 public String getAuthor() {
 return this.author;
        }
+
    }

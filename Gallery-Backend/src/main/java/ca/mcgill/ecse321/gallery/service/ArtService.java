@@ -89,7 +89,7 @@ public class ArtService {
 	}
 
 	@Transactional
-	public Optional<Art> getArt(String id) {
+	public Optional<Art> getArt(Long id) {
 		return artRepository.findById(id);
 	}
 	
@@ -169,7 +169,7 @@ public class ArtService {
 	}
 	
 	@Transactional
-	public Optional<Art> getArtById(String id) {
+	public Optional<Art> getArtById(Long id) {
 		return artRepository.findById(id);
 	}
 }

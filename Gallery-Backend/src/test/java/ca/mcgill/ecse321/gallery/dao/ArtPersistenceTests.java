@@ -58,7 +58,7 @@ public class ArtPersistenceTests {
 		art1.setDepth("b");
 		art1.setDescription("c");
 		art1.setHeight(10);
-		art1.setId("1234");
+		art1.setId((long) 1234);
 		art1.setImage("d");
 		art1.setName("e");
 		art1.setType("f");
@@ -66,7 +66,7 @@ public class ArtPersistenceTests {
 		
 		artRepository.save(art1);
 		
-		Art art2 = artRepository.findArtById("1234");
+		Art art2 = artRepository.findArtById((long) 1234);
 		
 		assertNotNull(art2);
 		assertEquals(art1.getImage(), art2.getImage());
@@ -83,7 +83,7 @@ public class ArtPersistenceTests {
 		art1.setDepth("b");
 		art1.setDescription("c");
 		art1.setHeight(10);
-		art1.setId("1234");
+		art1.setId((long) 1234);
 		art1.setImage("d");
 		art1.setName("Vango");
 		art1.setType("f");

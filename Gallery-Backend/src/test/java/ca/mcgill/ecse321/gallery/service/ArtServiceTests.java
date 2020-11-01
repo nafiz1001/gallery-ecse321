@@ -37,14 +37,14 @@ public class ArtServiceTests {
 	@InjectMocks
 	ArtService artService;
 
-	private String id = "0";
+	private long id = 0;
 	private HashSet<Art> savedArt = new HashSet<>();
 	private HashSet<Profile> savedProfile = new HashSet<>();
 
 	@BeforeEach
 	public void setupMockup() {
 		// address id generator mock
-		id = "0";
+		id = 0;
 
 		// database mock
 		savedArt.clear();
@@ -55,9 +55,7 @@ public class ArtServiceTests {
 			Art art = (Art) invocation.getArgument(0);
 			art.setId(id);
 			savedArt.add(art);
-			int artIdAsNum = Integer.parseInt(id);
-			artIdAsNum++;
-			id = Integer.toString(artIdAsNum);
+			id++;
 			return art;
 		};
 
@@ -75,7 +73,7 @@ public class ArtServiceTests {
 		lenient().when(profileRepository.save(any(Profile.class))).thenAnswer(saveProfileAndReturn);
 
 		// simulate finding Art by Id
-		lenient().when(artRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(artRepository.findById(any())).thenAnswer((InvocationOnMock invocation) -> {
 			String id = ((String) invocation.getArgument(0));
 			for (Art art : savedArt) {
 				if (art.getId().equals(id))
@@ -174,7 +172,7 @@ public class ArtServiceTests {
 	
 	@Test
 	void testGetArtById() {
-		assertTrue(artService.getArtById("0").isEmpty());
+		assertTrue(artService.getArtById((long)0).isEmpty());
 		
 		String title = "McGill";
 		String description = "A painting of McGill";
@@ -190,12 +188,12 @@ public class ArtServiceTests {
 		Optional<Art> art = artService.createArt(title, description, height, width, depth, image, creationDate,
 				publisher, type, author);
 		
-		assertTrue(artService.getArtById("0").isPresent());
+		assertTrue(artService.getArtById((long)0).isPresent());
 	}
 	
 	@Test
 	void testGetArt() {		
-		assertTrue(artService.getArt("0").isEmpty());
+		assertTrue(artService.getArt((long)0).isEmpty());
 		String title = "McGill";
 		String description = "A painting of McGill";
 		double height = 10.0;
@@ -210,6 +208,6 @@ public class ArtServiceTests {
 		Optional<Art> art = artService.createArt(title, description, height, width, depth, image, creationDate,
 				publisher, type, author);
 		
-		assertTrue(artService.getArt("0").isPresent());
+		assertTrue(artService.getArt((long)0).isPresent());
 	}
 }

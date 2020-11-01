@@ -112,13 +112,13 @@ public class ArtDto {
 		return this.depth;
 	}
 
-	private String id;
+	private Long id;
 
-	public void setId(String value) {
+	public void setId(Long value) {
 		this.id = value;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
