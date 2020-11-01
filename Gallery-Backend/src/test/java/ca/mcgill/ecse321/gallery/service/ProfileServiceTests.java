@@ -100,6 +100,7 @@ public class ProfileServiceTests {
 		String picture = "pic";
 		ArrayList<Listing> listings = new ArrayList<Listing>();
 		Account account = new Account();
+		accountRepository.save(account);
 		String fullname = "Haluk Calin";
 		ArrayList<Art> arts = new ArrayList<Art>();
 
