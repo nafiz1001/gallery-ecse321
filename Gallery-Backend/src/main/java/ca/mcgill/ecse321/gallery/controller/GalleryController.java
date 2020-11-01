@@ -80,8 +80,7 @@ public class GalleryController {
 	private RevenuService revenuService;
 
 	@PostMapping(value = { "/account/create", "/account/create/" })
-	private AccountDto createAccount(@RequestParam(name = "account") AccountDto aDto) {
-		Optional<Identity> identity = identityService.findIdentityByEmail(aDto.getIdentity().getEmail());
+	private AccountDto createAccount(@RequestBody AccountDto aDto) {
 
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (ProfileDto p : aDto.getProfile()) {
@@ -103,7 +102,7 @@ public class GalleryController {
 	}
 
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
-	private AccountDto editAccount(@RequestParam(name = "account") AccountDto aDto,
+	private AccountDto editAccount(@RequestBody AccountDto aDto,
 			@RequestParam(name = "password") String password) {
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (ProfileDto p : aDto.getProfile()) {
@@ -137,8 +136,7 @@ public class GalleryController {
 
 
 	@PostMapping(value = { "/profile/edit", "/profile/edit/" })
-	private ProfileDto editProfile(@RequestParam(name = "profile") ProfileDto pDto,
-			@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+	private ProfileDto editProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
 		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getAccountNumber());
 		
 		Set<Listing> listings = new HashSet<Listing>();
@@ -160,7 +158,7 @@ public class GalleryController {
 	}
 	
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
-	private ProfileDto createProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) 
+	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) 
 	{
 	Optional<Account> account = accountService.getAccountById(username);
 	if (account.isEmpty())
@@ -241,7 +239,7 @@ public class GalleryController {
 	}
 
 	@PostMapping(value = { "/listing/create", "/listing/create/" })
-	private ListingDto createListing(@RequestParam(name = "listing") ListingDto lDto) throws IllegalArgumentException {
+	private ListingDto createListing(@RequestBody ListingDto lDto, @RequestParam(name = "password") String password) throws IllegalArgumentException {
 
 		Optional<Art> art = artService.getArtById(lDto.getArt().getId());
 
@@ -253,7 +251,7 @@ public class GalleryController {
 	}
 
 	@PostMapping(value = { "/listing/edit", "/listing/edit/" })
-	private ListingDto editListing(@RequestParam(name = "listing") ListingDto lDto) {
+	private ListingDto editListing(@RequestBody ListingDto lDto, @RequestParam(name = "password") String password) {
 
 		Optional<Art> art = artService.getArtById(lDto.getArt().getId());
 
@@ -263,7 +261,7 @@ public class GalleryController {
 		return convertToDto(listing);
 	}
 
-	@GetMapping(value = { "/gallery/view", "/gallery/view" })
+	@GetMapping(value = { "/gallery/view", "/gallery/view/" })
 	private GalleryDto aboutUs() {
 		Optional<Gallery> gallery = galleryService.getGallery("Gallery");
 		if (gallery.isEmpty()) {
@@ -284,7 +282,7 @@ public class GalleryController {
 	}
 
 	@PostMapping(value = { "/art/create", "/art/create/" })
-	private ArtDto createArt(@RequestParam(name = "art") ArtDto aDto) throws IllegalArgumentException {
+	private ArtDto createArt(@RequestBody ArtDto aDto, @RequestParam(name = "password") String password) throws IllegalArgumentException {
 		Optional<Profile> profile = profileService.getProfile(aDto.getOwner().getId());
 		Optional<Art> art = artService.createArt(
 				aDto.getName(), aDto.getDescription(), aDto.getHeight(), aDto.getWidth(), aDto.getDepth(), aDto.getImage(), aDto.getDate(), profile.get(), aDto.getType(), aDto.getAuthor()
