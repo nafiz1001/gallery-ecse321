@@ -54,15 +54,11 @@ public class ProfileService {
 		}
 		if (fullname == null || fullname.trim().length() == 0) {
 			throw new IllegalArgumentException("Full Name cannot be empty!");
-		} 				
-		
-		//is profile already associated with account ?
-		
-		if (!(account.getProfile() == null)) {
-			
-			throw new IllegalArgumentException("This profile is already associated with an account");
-			
 		}
+		
+		
+		if (profileRepository.findById(account.getUsername() + ":" + fullname).isPresent())
+			throw new IllegalArgumentException("Profile with fullname " + fullname + " already created");
 		
 		Profile profile = new Profile();
 
@@ -72,6 +68,7 @@ public class ProfileService {
 		profile.setAccount(account);
 		profile.setFullname(fullname);
 		profile.setArts(Utils.toSet(arts));
+		profile.setId(account.getUsername() + ":" + fullname);
 
 		profileRepository.save(profile);
 
@@ -83,34 +80,32 @@ public class ProfileService {
 	public Optional<Profile> editProfile(String bio, String picture, Iterable<Listing> listings, Account account,
 			String fullname, Iterable<Art> arts) {
 		
-		// Does profile to edit include the account linked to that profile?
-		List<Profile> allProfiles = getAllProfiles();
-		for (Profile profile : allProfiles) {
-			if (profile.getAccount().equals(account)) {
-
-				if (bio == null || bio.trim().length() == 0) {
-					throw new IllegalArgumentException("Bio cannot be empty!");
-				}
-				if (picture == null || picture.trim().length() == 0) {
-					throw new IllegalArgumentException("Picture cannot be empty!");
-				}
-				if (fullname == null || fullname.trim().length() == 0) {
-					throw new IllegalArgumentException("Full Name cannot be empty!");
-				} // add something for account?
-
-				profile.setBio(bio);
-				profile.setPicture(picture);
-				profile.setListings(Utils.toSet(listings));
-				profile.setAccount(account);
-				profile.setFullname(fullname);
-				profile.setArts(Utils.toSet(arts));
-
-				profileRepository.save(profile);
-
-				return Optional.ofNullable(profile);
-			}
+		if (bio == null || bio.trim().length() == 0) {
+			throw new IllegalArgumentException("Bio cannot be empty!");
 		}
-		return null;
+		if (picture == null || picture.trim().length() == 0) {
+			throw new IllegalArgumentException("Picture cannot be empty!");
+		}
+		if (fullname == null || fullname.trim().length() == 0) {
+			throw new IllegalArgumentException("Full Name cannot be empty!");
+		} // add something for account?
+		
+		Optional<Profile> profile = profileRepository.findById(account.getUsername() + ":" + fullname);
+		
+		if (profile.isPresent()) {
+			profile.get().setBio(bio);
+			profile.get().setPicture(picture);
+			profile.get().setListings(Utils.toSet(listings));
+			profile.get().setAccount(account);
+			//profile.setFullname(fullname);
+			profile.get().setArts(Utils.toSet(arts));
+			profile.get().setId(account.getUsername() + ":" + fullname);
+	
+			profileRepository.save(profile.get());
+			return profile;
+		} else {
+			throw new IllegalArgumentException("Profile with fullname " + fullname + " does not exist");
+		}
 	}
 
 	@Transactional
