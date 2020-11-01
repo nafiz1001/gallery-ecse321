@@ -53,11 +53,14 @@ public class ArtService {
 			isArtValid = false;
 		}
 
-		// is depth a positive number?
+		// is depth negative?
 		if (depth < 0) {
 			isArtValid = false;
 		}
-		// is creation date before current day
+		// is title empty or null?
+		if (title == null || title.trim().length() == 0) {
+			isArtValid = false;
+		}
 		
 		// if Art is valid
 		if (isArtValid) {
@@ -130,20 +133,6 @@ public class ArtService {
 		}
 		return byType;
 	}
-	
-//	@Transactional
-//	public List<Art> findArtByTitle(String title) {
-//
-//		List<Art> allArt = getAllArt();
-//		List<Art> byTitle = new ArrayList<Art>();
-//
-//		for (Art art : allArt) {
-//			if (art.getName().equals(title)) {
-//				byTitle.add(art);
-//			}
-//		}
-//		return byTitle;
-//	}
 	
 	@Transactional
 	public List<Art> findArtByDate(Date creationDate) {
