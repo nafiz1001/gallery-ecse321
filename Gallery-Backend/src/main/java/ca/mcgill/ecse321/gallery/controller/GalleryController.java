@@ -193,24 +193,33 @@ public class GalleryController {
 	}
 
 	@PostMapping(value = { "/pay", "/pay/" })
-	private PaymentDto pay(@RequestParam(name = "payment") PaymentDto pDto) {
-		List<Listing> listings = listingService.getAllListings();
+	private PaymentDto pay(@RequestBody PaymentDto pDto) throws Exception {
 		ArrayList<Listing> relevantListings = new ArrayList<>();
-
-		for (Listing l : listings) {
 			for (ListingDto lDto : pDto.getListing()) {
-				if (l.equals(lDto.getId()))
-					relevantListings.add(l);
+			Optional<Listing> l = listingService.findListingById(lDto.getId());
+			if (l.isPresent())
+				relevantListings.add(l.get());
 			}
-		}
 
-		Optional<Identity> relevantIdentity = identityService.findIdentityByEmail(pDto.getIdentity().getEmail());
+		Optional<Identity> relevantIdentity = Optional.empty();
+		if (pDto.getIdentity() != null)
+			relevantIdentity = identityService.findIdentityByEmail(pDto.getIdentity().getEmail());
 
-		Optional<Address> relevantAddress = addressService.getAddressById(pDto.getAddress().getId());
+
+		Optional<Address> relevantAddress = Optional.empty(); 
+		if (pDto.getAddress() != null)
+			relevantAddress = addressService.getAddressById(pDto.getAddress().getId());
 
 		Optional<Payment> payment = paymentService.pay(pDto.getDeliveryType(), pDto.getPaymentType(), relevantIdentity,
 				relevantListings, relevantAddress);
 
+		if (payment.isPresent()) {
+		for (Listing l : payment.get().getListing()) {
+			Optional<Revenu> revenu = revenuService.createRevenu(10, l.getPrice(), l.getPublisher().getAccount(), l);
+			if (revenu.isEmpty())
+				throw new Exception("Failed to generate revenu for listing " + l.getId());
+			}
+		}
 		return convertToDto(payment);
 	}
 
@@ -288,6 +297,9 @@ public class GalleryController {
 	@PostMapping(value = { "/art/create", "/art/create/" })
 	private ArtDto createArt(@RequestBody ArtDto aDto, @RequestParam(name = "password") String password) throws IllegalArgumentException {
 		Optional<Profile> profile = profileService.getProfile(aDto.getOwner().getId());
+		if (profile.isEmpty()) {
+			throw new IllegalArgumentException("There is no profile with id " + aDto.getOwner().getId());
+		}
 		Optional<Art> art = artService.createArt(
 				aDto.getName(), aDto.getDescription(), aDto.getHeight(), aDto.getWidth(), aDto.getDepth(), aDto.getImage(), aDto.getDate(), profile.get(), aDto.getType(), aDto.getAuthor()
 				);
@@ -297,7 +309,7 @@ public class GalleryController {
 
 	private PaymentDto convertToDto(Optional<Payment> payment) {
 		if (payment.isEmpty()) {
-			throw new IllegalArgumentException("There is no such Payment!");
+			return null;
 		}
 		Payment p = payment.get();
 		PaymentDto paymentDto = new PaymentDto();
@@ -318,7 +330,7 @@ public class GalleryController {
 
 	private AddressDto convertToDto(Address a) {
 		if (a == null) {
-			throw new IllegalArgumentException("There is no such Address!");
+			return null;
 		}
 		AddressDto addressDto = new AddressDto();
 		addressDto.setCity(a.getCity());
@@ -332,7 +344,7 @@ public class GalleryController {
 
 	private AccountDto convertToDto(Account a) {
 		if (a == null) {
-			throw new IllegalArgumentException("There is no such Account!");
+			return null;
 		}
 		AccountDto accountDto = new AccountDto();
 		accountDto.setAccountHolderType(a.getAccountHolderType());
@@ -346,14 +358,11 @@ public class GalleryController {
 		Set<ProfileDto> profilesDto = new HashSet<ProfileDto>();
 		for (Profile p : a.getProfile()) {
 			ProfileDto pDto = new ProfileDto();
-			pDto.setFullname(p.getFullname());
+			pDto.setId(p.getId());
 			profilesDto.add(pDto);
 		}
 		accountDto.setProfile(profilesDto);
 		Set<RevenuDto> revenusDto = new HashSet<RevenuDto>();
-		for (Revenu r : a.getRevenus()) {
-			revenusDto.add(convertToDto(r));
-		}
 		accountDto.setRevenus(revenusDto);
 		accountDto.setUsername(a.getUsername());
 		return accountDto;
@@ -361,7 +370,7 @@ public class GalleryController {
 
 	private ArtDto convertToDto(Art a) {
 		if (a == null) {
-			throw new IllegalArgumentException("There is no such Art!");
+			return null;
 		}
 		ArtDto artDto = new ArtDto();
 		artDto.setAuthor(a.getAuthor());
@@ -371,9 +380,16 @@ public class GalleryController {
 		artDto.setHeight(a.getHeight());
 		artDto.setId(a.getId());
 		artDto.setImage(a.getImage());
-		artDto.setListing(convertToDto(a.getListing()));
+		ListingDto lDto = null;
+		if (a.getListing() != null) {
+			lDto = new ListingDto();
+			lDto.setId(a.getListing().getId());
+		}
+		artDto.setListing(lDto);
 		artDto.setName(a.getName());
-		artDto.setOwner(convertToDto(a.getOwner()));
+		ProfileDto pDto = new ProfileDto();
+		pDto.setId(a.getOwner().getId());
+		artDto.setOwner(pDto);
 		artDto.setType(a.getType());
 		artDto.setWidth(a.getWidth());
 		return artDto;
@@ -382,7 +398,7 @@ public class GalleryController {
 
 	private GalleryDto convertToDto(Gallery g) {
 		if (g == null) {
-			throw new IllegalArgumentException("There is no such Gallery!");
+			return null;
 		}
 		GalleryDto galleryDto = new GalleryDto();
 		galleryDto.setAddress(convertToDto(g.getAddress()));
@@ -397,7 +413,7 @@ public class GalleryController {
 
 	private IdentityDto convertToDto(Identity i) {
 		if (i == null) {
-			throw new IllegalArgumentException("There is no such Identity!");
+			return null;
 		}
 		IdentityDto identityDto = new IdentityDto();
 		identityDto.setAccount(null);
@@ -407,7 +423,7 @@ public class GalleryController {
 
 	private ListingDto convertToDto(Listing l) {
 		if (l == null) {
-			throw new IllegalArgumentException("There is no such Identity!");
+			return null;
 		}
 		ListingDto listingDto = new ListingDto();
 		listingDto.setArt(convertToDto(l.getArt()));
@@ -416,7 +432,9 @@ public class GalleryController {
 		listingDto.setDatePublished(l.getDatePublished());
 		listingDto.setId(l.getId());
 		listingDto.setPrice(l.getPrice());
-		listingDto.setPublisher(convertToDto(l.getPublisher()));
+		ProfileDto pDto = new ProfileDto();
+		pDto.setId(l.getPublisher().getId());
+		listingDto.setPublisher(pDto);
 		listingDto.setQuantity(l.getQuantity());
 		listingDto.setTags(l.getTags());
 		return listingDto;
@@ -424,10 +442,12 @@ public class GalleryController {
 
 	private ProfileDto convertToDto(Profile p) {
 		if (p == null) {
-			throw new IllegalArgumentException("There is no such Profile!");
+			return null;
 		}
 		ProfileDto profileDto = new ProfileDto();
-		profileDto.setAccountDto(convertToDto(p.getAccount()));
+		AccountDto aDto = new AccountDto();
+		aDto.setUsername(p.getAccount().getUsername());
+		profileDto.setAccountDto(aDto);
 		Set<ArtDto> artsDto = new HashSet<ArtDto>();
 		for (Art a : p.getArts()) {
 			artsDto.add(convertToDto(a));
@@ -438,7 +458,9 @@ public class GalleryController {
 		profileDto.setId(p.getId());
 		Set<ListingDto> listingsDto = new HashSet<ListingDto>();
 		for (Listing l : p.getListings()) {
-			listingsDto.add(convertToDto(l));
+			ListingDto lDto = new ListingDto();
+			lDto.setId(l.getId());
+			listingsDto.add(lDto);
 		}
 		profileDto.setListingDtos(listingsDto);
 		profileDto.setPicture(p.getPicture());
@@ -447,10 +469,12 @@ public class GalleryController {
 
 	private RevenuDto convertToDto(Revenu r) {
 		if (r == null) {
-			throw new IllegalArgumentException("There is no such Revenu!");
+			return null;
 		}
 		RevenuDto revenuDto = new RevenuDto();
-		revenuDto.setAccount(convertToDto(r.getAccount()));
+		AccountDto aDto = new AccountDto();
+		aDto.setUsername(aDto.getUsername());
+		revenuDto.setAccount(aDto);
 		revenuDto.setComission(r.getComission());
 		revenuDto.setId(r.getId());
 		revenuDto.setListing(convertToDto(r.getListing()));
