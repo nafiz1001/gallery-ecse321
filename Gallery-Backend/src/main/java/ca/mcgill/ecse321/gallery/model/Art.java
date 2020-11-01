@@ -93,12 +93,12 @@ this.type = value;
 public String getType() {
 return this.type;
     }
-private String depth;
+private double depth;
 
-public void setDepth(String value) {
+public void setDepth(double value) {
 this.depth = value;
     }
-public String getDepth() {
+public double getDepth() {
 return this.depth;
     }
 private Long id;

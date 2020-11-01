@@ -29,7 +29,7 @@ public class ArtService {
 	ArtRepository artRepository;
 
 	@Transactional
-	public Optional<Art> createArt(String title, String description, double height, double width, String depth,
+	public Optional<Art> createArt(String title, String description, double height, double width, double depth,
 			String image, Date creationDate, Profile publisher, String type, String author) {
 		boolean isArtValid = true;
 		Art validArt = null;
@@ -54,16 +54,7 @@ public class ArtService {
 		}
 
 		// is depth a positive number?
-		int numDots = 0;
-		for (int i = 0; i < depth.length(); i++) {
-			if (Character.isDigit(depth.charAt(i)) == false) {
-				if (depth.charAt(i) != '.') {
-					isArtValid = false;
-				}
-				numDots++;
-			}
-		}
-		if (numDots > 1) {
+		if (depth < 0) {
 			isArtValid = false;
 		}
 		// is creation date before current day
@@ -83,7 +74,7 @@ public class ArtService {
 			validArt.setWidth(width);
 			validArt.setOwner(publisher);
 
-			artRepository.save(validArt);
+			validArt = artRepository.save(validArt);
 		}
 		return Optional.ofNullable(validArt);
 	}

@@ -55,7 +55,7 @@ public class ArtPersistenceTests {
 		Art art1 = new Art();
 		art1.setAuthor("a");
 		art1.setDate(null);
-		art1.setDepth("b");
+		art1.setDepth(10);
 		art1.setDescription("c");
 		art1.setHeight(10);
 		art1.setId((long) 1234);
@@ -80,7 +80,7 @@ public class ArtPersistenceTests {
 		Art art1 = new Art();
 		art1.setAuthor("a");
 		art1.setDate(null);
-		art1.setDepth("b");
+		art1.setDepth(10);
 		art1.setDescription("c");
 		art1.setHeight(10);
 		art1.setId((long) 1234);
