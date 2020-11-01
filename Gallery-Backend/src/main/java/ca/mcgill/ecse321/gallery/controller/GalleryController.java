@@ -193,24 +193,33 @@ public class GalleryController {
 	}
 
 	@PostMapping(value = { "/pay", "/pay/" })
-	private PaymentDto pay(@RequestParam(name = "payment") PaymentDto pDto) {
-		List<Listing> listings = listingService.getAllListings();
+	private PaymentDto pay(@RequestBody PaymentDto pDto) throws Exception {
 		ArrayList<Listing> relevantListings = new ArrayList<>();
-
-		for (Listing l : listings) {
 			for (ListingDto lDto : pDto.getListing()) {
-				if (l.equals(lDto.getId()))
-					relevantListings.add(l);
+			Optional<Listing> l = listingService.findListingById(lDto.getId());
+			if (l.isPresent())
+				relevantListings.add(l.get());
 			}
-		}
 
-		Optional<Identity> relevantIdentity = identityService.findIdentityByEmail(pDto.getIdentity().getEmail());
+		Optional<Identity> relevantIdentity = Optional.empty();
+		if (pDto.getIdentity() != null)
+			relevantIdentity = identityService.findIdentityByEmail(pDto.getIdentity().getEmail());
 
-		Optional<Address> relevantAddress = addressService.getAddressById(pDto.getAddress().getId());
+
+		Optional<Address> relevantAddress = Optional.empty(); 
+		if (pDto.getAddress() != null)
+			relevantAddress = addressService.getAddressById(pDto.getAddress().getId());
 
 		Optional<Payment> payment = paymentService.pay(pDto.getDeliveryType(), pDto.getPaymentType(), relevantIdentity,
 				relevantListings, relevantAddress);
 
+		if (payment.isPresent()) {
+		for (Listing l : payment.get().getListing()) {
+			Optional<Revenu> revenu = revenuService.createRevenu(10, l.getPrice(), l.getPublisher().getAccount(), l);
+			if (revenu.isEmpty())
+				throw new Exception("Failed to generate revenu for listing " + l.getId());
+			}
+		}
 		return convertToDto(payment);
 	}
 
