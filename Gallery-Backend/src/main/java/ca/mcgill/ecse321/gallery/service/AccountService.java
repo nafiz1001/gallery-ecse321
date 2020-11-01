@@ -31,10 +31,10 @@ public class AccountService {
 	IdentityService identityService = new IdentityService();
 	
 	@Transactional
-	public Optional<Account> createAccount(String accountHolderType, String Email, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
+	public Optional<Account> createAccount(String accountHolderType, Identity identity, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
 		Account account = null;
 		Boolean isAccountValid = true;
-		Identity identity = null;
+		Optional<Identity> identityFound = null;
 		
 		// is username and identity unique?
 		List<Account> accounts = getAllAccounts();
@@ -43,18 +43,11 @@ public class AccountService {
 				isAccountValid = false;
 				throw new IllegalArgumentException("Username already taken.");
 			}
-			if (a.getIdentity().getEmail().equals(Email)) {
+			if (a.getIdentity().equals(identity)) {
 				isAccountValid = false;
 				throw new IllegalArgumentException("An account is already created for this Identity");
 			}
 		}
-		
-		if (identityService.findIdentityByEmail(Email).isEmpty()) {
-			identity = identityService.createIdentity(Email).get();
-		} else {
-			identity = identityService.findIdentityByEmail(Email).get(); 
-		}
-		
 		
 		// is password valid?
 		if (password.length() < 6) {
@@ -179,6 +172,5 @@ public class AccountService {
 		return accountRepository.findById(id);
 	}
 	
-
 	
 }

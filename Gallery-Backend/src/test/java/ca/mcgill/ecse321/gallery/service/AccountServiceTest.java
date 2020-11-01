@@ -221,7 +221,7 @@ public class AccountServiceTest {
 		ArrayList<Revenu> revenus = new ArrayList<Revenu>();
 		Optional<Account> account = accountService.createAccount("Artist", identity, profiles, "peller1", "Mcgill13", date, address, dateOfBirth, revenus, "MasterCard");
 		
-		Optional<Account> accountEdit = accountService.editAccount("Arist", profiles, "peller1", "Mcgill1234", address, dateOfBirth, revenus, "MasterCard", "Mcgill13");
+		Optional<Account> accountEdit = accountService.editAccount("Arist", "peller1", "Mcgill1234", address, dateOfBirth, "MasterCard", "Mcgill13");
 		
 		assertEquals("Mcgill1234", accountService.getAccountByUsername("peller1").get(0).getPassword());
 		
