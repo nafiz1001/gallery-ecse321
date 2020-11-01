@@ -475,7 +475,9 @@ public class GalleryController {
 			throw new IllegalArgumentException("There is no such Revenu!");
 		}
 		RevenuDto revenuDto = new RevenuDto();
-		revenuDto.setAccount(convertToDto(r.getAccount()));
+		AccountDto aDto = new AccountDto();
+		aDto.setUsername(aDto.getUsername());
+		revenuDto.setAccount(aDto);
 		revenuDto.setComission(r.getComission());
 		revenuDto.setId(r.getId());
 		revenuDto.setListing(convertToDto(r.getListing()));
