@@ -151,17 +151,11 @@ public class GalleryController {
 
 	@PostMapping(value = { "/profile/edit", "/profile/edit/" })
 	private ProfileDto editProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
-		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getAccountNumber());
+		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
 		
 		Set<Listing> listings = new HashSet<Listing>();
-		for (ListingDto l : pDto.getListingDtos()) {
-			listings.add(listingService.findListingById(l.getId()).get());
-		}
 		
 		Set<Art> arts = new HashSet<Art>();
-		for (ArtDto a : pDto.getArts()) {
-			arts.add(artService.getArtById(a.getId()).get());
-		}
 
 		if (password.equals(account.get().getPassword())) {
 			Profile profile = profileService.editProfile(pDto.getBio(), pDto.getPicture(), listings, account.get(), pDto.getFullname(), arts).get();
@@ -172,8 +166,7 @@ public class GalleryController {
 	}
 	
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
-	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) 
-	{
+	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
 	Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
 	if (account.isEmpty())
 		throw new IllegalArgumentException("There is no such Account!");
