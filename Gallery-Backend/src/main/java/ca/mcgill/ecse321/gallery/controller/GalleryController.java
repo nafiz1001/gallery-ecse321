@@ -117,7 +117,7 @@ public class GalleryController {
 		}
 
 		Account account = accountService.editAccount(aDto.getAccountHolderType(), profiles, aDto.getUsername(),
-				aDto.getUsername(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType(), password)
+				aDto.getPassword(), address.get(), aDto.getDateOfBirth(), revenus, aDto.getPaymentType(), password)
 				.get();
 
 		return convertToDto(account);
