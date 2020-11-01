@@ -150,10 +150,13 @@ public class GalleryController {
 			arts.add(artService.getArtById(a.getId()).get());
 		}
 
-		Profile profile = profileService.editProfile(pDto.getBio(), pDto.getPicture(), listings, account.get(), pDto.getFullname(), arts).get();
-
-		return convertToDto(profile);
-			}
+		if (password.equals(account.get().getPassword())) {
+			Profile profile = profileService.editProfile(pDto.getBio(), pDto.getPicture(), listings, account.get(), pDto.getFullname(), arts).get();
+			return convertToDto(profile);
+		} else {
+			throw new IllegalArgumentException("Password entered is incorrect");
+		}
+	}
 	
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
 	private ProfileDto createProfile(@RequestParam(name = "profile") ProfileDto pDto, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) 
