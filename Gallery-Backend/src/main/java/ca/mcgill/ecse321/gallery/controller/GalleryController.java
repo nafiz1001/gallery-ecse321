@@ -92,21 +92,38 @@ public class GalleryController {
 
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestBody AccountDto aDto) {
-		
+		IdentityDto email = aDto.getIdentity();
+		Optional<Identity> identity = identityService.findIdentityByEmail(aDto.getIdentity().getEmail());
+
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (ProfileDto p : aDto.getProfile()) {
-			profiles.add(profileService.getProfile(p.getId()).get());
+			Optional<Profile> profile = profileService.getProfile(p.getId());
+			
+			if (profile.isEmpty())
+				throw new IllegalArgumentException("There is no such Profile with id " + p.getId());
+			
+			profiles.add(profile.get());
 		}
-
-		Optional<Address> address = addressService.getAddressById(aDto.getAddress().getId());
 
 		Set<Revenu> revenus = new HashSet<Revenu>();
 		for (RevenuDto r : aDto.getRevenus()) {
 			revenus.add(revenuService.getRevenu(r.getId()).get());
 		}
 
+		Address address = null;
+		if (aDto.getAddress() != null) {
+			Optional<Address> optionalAddress = addressService.getAddressById(aDto.getAddress().getPostalCode() + aDto.getAddress().getStreetNumber());
+		
+			if (optionalAddress.isEmpty())
+				optionalAddress = addressService.createAddress(
+						aDto.getAddress().getStreetNumber(), aDto.getAddress().getStreet(), aDto.getAddress().getCity(), 
+						aDto.getAddress().getProvince(), aDto.getAddress().getPostalCode());
+			
+			address = optionalAddress.get();
+		}
+		
 		Account account = accountService.createAccount(aDto.getAccountHolderType(), identity.get(), profiles,
-				aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address.get(), aDto.getDateOfBirth(),
+				aDto.getUsername(), aDto.getPassword(), aDto.getDateJoined(), address, aDto.getDateOfBirth(),
 				revenus, aDto.getPaymentType()).get();
 
 		return convertToDto(account);
