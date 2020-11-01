@@ -109,8 +109,8 @@ public class ListingService {
 	}
 
 	@Transactional
-	public Optional<Listing> findListingById(String id) {
-		return listingRepository.findById(id);
+	public Optional<Listing> findListingById(long l) {
+		return listingRepository.findById(l);
 	}
 
 	@Transactional

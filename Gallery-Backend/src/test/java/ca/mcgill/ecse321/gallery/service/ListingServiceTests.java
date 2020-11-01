@@ -40,7 +40,7 @@ public class ListingServiceTests {
 	ListingService listingService;
 	
 	
-	private String id = "0";
+	private long id = 0;
 	private HashSet<Listing> savedListings= new HashSet<>();
 	private HashSet<Art> savedArts= new HashSet<>();
 	
@@ -48,7 +48,7 @@ public class ListingServiceTests {
 	@BeforeEach
 	public void setupMockup() {
 		
-		id = "0";
+		id = 0;
 		savedListings.clear();
 		savedArts.clear();
 		
@@ -57,9 +57,7 @@ public class ListingServiceTests {
 			Listing listing = (Listing)invocation.getArgument(0);
 			listing.setId(id);
 			savedListings.add(listing);
-			int listingIdAsNum = Integer.parseInt(id);
-			listingIdAsNum++;
-			id = Integer.toString(listingIdAsNum);
+			id++;
 			return listing;
 		};
 		
@@ -82,11 +80,11 @@ public class ListingServiceTests {
 		});
 		
 		//sim find listing by id
-		lenient().when(listingRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation)-> {
+		lenient().when(listingRepository.findById(any())).thenAnswer((InvocationOnMock invocation)-> {
 			
-			String id = ((String)invocation.getArgument(0));
+			long id = ((long)invocation.getArgument(0));
 			for (Listing l: savedListings) {
-				if (l.getId().equals(id))
+				if (l.getId() == (id))
 					return Optional.ofNullable(l);
 							
 			}
@@ -242,7 +240,7 @@ public class ListingServiceTests {
 		Art art = new Art();
 		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
 		
-		assertTrue(listingService.findListingById("0").isPresent());
+		assertTrue(listingService.findListingById((long)0).isPresent());
 		
 	}
 	

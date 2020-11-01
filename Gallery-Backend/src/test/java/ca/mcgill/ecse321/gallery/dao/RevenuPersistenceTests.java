@@ -60,11 +60,11 @@ public class RevenuPersistenceTests {
 		revenu1.setListingPrice(2);
 		//revenu1.setAccount(account1);
 		//revenu1.setListing(listing1);
-		revenu1.setId("d");
+		revenu1.setId((long)1);
 		
 		revenuRepository.save(revenu1);
 		
-		Revenu revenu2 = revenuRepository.findRevenuById("d");
+		Revenu revenu2 = revenuRepository.findRevenuById((long)0);
 		
 		assertNotNull(revenu2);
 		assertEquals(revenu1.getComission(), revenu2.getComission());
@@ -79,7 +79,7 @@ public class RevenuPersistenceTests {
 		revenu1.setListingPrice(2);
 		//revenu1.setAccount(account1);
 		//revenu1.setListing(listing1);
-		revenu1.setId("d");
+		revenu1.setId((long)0);
 		
 		revenu1 = revenuRepository.save(revenu1);
 		

@@ -43,38 +43,41 @@ public class RevenuService {
 	AccountRepository accountRepository;
 	
 	@Transactional
-	public Optional<Revenu> createRevenu(int comission, int listingPrice, Account account, Listing listing) {
-		//boolean isRevenuValid = true;
-		//Revenu validRevenu = null;
-
-		//What are some limitations?
+	public Optional<Revenu> createRevenu(int commission, int listingPrice, Account account, Listing listing) {
+		boolean isRevenuValid = true;
+		
+		// is listingPrice < 0?
+		if (listingPrice < 0) {
+			isRevenuValid = false;
+			throw new IllegalArgumentException("Listing Price cannot be negative");
+		} 
+		
+		// is commission < 0?
+		if (commission < 0) {
+			isRevenuValid = false;
+			throw new IllegalArgumentException("Commission cannot be negative");
+		}
 		
 		Revenu revenu = new Revenu();
-		
-		revenu.setComission(comission);
+		revenu.setComission(commission);
 		revenu.setListingPrice(listingPrice);
 		revenu.setAccount(account);
 		revenu.setListing(listing);
 		
-		revenuRepository.save(revenu);
-		
-	
+		revenu = revenuRepository.save(revenu);
 		
 		return Optional.ofNullable(revenu);
 
-		
-		
 	}
 	
 	@Transactional
-	public Optional<Revenu> getRevenu(String id) {
+	public Optional<Revenu> getRevenu(long id) {
 		return revenuRepository.findById(id);
 	}
 	
 	@Transactional
-	public List<Revenu> getAllRevenu(String id) {
-		List<Revenu> revenu = (List<Revenu>) revenuRepository.findAll();
-		return revenu;
+	public List<Revenu> getAllRevenu() {
+		return Utils.toList(revenuRepository.findAll());
 	}
 
 }
