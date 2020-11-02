@@ -1,3 +1,7 @@
+/**
+ * @author Thomas Alarcon
+ * 
+ */
 package ca.mcgill.ecse321.gallery.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -79,6 +83,9 @@ public class GalleryServiceTests {
 		});
 	}
 
+	/**
+	 * Tests to see if a Gallery can be created using createGallery method
+	 */
 	@Test
 	void testSuccesfullGallery() {
 		String name = "McGill";
@@ -96,6 +103,9 @@ public class GalleryServiceTests {
 		assertTrue(gallery.isPresent());
 	}
 
+	/**
+	 * Tests to see if a Gallery is not created using given an invalid phone number
+	 */
 	@Test
 	void testPhoneNumberViolations() {
 		// phoneNumber length is too long
@@ -121,6 +131,9 @@ public class GalleryServiceTests {
 		assertTrue(gallery2.isEmpty());
 	}
 
+	/**
+	 * Tests to see if a Gallery is not created using given a timing violation
+	 */
 	@Test
 	void testTimingViolations() {
 		// opening time happens after closing time
@@ -146,6 +159,9 @@ public class GalleryServiceTests {
 		assertTrue(gallery2.isEmpty());
 	}
 
+	/**
+	 * Tests to see if a Gallery is not created using given an invalid email
+	 */
 	@Test
 	void testEmailViolations() {
 		// email has more than one period
@@ -195,6 +211,9 @@ public class GalleryServiceTests {
 		assertTrue(gallery5.isEmpty());
 	}
 
+	/**
+	 * Tests to see if a Gallery is not created using given an invalid commission percentage
+	 */
 	@Test
 	void testCommissionPercentageViolations() {
 		// commissionPercentage >= 100
@@ -220,6 +239,9 @@ public class GalleryServiceTests {
 		assertTrue(gallery2.isEmpty());
 	}
 
+	/**
+	 * Tests to see if a Gallery can be retrieved by a name
+	 */
 	@Test
 	void testGetGalleryByName() {
 
@@ -237,6 +259,9 @@ public class GalleryServiceTests {
 		assertEquals(gallery, galleryService.getGallery("McGill"));
 	}
 	
+	/**
+	 * Tests to see if a Gallery cannot be retrieved by a name
+	 */
 	@Test
 	void testCannotGetGalleryByName() {
 		assertEquals(Optional.empty(), galleryService.getGallery("McGill"));

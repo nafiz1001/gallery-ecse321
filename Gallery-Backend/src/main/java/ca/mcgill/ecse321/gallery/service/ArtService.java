@@ -1,3 +1,7 @@
+/**
+ * @author Thomas Alarcon
+ * 
+ */
 package ca.mcgill.ecse321.gallery.service;
 
 import java.sql.Date;
@@ -28,6 +32,9 @@ public class ArtService {
 	@Autowired
 	ArtRepository artRepository;
 
+	/**
+	 * Creates an Art given valid inputs
+	 */
 	@Transactional
 	public Optional<Art> createArt(String title, String description, double height, double width, double depth,
 			String image, Date creationDate, Profile publisher, String type, String author) {
@@ -82,16 +89,25 @@ public class ArtService {
 		return Optional.ofNullable(validArt);
 	}
 
+	/**
+	 * Returns an art corresponding to the inputed id
+	 */
 	@Transactional
 	public Optional<Art> getArt(Long id) {
 		return artRepository.findById(id);
 	}
 	
+	/**
+	 * Returns all successfully created Art
+	 */
 	@Transactional
 	public List<Art> getAllArt() {
 		return Utils.toList(artRepository.findAll());
 	}
 	
+	/**
+	 * Returns an art corresponding to the inputed profile
+	 */
 	@Transactional
 	public List<Art> findArtByPublisher(Profile publisher) {
 
@@ -106,6 +122,9 @@ public class ArtService {
 		return byPublisher;
 	}
 	
+	/**
+	 * Returns an art corresponding to the inputed author
+	 */
 	@Transactional
 	public List<Art> findArtByAuthor(String author) {
 
@@ -120,6 +139,9 @@ public class ArtService {
 		return byAuthor;
 	}
 	
+	/**
+	 * Returns an art corresponding to the inputed type
+	 */
 	@Transactional
 	public List<Art> findArtByType(String type) {
 
@@ -134,6 +156,9 @@ public class ArtService {
 		return byType;
 	}
 	
+	/**
+	 * Returns an art corresponding to the inputed date
+	 */
 	@Transactional
 	public List<Art> findArtByDate(Date creationDate) {
 
@@ -148,6 +173,9 @@ public class ArtService {
 		return byDate;
 	}
 	
+	/**
+	 * Returns an art corresponding to the inputed id
+	 */
 	@Transactional
 	public Optional<Art> getArtById(Long id) {
 		return artRepository.findById(id);

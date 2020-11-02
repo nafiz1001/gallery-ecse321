@@ -1,3 +1,7 @@
+/**
+ * @author Thomas Alarcon
+ * 
+ */
 package ca.mcgill.ecse321.gallery.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -87,7 +91,10 @@ public class ArtServiceTests {
 			return savedArt;
 		});
 	}
-
+	
+	/**
+	 * Tests to see if an Art can be created using using createArt method
+	 */
 	@Test
 	void testSuccesfullArt() {
 		String title = "McGill";
@@ -125,6 +132,9 @@ public class ArtServiceTests {
 		assertTrue(art2.isPresent());
 	}
 
+	/**
+	 * Tests to see if an Art is not created given an invalid title
+	 */
 	@Test
 	void testTitleViolation() {
 		// art with chosen title matches already existing title
@@ -192,6 +202,9 @@ public class ArtServiceTests {
 		assertEquals(1, artService.getAllArt().size());
 	}
 	
+	/**
+	 * Tests to see if an Art is not created given an invalid height
+	 */
 	@Test
 	void testHeightViolation() {
 		// height is negative
@@ -212,6 +225,9 @@ public class ArtServiceTests {
 		assertEquals(0, artService.getAllArt().size());
 	}
 	
+	/**
+	 * Tests to see if an Art is not created given an invalid width
+	 */
 	@Test
 	void testWidthViolation() {
 		// width is negative
@@ -232,6 +248,9 @@ public class ArtServiceTests {
 		assertEquals(0, artService.getAllArt().size());
 	}
 	
+	/**
+	 * Tests to see if an Art is not created given an invalid depth
+	 */
 	@Test
 	void testDepthtViolation() {
 		// depth is negative
@@ -252,6 +271,9 @@ public class ArtServiceTests {
 		assertEquals(0, artService.getAllArt().size());
 	}
 	
+	/**
+	 * Tests to see if all successfully created Art can be retrieved
+	 */
 	@Test
 	void testGetAllArt() {
 		assertEquals(0,artService.getAllArt().size());
@@ -277,7 +299,10 @@ public class ArtServiceTests {
 		
 		assertEquals(2,artService.getAllArt().size());
 	}
-	
+		
+	/**
+	 * Tests to see if an Art can be retrieved by an ID
+	 */
 	@Test
 	void testGetArtById() {
 		assertTrue(artService.getArtById((long)0).isEmpty());
@@ -299,6 +324,9 @@ public class ArtServiceTests {
 		assertTrue(artService.getArtById((long)0).isPresent());
 	}
 	
+	/**
+	 * Tests to see if an Art can be retrieved by a Profile
+	 */
 	@Test
 	void testFindArtByPublisher() {
 		Profile publisher = new Profile();
@@ -321,6 +349,9 @@ public class ArtServiceTests {
 		assertEquals(art.get(), artService.findArtByPublisher(publisher).get(0));
 	}
 	
+	/**
+	 * Tests to see if an Art can be retrieved by an author
+	 */
 	@Test
 	void testFindArtByAuthor() {
 		assertTrue(artService.findArtByAuthor("Thomas").isEmpty());
@@ -342,6 +373,9 @@ public class ArtServiceTests {
 		assertEquals(art.get(), artService.findArtByAuthor("Thomas").get(0));
 	}
 	
+	/**
+	 * Tests to see if an Art can be retrieved by a type
+	 */
 	@Test
 	void testFindArtByType() {
 		assertTrue(artService.findArtByAuthor("abstract").isEmpty());
@@ -363,6 +397,9 @@ public class ArtServiceTests {
 		assertEquals(art.get(), artService.findArtByType("abstract").get(0));
 	}
 	
+	/**
+	 * Tests to see if an Art can be retrieved by a date
+	 */
 	@Test
 	void testFindArtByDate() {
 		assertTrue(artService.findArtByDate(new Date(26102020)).isEmpty());
@@ -384,6 +421,9 @@ public class ArtServiceTests {
 		assertEquals(art.get(), artService.findArtByDate(new Date(26102020)).get(0));
 	}
 	
+	/**
+	 * Tests to see if an Art can be retrieved by an ID
+	 */
 	@Test
 	void testGetArt() {		
 		assertTrue(artService.getArt((long)0).isEmpty());
