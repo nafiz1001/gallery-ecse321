@@ -1,5 +1,10 @@
 package ca.mcgill.ecse321.gallery.dto;
 
+/**
+ * 
+ * @author halukcalin
+ *
+ */
 public class RevenuDto{
 	private int comission;
    

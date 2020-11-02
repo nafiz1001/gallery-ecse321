@@ -2,7 +2,11 @@ package ca.mcgill.ecse321.gallery.dto;
 
 import java.util.Set;
 
-
+/**
+ * 
+ * @author halukcalin
+ * 
+ */
 public class ProfileDto {
 	private String bio;
 	   

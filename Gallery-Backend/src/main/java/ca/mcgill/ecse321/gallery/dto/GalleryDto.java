@@ -11,6 +11,11 @@ import javax.persistence.ManyToOne;
 
 import ca.mcgill.ecse321.gallery.model.Address;
 
+/**
+ * 
+ * @author BbananasS
+ *
+ */
 public class GalleryDto {
 	
 	private String name;

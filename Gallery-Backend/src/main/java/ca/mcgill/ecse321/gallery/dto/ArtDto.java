@@ -14,6 +14,11 @@ import javax.persistence.OneToOne;
 import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Profile;
 
+/**
+ * 
+ * @author BbananasS
+ *
+ */
 public class ArtDto {
 	
 	private String name;

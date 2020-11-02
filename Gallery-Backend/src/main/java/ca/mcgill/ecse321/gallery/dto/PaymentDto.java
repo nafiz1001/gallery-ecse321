@@ -14,6 +14,11 @@ import javax.persistence.OneToMany;
 import ca.mcgill.ecse321.gallery.model.DeliveryType;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
+/**
+ * 
+ * @author nafiz
+ *
+ */
 public class PaymentDto {
 	private long confirmationNumber;
 	public void setConfirmationNumber(long value) {
