@@ -104,11 +104,44 @@ public class ProfileServiceTests {
 		accountRepository.save(account);
 		String fullname = "Haluk Calin";
 		ArrayList<Art> arts = new ArrayList<Art>();
-
 		
 		Optional<Profile> profile = profileService.createProfile(bio, picture, listings, account, fullname, arts);
 		
 		assertTrue(profile.isPresent());
+
+	}
+	
+	@Test
+	void testEditSuccessfullProfile() {
+		String bio = "Hello, welcome to my bio";
+		String picture = "pic";
+		ArrayList<Listing> listings = new ArrayList<Listing>();
+		Account account = new Account();
+		account.setUsername("Eric");
+		accountRepository.save(account);
+		String fullname = "Haluk Calin";
+		ArrayList<Art> arts = new ArrayList<Art>();
+		
+		Optional<Profile> profile1 = profileService.createProfile(bio, picture, listings, account, fullname, arts);
+		
+		assertTrue(profile1.isPresent());
+		assertEquals(1,profileService.getAllProfiles().size());
+		assertEquals(profileService.getAllProfiles().get(0).getBio(),"Hello, welcome to my bio");
+		
+		bio = "Hello, welcome to my awesome bio";
+		picture = "new pic";
+		listings = new ArrayList<Listing>();
+		account = new Account();
+		account.setUsername("Eric");
+		accountRepository.save(account);
+		fullname = "Haluk Calin";
+		arts = new ArrayList<Art>();
+		
+		Optional<Profile> profile2 = profileService.editProfile(bio, picture, listings, account, fullname, arts);
+		
+		assertTrue(profile2.isPresent());
+		assertEquals(1,profileService.getAllProfiles().size());
+		assertEquals(profileService.getAllProfiles().get(0).getBio(),"Hello, welcome to my awesome bio");
 
 	}
 	
