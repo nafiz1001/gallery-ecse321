@@ -1,3 +1,7 @@
+/**
+ * @author Thomas Alarcon
+ * 
+ */
 package ca.mcgill.ecse321.gallery.service;
 
 import java.sql.Time;
@@ -25,6 +29,9 @@ public class GalleryService {
 	@Autowired
 	GalleryRepository galleryRepository;
 
+	/**
+	 * Creates a Gallery given valid inputs
+	 */
 	@Transactional
 	public Optional<Gallery> createGallery(String name, String phoneNumber, Time openingTime, Time closingTime,
 			String email, int commissionPercentage, Address address) {
@@ -75,6 +82,9 @@ public class GalleryService {
 		return Optional.ofNullable(validGallery);
 	}
 
+	/**
+	 * Returns an art corresponding to the inputed name
+	 */
 	@Transactional
 	public Optional<Gallery> getGallery(String name) {
 		return galleryRepository.findById(name);
