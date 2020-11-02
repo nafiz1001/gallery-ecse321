@@ -31,6 +31,12 @@ import ca.mcgill.ecse321.gallery.model.Account;
 import ca.mcgill.ecse321.gallery.model.Gallery;
 import ca.mcgill.ecse321.gallery.model.Listing;
 
+/**
+ * 
+ * @author ericpelletier
+ * Test the methods inside of RevenuService.
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class RevenuServiceTests {
 	@Mock
@@ -42,6 +48,9 @@ public class RevenuServiceTests {
 	
 	private HashSet<Revenu> savedRevenu= new HashSet<>();
 	
+	/**
+	 * Sets up the test environment.
+	 */
 	@BeforeEach
 	public void setupMockup() {
 
@@ -75,6 +84,9 @@ public class RevenuServiceTests {
 		
 	}
 	
+	/**
+	 * Test a successful creation of revenu.
+	 */
 	@Test 
 	void testSuccesfullRevenu() {
 		
@@ -88,6 +100,9 @@ public class RevenuServiceTests {
 
 	}
 	
+	/**
+	 * Test a listingPrice violation.
+	 */
 	@Test
 	void testListingPriceViolation() {
 		assertEquals(0, revenuService.getAllRevenu().size());
@@ -106,6 +121,9 @@ public class RevenuServiceTests {
 		assertEquals(0, revenuService.getAllRevenu().size());
 	}
 	
+	/**
+	 * Test a commission violation.
+	 */
 	@Test
 	void testCommissionViolation() {
 		assertEquals(0, revenuService.getAllRevenu().size());
@@ -124,7 +142,9 @@ public class RevenuServiceTests {
 		assertEquals(0, revenuService.getAllRevenu().size());
 	}
 	
-	
+	/**
+	 * Test the retrieval of a revenu by id.
+	 */
 	@Test
 	void testGetRevenu() {
 		assertTrue(revenuService.getRevenu((long)0).isEmpty());
@@ -139,6 +159,9 @@ public class RevenuServiceTests {
 		
 	}
 
+	/**
+	 * Test the retrieval of all revenus inside the database.
+	 */
 	@Test
 	void testGetAllRevenu() {
 		assertEquals(0, revenuService.getAllRevenu().size());

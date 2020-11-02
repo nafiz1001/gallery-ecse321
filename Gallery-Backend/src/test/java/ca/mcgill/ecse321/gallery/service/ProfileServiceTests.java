@@ -32,6 +32,12 @@ import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 
+/**
+ * 
+ * @author ericpelletier
+ * Test the methods inside of ProfileService.
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class ProfileServiceTests {
 	@Mock
@@ -46,6 +52,9 @@ public class ProfileServiceTests {
 	private HashSet<Account> savedAccounts = new HashSet<>();
 	private HashSet<Profile> savedProfiles = new HashSet<>();
 	
+	/**
+	 * Sets up the test environment.
+	 */
 	@BeforeEach
 	public void setupMockup() {
 		
@@ -94,6 +103,9 @@ public class ProfileServiceTests {
 		
 	}
 	
+	/**
+	 * Test a successful creation of profile.
+	 */
 	@Test
 	void testSuccessfullProfile() {
 		String bio = "Hello, welcome to my bio";
@@ -111,6 +123,9 @@ public class ProfileServiceTests {
 
 	}
 	
+	/**
+	 * Test the editing of a profile.
+	 */
 	@Test
 	void testEditSuccessfullProfile() {
 		String bio = "Hello, welcome to my bio";
@@ -145,6 +160,9 @@ public class ProfileServiceTests {
 
 	}
 	
+	/**
+	 * Test a bio violation.
+	 */
 	@Test
 	void testBioViolation() {
 		boolean exceptionCaught1 = false;
@@ -176,6 +194,9 @@ public class ProfileServiceTests {
 		
 	}
 	
+	/**
+	 * Test a fullname violation.
+	 */
 	@Test
 	void testFullnameViolation() {
 		boolean exceptionCaught1 = false;
@@ -206,6 +227,9 @@ public class ProfileServiceTests {
 		assertEquals(0,profileService.getAllProfiles().size());
 	}
 	
+	/**
+	 * Test a picture violation.
+	 */
 	@Test
 	void testPictureViolation() {
 		boolean exceptionCaught1 = false;
@@ -236,7 +260,9 @@ public class ProfileServiceTests {
 		assertEquals(0,profileService.getAllProfiles().size());
 	}
 	
-	
+	/**
+	 * Test the retrieval of a profile by id.
+	 */
 	@Test
 	void testGetProfile() {
 		assertTrue(profileService.getProfile("Haluk:Haluk Calin").isEmpty());
@@ -255,6 +281,9 @@ public class ProfileServiceTests {
 		assertTrue(profileService.getProfile(profile.get().getAccount().getUsername() + ":" + profile.get().getFullname()).isPresent());
 	}
 	
+	/**
+	 * Test the retrieval of all profiles inside the database.
+	 */
 	@Test
 	void testgetAllProfiles() {
 		assertEquals(0,profileService.getAllProfiles().size());

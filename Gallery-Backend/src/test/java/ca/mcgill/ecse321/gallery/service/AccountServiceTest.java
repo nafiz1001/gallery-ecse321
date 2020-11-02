@@ -29,6 +29,12 @@ import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 
+/**
+ * 
+ * @author ericpelletier
+ * Test the methods inside of AccountService.
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceTest {
 	@Mock
@@ -44,6 +50,9 @@ public class AccountServiceTest {
 	private HashSet<Account> savedAccounts = new HashSet<>();
 	private HashSet<Identity> savedIdentities = new HashSet<>();
 	
+	/**
+	 * Sets up the test environment.
+	 */
 	@BeforeEach
 	public void setupMockup() {
 		// payment id generator mock
@@ -104,6 +113,9 @@ public class AccountServiceTest {
 		
 	}
 	
+	/**
+	 * Test a successful creation of account.
+	 */
 	@Test 
 	void testSuccesfullAccount() {
 		Identity identity = new Identity();
@@ -117,6 +129,9 @@ public class AccountServiceTest {
 		assertTrue(account.isPresent());
 	}
 	
+	/**
+	 * Test a username violation.
+	 */
 	@Test
 	void testUsernameViolation() {
 		boolean exceptionCaught = false;
@@ -144,6 +159,9 @@ public class AccountServiceTest {
 		assertEquals(1, accountService.getAllAccounts().size());
 	}
 	
+	/**
+	 * Test an identity violation.
+	 */
 	@Test
 	void testIdentityViolation() {
 		boolean exceptionCaught = false;
@@ -170,7 +188,9 @@ public class AccountServiceTest {
 		assertEquals(1, accountService.getAllAccounts().size());
 		
 	}
-	
+	/**
+	 * Test a password violation.
+	 */
 	@Test
 	void testPasswordVioaltionNumber() {
 		boolean exceptionCaught1 = false;
@@ -210,7 +230,9 @@ public class AccountServiceTest {
 		assertEquals(0, accountService.getAllAccounts().size());
 		
 	}
-	
+	/**
+	 * Test the editing of an account.
+	 */
 	@Test
 	void testEditAccountValid() {
 		Identity identity = new Identity();
@@ -227,6 +249,9 @@ public class AccountServiceTest {
 		
 	}
 	
+	/**
+	 * Test the retrieval of an account by username.
+	 */
 	@Test
 	void testFindAccountByUsername() {
 		// there should not be any accounts with username peller1 before creation
@@ -244,6 +269,9 @@ public class AccountServiceTest {
 		assertEquals(1, accountService.getAccountByUsername("peller1").size());
 	}
 	
+	/**
+	 * Test the retrieval of an account by id.
+	 */
 	@Test 
 	void testGetAccountById() {
 		assertTrue(accountService.getAccountById("0").isEmpty());
@@ -259,6 +287,9 @@ public class AccountServiceTest {
 		assertTrue(accountService.getAccountById("0").isPresent());
 	}
 	
+	/**
+	 * Test the retrieval of all accounts inside the database.
+	 */
 	@Test
 	void testGetAllAccounts() {
 		assertEquals(0, accountService.getAllAccounts().size());
