@@ -284,6 +284,68 @@ public class ListingServiceTests {
 		
 	}
 	
+	
+	@Test
+	void testEditListing() {
+		boolean exceptionCaught = false;
+		assertEquals(0, listingService.getAllListings().size());
+		
+		Art art = new Art();
+		Art art2= new Art();
+		art2.setListing(null);
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		//art null
+//		try {
+//			listingService.editListing(art2, 123, 1, "ts, gs", true, false, new Date(21102020));
+//		}
+//		catch (IllegalArgumentException e) {
+//			exceptionCaught=true;
+//		}
+//		assertTrue(exceptionCaught);
+//		exceptionCaught=false;
+		
+		try {
+			listingService.editListing(art, -123, 1, "ts, gs", true, false, new Date(21102020));
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		exceptionCaught=false;
+		
+		try {
+			listingService.editListing(art, 123, -1, "ts, gs", true, false, new Date(21102020));
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		exceptionCaught=false;
+		
+		try {
+			listingService.editListing(art, 123, -1, "ts, gs1", true, false, new Date(21102020));
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		exceptionCaught=false;
+		
+		try {
+			listingService.editListing(art, 123, 1, "ts, gs", false, false, new Date(21102020));
+		}
+		catch (IllegalArgumentException e) {
+			exceptionCaught=true;
+		}
+		assertTrue(exceptionCaught);
+		exceptionCaught=false;
+		
+		listingService.editListing(art, 123, 1, "ts, gs", true, false, new Date(21102020));
+		assertEquals(123, listing.get().getPrice());
+		
+		
+	}
+	
 	@Test
 	void testInvalidFindListingByPriceRange() {
 		boolean exceptionCaught=false;
