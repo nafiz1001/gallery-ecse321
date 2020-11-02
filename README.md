@@ -39,3 +39,10 @@ Haluk Calin|<ul><li>Requirements</li> <li>Detailed Use Case Specification</li> <
 
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Fall2020/project-group-01/wiki/Sprint-2)
 
+Name|Contributions|Hours
+----|-------------|-----
+Thomas Alarcon|<ul><li>Gallery and Art classes (DTO, Service, TestService)</li> <li>Controller (editListing, editProfile)</li> <li>Software Quality Assurance Plan and Report</li></ul>|
+Nafiz Islam||
+Antonia Nistor|<ul><li>Listing and Identity classes (DTO, Service, TestService, Test Report)</li> <li>Controller (getAllListings, createProfile)</li> <li>Wiki</li></ul>|
+Eric Pelletier|<ul><li>Account and Address classes (DTO, Service, TestService, Test Report) </li> <li>Profile and Revenue Service tests </li> <li>Controller (createAccount, editAccount, viewAccount, convertToDto's) </li> <li>Persistence test </li></ul>|
+Haluk Calin|<ul><li>Profile and Revenue service </li><li> Controller CreateProfile </li><li> SW Quality Assurance Plan | 8
