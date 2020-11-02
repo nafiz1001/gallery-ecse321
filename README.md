@@ -15,7 +15,7 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 
 ## Overview Tables
 ### Project
-| Name | Role | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 |
+| Name | Role | [Sprint 1](https://github.com/McGill-ECSE321-Fall2020/project-group-01/blob/master/README.md#deliverable-1) | Sprint 2 | Sprint 3 | Sprint 4 |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 |Eric Pelletier | Developer |18|
 |Antonia Nistor |Project Manager |20|
