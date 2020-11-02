@@ -17,11 +17,11 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 ### Project
 | Name | Role | [Sprint 1](https://github.com/McGill-ECSE321-Fall2020/project-group-01/blob/master/README.md#deliverable-1) | [Sprint 2](https://github.com/McGill-ECSE321-Fall2020/project-group-01/blob/master/README.md#deliverable-2) | Sprint 3 | Sprint 4 |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-|Eric Pelletier | Developer |18|
-|Antonia Nistor |Project Manager |20|
-|Nafiz Islam | Developer|20|
-|Thomas Alarcon | Developer| 18|
-|Haluk Calin | Developer| 13.5|
+|Eric Pelletier | Developer |18|27
+|Antonia Nistor |Project Manager |20|22
+|Nafiz Islam | Developer|20|32
+|Thomas Alarcon | Developer| 18|25
+|Haluk Calin | Developer| 13.5|10
 
 ### Deliverable 1
 
