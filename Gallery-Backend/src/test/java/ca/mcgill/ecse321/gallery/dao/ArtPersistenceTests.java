@@ -64,9 +64,9 @@ public class ArtPersistenceTests {
 		art1.setType("f");
 		art1.setWidth(10);
 		
-		artRepository.save(art1);
+		art1 = artRepository.save(art1);
 		
-		Art art2 = artRepository.findArtById((long) 1234);
+		Art art2 = artRepository.findArtById(art1.getId());
 		
 		assertNotNull(art2);
 		assertEquals(art1.getImage(), art2.getImage());
