@@ -12,11 +12,20 @@ import ca.mcgill.ecse321.gallery.dao.IdentityRepository;
 import ca.mcgill.ecse321.gallery.model.Identity;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+/**
+ * 
+ * @author antonianistor
+ *
+ */
 @Service
 public class IdentityService {
 	@Autowired
 	IdentityRepository identityRepository;
-
+	/**
+	 * This method creates an identity
+	 * @param email
+	 * @return Identity if not null
+	 */
 	@Transactional
 	public Optional<Identity> createIdentity(String email) {
 		boolean emailValid = Utils.isEmailValid(email, true);
@@ -34,7 +43,11 @@ public class IdentityService {
 		}
 
 	
-
+	/**
+	 * This method allows the backend to find an identity using the email provided
+	 * @param email
+	 * @return Identity
+	 */
 	@Transactional
 	public Optional<Identity> findIdentityByEmail(String email) {
 
@@ -49,12 +62,20 @@ public class IdentityService {
 			
 	}
 
+	/**
+	 * This method allows the backend to request a list of all the identities that exist in the repository
+	 * @return list of all Identities
+	 */
 	@Transactional
 	public List<Identity> getAllIdentities() {
 		return Utils.toList(identityRepository.findAll());
 	}
 	
-	
+	/**
+	 * This method verifies if the email inputed already belongs to an Identity 
+	 * @param email
+	 * @return true if email is already used
+	 */
 	public boolean isEmailAlreadyUsed(String email) {
 		
 		boolean emailUsed = false;
