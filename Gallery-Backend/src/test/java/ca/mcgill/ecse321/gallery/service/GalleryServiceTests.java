@@ -80,7 +80,7 @@ public class GalleryServiceTests {
 	}
 
 	@Test
-	void testSuccesfullAccount() {
+	void testSuccesfullGallery() {
 		String name = "McGill";
 		String phoneNumber = "1231231234";
 		Time openingTime = new Time(100000);
