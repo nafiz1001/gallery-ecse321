@@ -37,6 +37,11 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
+/**
+ * 
+ * @author nafiz
+ * test PaymentService
+ */
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTests {
 	@Mock
