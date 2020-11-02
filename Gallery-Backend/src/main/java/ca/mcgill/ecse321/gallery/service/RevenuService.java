@@ -31,17 +31,25 @@ import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+/**
+ * 
+ * @author HalukCalin
+ * This service allows the creation and retrieval of revenus. 
+ */
+
 @Service
 public class RevenuService {
 	@Autowired
 	RevenuRepository revenuRepository;
 	
-	@Autowired
-    ListingRepository listingRepository;
-	
-	@Autowired
-	AccountRepository accountRepository;
-	
+	/**
+	 * Creates a Revenu.
+	 * @param commission The commission associated with this revenu
+	 * @param listingPrice The listing price associated with this revenu
+	 * @param account The account associated with this revenu
+	 * @param listing The listing associated with this revenu
+	 * @return The revenu created
+	 */
 	@Transactional
 	public Optional<Revenu> createRevenu(int commission, int listingPrice, Account account, Listing listing) {
 		boolean isRevenuValid = true;
@@ -70,11 +78,20 @@ public class RevenuService {
 
 	}
 	
+	/**
+	 * Retrieves a Revenu with a specific id
+	 * @param id The id of the revenu to find
+	 * @return A revenu with the given id
+	 */
 	@Transactional
 	public Optional<Revenu> getRevenu(long id) {
 		return revenuRepository.findById(id);
 	}
 	
+	/**
+	 * Retrieves all Revenus 
+	 * @return A list of all revenus in the database
+	 */
 	@Transactional
 	public List<Revenu> getAllRevenu() {
 		return Utils.toList(revenuRepository.findAll());
