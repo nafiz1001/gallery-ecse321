@@ -18,6 +18,12 @@ import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+/**
+ * 
+ * @author Ericpelletier135
+ * This service allows the create, editing and retrieval of accounts. 
+ */
+
 @Service
 public class AccountService {
 	
@@ -30,6 +36,20 @@ public class AccountService {
 	@Autowired
 	IdentityService identityService = new IdentityService();
 	
+	/**
+	 * Creates an Account.
+	 * @param accountHolderType The type of account to be created
+	 * @param identity The identity associated to this account
+	 * @param profiles The profiles associated to this account
+	 * @param username The username of the account
+	 * @param parrword The password of the account
+	 * @param date Date that the account is created
+	 * @param address Address associated to this account
+	 * @param dateOfBirth The date of birth of the account holder
+	 * @param revenus The revenus associated to this account
+	 * @param paymentType The payment type associated to this account
+	 * @return The account created
+	 */
 	@Transactional
 	public Optional<Account> createAccount(String accountHolderType, Identity identity, Iterable<Profile> profiles, String username, String password, Date date, Address address, Date dateOfBirth, Iterable<Revenu> revenus, String paymentType) {
 		Account account = null;
@@ -99,6 +119,18 @@ public class AccountService {
 		
 	}
 	
+	/**
+	 * Edits an Account.
+	 * @param accountHolderType The type of account to be created
+	 * @param username The username associated to the account to be edited
+	 * @param parrword The new password
+	 * @param address The new address
+	 * @param dateOfBirth The new date of birth
+	 * @param paymentType The new paymentType
+	 * @param OldPassword The password associated to the account to be edited
+	 * @return The new Account created
+	 */
+	
 	public Optional<Account> editAccount(String accountHolderType,String username, String password, Address address, Date dateOfBirth, String paymentType, String OldPassword) {
 		Boolean isAccountValid = true;
 		Account account = null;
@@ -153,11 +185,20 @@ public class AccountService {
 		
 	}
 	
+	/**
+	 * Retrieves all accounts
+	 * @return All the accounts in the database
+	 */
 	@Transactional
 	public List<Account> getAllAccounts() {
 		return Utils.toList(accountRepository.findAll());
 	}
 	
+	/**
+	 * Retrieves an account with a specific username
+	 * @param username The username of the account to find
+	 * @return An account with the given username inside of a list
+	 */
 	@Transactional 
 	public List<Account> getAccountByUsername(String username) {
 		List<Account> account = new ArrayList<Account>();
@@ -167,6 +208,11 @@ public class AccountService {
 		return account;
 	}
 	
+	/**
+	 * Retrieves an account with a specific id
+	 * @param id The id of the account to find
+	 * @return An account with the given id
+	 */
 	@Transactional
 	public Optional<Account> getAccountById(String id) {
 		return accountRepository.findById(id);
