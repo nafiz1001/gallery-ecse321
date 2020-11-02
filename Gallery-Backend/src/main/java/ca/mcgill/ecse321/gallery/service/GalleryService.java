@@ -1,5 +1,5 @@
 /**
- * @author Thomas Alarcon
+ * @author BbananasS
  * 
  */
 package ca.mcgill.ecse321.gallery.service;
