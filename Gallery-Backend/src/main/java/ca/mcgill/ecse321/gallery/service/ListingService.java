@@ -18,12 +18,29 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+/**
+ * 
+ * @author antonianistor
+ *
+ */
 @Service
 public class ListingService {
 
 	@Autowired
 	ListingRepository listingRepository;
 
+	/**
+	 * This method allows backend to create a listing using the following parameters
+	 * 
+	 * @param art
+	 * @param price
+	 * @param quantity
+	 * @param tags
+	 * @param canPickUp
+	 * @param canDeliver
+	 * @param datePublished
+	 * @return Listing
+	 */
 	@Transactional
 	public Optional<Listing> createListing(Art art, int price, int quantity, String tags, boolean canPickUp,
 			boolean canDeliver, Date datePublished) {
@@ -60,6 +77,18 @@ public class ListingService {
 		return Optional.ofNullable(listing);
 	}
 
+	/**
+	 * This method allows to modify a listing using the following parameters
+	 * 
+	 * @param art
+	 * @param price
+	 * @param quantity
+	 * @param tags
+	 * @param canPickUp
+	 * @param canDeliver
+	 * @param datePublished
+	 * @return
+	 */
 	@Transactional
 	public Optional<Listing> editListing(Art art, int price, int quantity, String tags, boolean canPickUp,
 			boolean canDeliver, Date datePublished) {
@@ -103,16 +132,34 @@ public class ListingService {
 		return null;
 	}
 
+	/**
+	 * This method allows backend to request a list of all the listings that exist
+	 * in the repository
+	 * 
+	 * @return
+	 */
 	@Transactional
 	public List<Listing> getAllListings() {
 		return Utils.toList(listingRepository.findAll());
 	}
 
+	/**
+	 * This method allows the backend to find a listing by its ID
+	 * 
+	 * @param l
+	 * @return
+	 */
 	@Transactional
 	public Optional<Listing> findListingById(long l) {
 		return listingRepository.findById(l);
 	}
 
+	/**
+	 * This method allows the backend to find all the listings created by a profile
+	 * 
+	 * @param publisher
+	 * @return list of listings
+	 */
 	@Transactional
 	public List<Listing> findListingsByPublisher(Profile publisher) {
 
@@ -128,6 +175,14 @@ public class ListingService {
 		return byPublisher;
 	}
 
+	/**
+	 * This method allows the backend to find listings according to the price range
+	 * inputed
+	 * 
+	 * @param minPrice
+	 * @param maxPrice
+	 * @return
+	 */
 	@Transactional
 	public List<Listing> findListingByPriceRange(int minPrice, int maxPrice) {
 
