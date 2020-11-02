@@ -73,9 +73,9 @@ public class ListingPersistenceTests {
 		listing1.setQuantity(0);
 		listing1.setTags("hi");
 
-		listingRepository.save(listing1);
+		listing1 = listingRepository.save(listing1);
 
-		Listing listing2 = listingRepository.findListingById((long)123);
+		Listing listing2 = listingRepository.findListingById(listing1.getId());
 
 		assertNotNull(listing2);
 		assertEquals(listing1.getPrice(), listing2.getPrice());
