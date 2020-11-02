@@ -6,8 +6,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 
+ * This class contains useful methods
+ *
+ */
 public class Utils {
 
+	/**
+	 * Converts Iterable to a List
+	 * 
+	 * @param <T>
+	 * @param iterable
+	 * @return
+	 */
 	public static <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
@@ -16,6 +28,13 @@ public class Utils {
 		return resultList;
 	}
 
+	/**
+	 * Converts Iterable to a Set
+	 * 
+	 * @param <T>
+	 * @param iterable
+	 * @return
+	 */
 	public static <T> Set<T> toSet(Iterable<T> iterable) {
 		Set<T> resultList = new HashSet<T>();
 		for (T t : iterable) {
@@ -23,7 +42,14 @@ public class Utils {
 		}
 		return resultList;
 	}
-	
+
+	/**
+	 * Verifies if the email inputed is valid
+	 * 
+	 * @param email
+	 * @param isValidAlready
+	 * @return
+	 */
 	public static Boolean isEmailValid(String email, Boolean isValidAlready) {
 		Boolean isValid = isValidAlready;
 		int numAts = 0;
@@ -48,16 +74,23 @@ public class Utils {
 		}
 		return isValid;
 	}
-	
+
+	/**
+	 * Verifies if the tags inputed are valid
+	 * 
+	 * @param tags
+	 * @return
+	 */
 	public static Boolean areTagsValid(String tags) {
 		Boolean tagsValid = true;
 		String[] allTags = tags.split(", ");
-		
-		for (String tag: allTags) {
-			if(tag.matches("[a-zA-Z]+")==false) tagsValid=false;
-		
+
+		for (String tag : allTags) {
+			if (tag.matches("[a-zA-Z]+") == false)
+				tagsValid = false;
+
 		}
-		return tagsValid;	
-		
+		return tagsValid;
+
 	}
 }
