@@ -29,3 +29,9 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task integrationTest(type:Exec) {
+  workingDir '.'
+
+  commandLine './integrationtest.sh'
+}
