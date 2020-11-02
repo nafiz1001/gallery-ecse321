@@ -111,11 +111,11 @@
     "art": {
         "id": 1
     },
-    "tags": "sos"
+    "tags": "sos",
     "id": 1
 }' | grep 'Error') && exit 1
 
-(curl -s --location --request GET 'http://localhost:8080/listings' | grep 'price' | grep '19') || echo Failed to update listing
+(curl -s --location --request GET 'http://localhost:8080/listings' | grep 'Error') && exit 1
 
 (curl -s --location --request POST 'http://localhost:8080/pay' \
 --header 'Content-Type: application/json' \
@@ -134,3 +134,5 @@
 
 
 (curl -s --location --request GET 'http://localhost:8080/revenus?username=hi&password=A123456' | grep 'Error') && exit 1
+
+exit 0
