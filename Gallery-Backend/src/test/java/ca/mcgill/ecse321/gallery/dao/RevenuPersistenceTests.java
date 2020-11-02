@@ -62,9 +62,9 @@ public class RevenuPersistenceTests {
 		//revenu1.setListing(listing1);
 		revenu1.setId((long)1);
 		
-		revenuRepository.save(revenu1);
+		revenu1 = revenuRepository.save(revenu1);
 		
-		Revenu revenu2 = revenuRepository.findRevenuById((long)0);
+		Revenu revenu2 = revenuRepository.findRevenuById(revenu1.getId());
 		
 		assertNotNull(revenu2);
 		assertEquals(revenu1.getComission(), revenu2.getComission());
