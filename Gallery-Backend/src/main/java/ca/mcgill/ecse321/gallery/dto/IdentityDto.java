@@ -1,5 +1,10 @@
 package ca.mcgill.ecse321.gallery.dto;
 
+/**
+ * 
+ * @author antonianistor
+ *
+ */
 public class IdentityDto {
 	private String email;
 

@@ -29,20 +29,27 @@ import ca.mcgill.ecse321.gallery.model.PaymentType;
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+/**
+ * 
+ * @author HalukCalin
+ * This service allows the create, editing and retrieval of profiles. 
+ */
+
 @Service
 public class ProfileService {
 	@Autowired
 	ProfileRepository profileRepository;
 
-	@Autowired
-	ListingRepository listingRepository;
-
-	@Autowired
-	AccountRepository accountRepository;
-
-	@Autowired
-	ArtRepository artRepository;
-
+	/**
+	 * Creates a Profile.
+	 * @param bio The bio associated to the profile
+	 * @param picture A display picture of the creator
+	 * @param listings The listings associated to this profile
+	 * @param account The account associated to this profile
+	 * @param fullname The full name of the creator
+	 * @param arts The arts associated to this profile
+	 * @return The profile created
+	 */
 	@Transactional
 	public Optional<Profile> createProfile(String bio, String picture, Iterable<Listing> listings, Account account,
 			String fullname, Iterable<Art> arts) {
@@ -76,6 +83,16 @@ public class ProfileService {
 
 	}
 
+	/**
+	 * Edits a Profile.
+	 * @param bio The edited bio
+	 * @param picture The edited picture
+	 * @param listings The edited listings
+	 * @param account The edited account
+	 * @param fullname The edited full name
+	 * @param arts The edited arts
+	 * @return The new profile created
+	 */
 	@Transactional
 	public Optional<Profile> editProfile(String bio, String picture, Iterable<Listing> listings, Account account,
 			String fullname, Iterable<Art> arts) {
@@ -108,11 +125,20 @@ public class ProfileService {
 		}
 	}
 
+	/**
+	 * Retrieves a profile with a specific id
+	 * @param id The id of the profile to find
+	 * @return A Profile with the given id
+	 */
 	@Transactional
 	public Optional<Profile> getProfile(String id) {
 		return profileRepository.findById(id); // find profile by id not working why?
 	}
 
+	/**
+	 * Retrives all profiles
+	 * @return A list of all profiles inside of the database 
+	 */
 	@Transactional
 	public List<Profile> getAllProfiles() {
 		return Utils.toList(profileRepository.findAll());
@@ -120,13 +146,3 @@ public class ProfileService {
 	}
 
 }
-
-/**
- * @Transactional public List<Profile> getProfileByFullname(String fullname) {
- *                List<Profile> profile = new ArrayList<Profile>(); if
- *                (profileRepository.findProfileByFullname != null) {
- *                profile.add(profileRepository.findProfileByFullname("username"));
- *                } return profile; }
- * 
- *                }
- */

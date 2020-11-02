@@ -12,11 +12,23 @@ import ca.mcgill.ecse321.gallery.dao.AddressRepository;
 import ca.mcgill.ecse321.gallery.model.Address;
 import ca.mcgill.ecse321.gallery.utils.Utils;
 
+/**
+ * 
+ * @author Ericpelletier135
+ * This service allows the create and retrieval of address'. 
+ */
 @Service
 public class AddressService {
 	@Autowired
 	AddressRepository addressRepository;
-	
+	/**
+	 * Creates an Address.
+	 * @param streetNumber The street number of the address
+	 * @param street The street of the address
+	 * @param province The province of the address
+	 * @param postalCode The postal code of the address
+	 * @return The address created
+	 */
 	@Transactional
 	public Optional<Address> createAddress(String streetNumber, String street, String city, String province, String postalCode) {
 		Address address = null;
@@ -70,16 +82,30 @@ public class AddressService {
 		
 	}
 	
+	/**
+	 * Retrieves an address with a specific id 
+	 * @param id The id of the address to find
+	 * @return An address with the given id
+	 */
 	@Transactional
 	public Optional<Address> getAddressById(String id) {
 		return addressRepository.findById(id);
 	}
 	
+	/**
+	 * Retrieves all account
+	 * @return A list of all the address in the database 
+	 */
 	@Transactional
 	public List<Address> getAllAddresses() {
 		return Utils.toList(addressRepository.findAll());
 	}
 	
+	/**
+	 * Retrieves an address with a specific postal code
+	 * @param postalCode The postal code of the address to find
+	 * @return A list of all the address with the given postal code
+	 */
 	@Transactional
 	public List<Address> getAddressesByPostalCode(String postalCode) {
 		Boolean isAddressValid = true;

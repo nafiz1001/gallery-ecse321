@@ -7,6 +7,11 @@ import javax.persistence.ManyToOne;
 import ca.mcgill.ecse321.gallery.model.Art;
 import ca.mcgill.ecse321.gallery.model.Profile;
 
+/**
+ * 
+ * @author antonianistor
+ *
+ */
 public class ListingDto {
 
 	private long id;
