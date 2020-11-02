@@ -22,6 +22,11 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Payment;
 import ca.mcgill.ecse321.gallery.model.PaymentType;
 
+/**
+ * 
+ * @author nafiz
+ * Service for processing payments
+ */
 @Service
 public class PaymentService {
 	@Autowired
