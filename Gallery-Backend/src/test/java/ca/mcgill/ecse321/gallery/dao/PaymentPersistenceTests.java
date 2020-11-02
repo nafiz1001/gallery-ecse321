@@ -152,7 +152,7 @@ public class PaymentPersistenceTests {
 		
 		savedPayment.setListing(listings);
 		
-		paymentRepository.save(savedPayment);
+		savedPayment = paymentRepository.save(savedPayment);
 		
 		savedPayment = paymentRepository.findById(savedPayment.getConfirmationNumber()).get();
 
@@ -161,7 +161,7 @@ public class PaymentPersistenceTests {
 		assertEquals(PaymentType.PAYPAL, savedPayment.getPaymentType());
 		assertEquals(otherIdentity.getEmail(), savedPayment.getIdentity().getEmail());
 		assertEquals(1, savedPayment.getListing().size());
-		assertEquals("123", ((Listing)savedPayment.getListing().toArray()[0]).getId());
+		assertEquals(listing.getId(), ((Listing)savedPayment.getListing().toArray()[0]).getId());
 	}
 	
 	@Test
