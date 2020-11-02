@@ -1,10 +1,11 @@
 #/bin/sh
 
-curl --location --request GET 'http://localhost:8080/gallery/view'
+curl -s --location --request GET 'http://localhost:8080/gallery/view' | grep 'Error' && exit 1
 
-curl --location --request POST 'http://localhost:8080/identity/create?email=hi@gmail.com'
+curl -s --location --request POST 'http://localhost:8080/identity/create?email=hi@gmail.com' | grep 'Error' && exit 1
 
-curl --location --request POST 'http://localhost:8080/account/create' \
+
+curl -s --location --request POST 'http://localhost:8080/account/create' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "accountHolderType": "VISA",
@@ -20,9 +21,10 @@ curl --location --request POST 'http://localhost:8080/account/create' \
   "revenus": [],
   "accountNumber": null,
   "paymentType": "0"
-}'
+}' | grep 'Error' && exit 1
 
-curl --location --request POST 'http://localhost:8080/account/edit?password=A123456' \
+
+curl -s --location --request POST 'http://localhost:8080/account/edit?password=A123456' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "accountHolderType": "MASTER",
@@ -38,36 +40,28 @@ curl --location --request POST 'http://localhost:8080/account/edit?password=A123
   "revenus": [],
   "accountNumber": null,
   "paymentType": "0"
-}' | grep 'MASTER'
+}' | grep 'Error' && exit 1
 
-curl --location --request GET 'http://localhost:8080/account?username=hi&password=A123456'
+curl -s --location --request GET 'http://localhost:8080/account?username=hi&password=A123456'
 
-curl --location --request POST 'http://localhost:8080/profile/create?password=A123456' \
+curl -s --location --request POST 'http://localhost:8080/profile/create?password=A123456' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "bio": "i'\''m good",
+    "bio": "im good",
     "picture": "google it",
     "accountDto": {
         "username": "hi"
     },
-    "fullname": "diego",
-}'
+    "fullname": "diego"
+}' | grep 'Error' && exit 1
 
-curl --location --request GET 'http://localhost:8080/profile/hi:diego'
-
-curl --location --request POST 'http://localhost:8080/profile/edit?password=A123456' \
+curl -s --location --request POST 'http://localhost:8080/profile/edit?password=A123456' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "bio": "i'\''m bad",
-    "picture": "google it",
-    "accountDto": {
-        "username": "hi"
-    },
-    "fullname": "diego",
-    "id": "hi:diego"
-}' | grep 'bad'
+--data-raw '{ "bio": "im bad", "picture": "google it", "accountDto": { "username": "hi" }, "fullname": "diego", "id": "hi:diego"}' | grep 'Error' && exit 1
 
-curl --location --request POST 'http://localhost:8080/art/create?password=A123456' \
+curl -s --location --request GET 'http://localhost:8080/profile/hi:diego' | grep 'Error' && exit 1
+
+curl -s --location --request POST 'http://localhost:8080/art/create?password=A123456' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "name": "Bob",
@@ -83,11 +77,13 @@ curl --location --request POST 'http://localhost:8080/art/create?password=A12345
     },
     "type": "stupid",
     "author": "Bob"
-}'
+}' | grep 'Error' && exit 1
 
-curl --location --request GET 'http://localhost:8080/arts/hi:diego'
 
-curl --location --request POST 'http://localhost:8080/listing/create?password=A123456' \
+curl -s --location --request GET 'http://localhost:8080/arts/hi:diego' | grep 'Error' && exit 1
+
+
+curl -s --location --request POST 'http://localhost:8080/listing/create?password=A123456' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "price": 69,
@@ -102,9 +98,10 @@ curl --location --request POST 'http://localhost:8080/listing/create?password=A1
         "id": "hi:diego"
     },
     "tags": "sos"
-}'
+}' | grep 'Error' && exit 1
 
-curl --location --request POST 'http://localhost:8080/listing/edit?password=A123456' \
+
+curl -s --location --request POST 'http://localhost:8080/listing/edit?password=A123456' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "price": 19,
@@ -117,11 +114,12 @@ curl --location --request POST 'http://localhost:8080/listing/edit?password=A123
     },
     "tags": "sos"
     "id": 1
-}' | grep 'price' | grep '19'
+}' | grep 'Error' && exit 1
 
-curl --location --request GET 'http://localhost:8080/listings'
+curl -s --location --request GET 'http://localhost:8080/listings' | grep 'price' | grep '19'
 
-curl --location --request POST 'http://localhost:8080/pay' \
+
+curl -s --location --request POST 'http://localhost:8080/pay' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "transactionNumber": 60,
@@ -134,7 +132,8 @@ curl --location --request POST 'http://localhost:8080/pay' \
             "id": 1
         }
     ]
-}'
+}' | grep 'Error' && exit 1
 
-curl --location --request GET 'http://localhost:8080/revenus?username=hi&password=A123456' \
---data-raw ''
+
+curl -s --location --request GET 'http://localhost:8080/revenus?username=hi&password=A123456' | grep 'Error' && exit 1
+
