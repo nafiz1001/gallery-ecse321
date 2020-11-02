@@ -27,274 +27,316 @@ import ca.mcgill.ecse321.gallery.model.Listing;
 import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.service.ListingService;
 
+/**
+ * 
+ * @author antonianistor This class tests the methods in ListingService
+ */
 @ExtendWith(MockitoExtension.class)
 public class ListingServiceTests {
-	
+
 	@Mock
 	private ListingRepository listingRepository;
-	
+
 	@Mock
 	private ArtRepository artRepository;
-	
+
 	@InjectMocks
 	ListingService listingService;
-	
-	
+
 	private long id = 0;
-	private HashSet<Listing> savedListings= new HashSet<>();
-	private HashSet<Art> savedArts= new HashSet<>();
-	
-	
+	private HashSet<Listing> savedListings = new HashSet<>();
+	private HashSet<Art> savedArts = new HashSet<>();
+
 	@BeforeEach
 	public void setupMockup() {
-		
+
 		id = 0;
 		savedListings.clear();
 		savedArts.clear();
-		
-		//lambda for simulating saving listing
+
+		// lambda for simulating saving listing
 		Answer<Listing> updateListingNumAndReturn = (InvocationOnMock invocation) -> {
-			Listing listing = (Listing)invocation.getArgument(0);
+			Listing listing = (Listing) invocation.getArgument(0);
 			listing.setId(id);
 			savedListings.add(listing);
 			id++;
 			return listing;
 		};
-		
-		//lambda for simulatign saving art
+
+		// lambda for simulatign saving art
 		Answer<Art> saveAndReturn = (InvocationOnMock invocation) -> {
 			Art art = (Art) invocation.getArgument(0);
 			savedArts.add(art);
 			return art;
 		};
-		
-		//sim save listing
+
+		// sim save listing
 		lenient().when(listingRepository.save(any(Listing.class))).thenAnswer(updateListingNumAndReturn);
-		
-		//sim save art
+
+		// sim save art
 		lenient().when(artRepository.save(any(Art.class))).thenAnswer(saveAndReturn);
-		
-		//sim find all listings
-		lenient().when(listingRepository.findAll()).thenAnswer((InvocationOnMock invocation)-> {
+
+		// sim find all listings
+		lenient().when(listingRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
 			return savedListings;
 		});
-		
-		//sim find listing by id
-		lenient().when(listingRepository.findById(any())).thenAnswer((InvocationOnMock invocation)-> {
-			
-			long id = ((long)invocation.getArgument(0));
-			for (Listing l: savedListings) {
+
+		// sim find listing by id
+		lenient().when(listingRepository.findById(any())).thenAnswer((InvocationOnMock invocation) -> {
+
+			long id = ((long) invocation.getArgument(0));
+			for (Listing l : savedListings) {
 				if (l.getId() == (id))
 					return Optional.ofNullable(l);
-							
+
 			}
 			return Optional.empty();
 		});
 	}
-	
+
+	/**
+	 * Tests a successful listing creation
+	 */
 	@Test
 	void testSuccessfulListingCreation() {
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		Art art = new Art();
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
 		assertTrue(listing.isPresent());
 	}
-	
+
+	/**
+	 * Tests input of an invalid Art at creation
+	 */
 	@Test
 	void testInvalidArt() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
 		Art art = new Art();
-		Optional<Listing> listing1 = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
+		Optional<Listing> listing1 = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
 		try {
-			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-			}
-		catch (IllegalArgumentException e){
-				exceptionCaught=true;
-			}
+			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
+		}
 		assertTrue(exceptionCaught);
 		assertEquals(1, listingService.getAllListings().size());
-		
-		
-		
+
 	}
-	
+
+	/**
+	 * Test the input of an invalid price at creation
+	 */
 	@Test
 	void testInvalidPriceAtCreation() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, -120, 2, "tagA, tagB", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e){
-			exceptionCaught=true;
+			Optional<Listing> listing = listingService.createListing(art, -120, 2, "tagA, tagB", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 	}
-	
+
+	/**
+	 * Test the input of an invalid quantity at creation
+	 */
 	@Test
 	void testInvalidQuantityAtCreation() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, 120, -2, "tagA, tagB", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e){
-			exceptionCaught=true;
+			Optional<Listing> listing = listingService.createListing(art, 120, -2, "tagA, tagB", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		
+
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, 120, 0, "tagA, tagB", true, false, new Date(21102020));
-			}
-			catch (IllegalArgumentException e){
-				exceptionCaught=true;
-			}
-			assertTrue(exceptionCaught);
-		
-		exceptionCaught= false;
-		
+			Optional<Listing> listing = listingService.createListing(art, 120, 0, "tagA, tagB", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
+
+		exceptionCaught = false;
+
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 	}
-	
+
+	/**
+	 * Tests the input of invalid tags at creation
+	 */
 	@Test
 	void testInvalidTagsAtCreation() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA. tagB", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e){
-			exceptionCaught=true;
+			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA. tagB", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		exceptionCaught =false;
-		
+		exceptionCaught = false;
+
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tag1, tag2", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e){
-			exceptionCaught=true;
+			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tag1, tag2", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		exceptionCaught =false;
-		
+		exceptionCaught = false;
+
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tag!, tagB", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e){
-			exceptionCaught=true;
+			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tag!, tagB", true, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		
+
 		assertEquals(0, listingService.getAllListings().size());
 	}
-	
+
+	/**
+	 * Tests if at least one between canPickUp or canDeliver is true at creation
+	 */
 	@Test
 	void testDelivOrPickupAtCreation() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		try {
 			Art art = new Art();
-			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", false, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e){
-			exceptionCaught=true;
+			Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", false, false,
+					new Date(21102020));
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
 		assertEquals(0, listingService.getAllListings().size());
 	}
-	
+
+	/**
+	 * Tests getting a list of all the listings
+	 */
 	@Test
 	void testFindAllListings() {
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		Art art = new Art();
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
 		Art art1 = new Art();
-		Optional<Listing> listing1 = listingService.createListing(art1, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
+		Optional<Listing> listing1 = listingService.createListing(art1, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
 		assertEquals(2, listingService.getAllListings().size());
-		
+
 	}
-	
+
+	/**
+	 * Tests finding a listing by ID
+	 */
 	@Test
-	void testFindListingById () {
+	void testFindListingById() {
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		Art art = new Art();
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
-		assertTrue(listingService.findListingById((long)0).isPresent());
-		
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
+		assertTrue(listingService.findListingById((long) 0).isPresent());
+
 	}
-	
+
+	/**
+	 * Tests finding listings by their publisher
+	 */
 	@Test
 	void testFindListingByPublisher() {
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		Art art = new Art();
 		Profile prof = new Profile();
-		//test 0 
+		// test 0
 		assertEquals(0, listingService.findListingsByPublisher(prof).size());
-		
+
 		art.setOwner(prof);
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
-		//assertEquals(1,listingService.findListingsByPublisher(prof).size());
-		
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
+		// assertEquals(1,listingService.findListingsByPublisher(prof).size());
+
 		Art art2 = new Art();
 		art2.setOwner(prof);
-		Optional<Listing> listing2 = listingService.createListing(art2, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		//test multiple
-		assertEquals(2,listingService.findListingsByPublisher(prof).size());
-			
+		Optional<Listing> listing2 = listingService.createListing(art2, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+		// test multiple
+		assertEquals(2, listingService.findListingsByPublisher(prof).size());
+
 	}
-	
+
+	/**
+	 * Tests finding llistings according to a price range
+	 */
 	@Test
 	void testFindListingByPriceRangeSuccess() {
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		Art art = new Art();
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
 		Art art1 = new Art();
-		Optional<Listing> listing1 = listingService.createListing(art1, 125, 2, "tagA, tagB", true, false, new Date(21102020));
-		
-		//test 0
-		assertEquals(0,listingService.findListingByPriceRange(0,10).size());
-		
-		//test multiple
+		Optional<Listing> listing1 = listingService.createListing(art1, 125, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
+		// test 0
+		assertEquals(0, listingService.findListingByPriceRange(0, 10).size());
+
+		// test multiple
 		assertEquals(2, listingService.findListingByPriceRange(115, 140).size());
-		
+
 	}
-	
-	
+
+	/**
+	 * Tests editing a listing
+	 */
 	@Test
 	void testEditListing() {
 		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
-		
+
 		Art art = new Art();
-		Art art2= new Art();
+		Art art2 = new Art();
 		art2.setListing(null);
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		//art null
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+		// art null
 //		try {
 //			listingService.editListing(art2, 123, 1, "ts, gs", true, false, new Date(21102020));
 //		}
@@ -303,100 +345,93 @@ public class ListingServiceTests {
 //		}
 //		assertTrue(exceptionCaught);
 //		exceptionCaught=false;
-		
+
 		try {
 			listingService.editListing(art, -123, 1, "ts, gs", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		exceptionCaught=false;
-		
+		exceptionCaught = false;
+
 		try {
 			listingService.editListing(art, 123, -1, "ts, gs", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		exceptionCaught=false;
-		
+		exceptionCaught = false;
+
 		try {
 			listingService.editListing(art, 123, -1, "ts, gs1", true, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		exceptionCaught=false;
-		
+		exceptionCaught = false;
+
 		try {
 			listingService.editListing(art, 123, 1, "ts, gs", false, false, new Date(21102020));
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		exceptionCaught=false;
-		
+		exceptionCaught = false;
+
 		listingService.editListing(art, 123, 1, "ts, gs", true, false, new Date(21102020));
 		assertEquals(123, listing.get().getPrice());
-		
-		
+
 	}
-	
+
+	/**
+	 * Tests finding listing by price range with an invalid price range
+	 */
 	@Test
 	void testInvalidFindListingByPriceRange() {
-		boolean exceptionCaught=false;
+		boolean exceptionCaught = false;
 		assertEquals(0, listingService.getAllListings().size());
 		Art art = new Art();
-		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false, new Date(21102020));
-		
-		//negative price1
+		Optional<Listing> listing = listingService.createListing(art, 120, 2, "tagA, tagB", true, false,
+				new Date(21102020));
+
+		// negative price1
 		try {
-			listingService.findListingByPriceRange(-1,0);
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+			listingService.findListingByPriceRange(-1, 0);
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		
-		exceptionCaught=false;
-		
-		//negative price2
+
+		exceptionCaught = false;
+
+		// negative price2
 		try {
-			listingService.findListingByPriceRange(-10,-2);
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+			listingService.findListingByPriceRange(-10, -2);
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		
-		exceptionCaught=false;
-		
-		//max<min
+
+		exceptionCaught = false;
+
+		// max<min
 		try {
-			listingService.findListingByPriceRange(-1,0);
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+			listingService.findListingByPriceRange(-1, 0);
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		
-		exceptionCaught=false;
-		
-		//range too small
+
+		exceptionCaught = false;
+
+		// range too small
 		try {
-			listingService.findListingByPriceRange(5,5);
-		}
-		catch (IllegalArgumentException e) {
-			exceptionCaught=true;
+			listingService.findListingByPriceRange(5, 5);
+		} catch (IllegalArgumentException e) {
+			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-		
+
 	}
-	
-	
 
 }
