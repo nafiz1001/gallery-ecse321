@@ -18,8 +18,6 @@ jobs:
         - cd Gallery-Frontend
       install:
         - npm install
-      before_deploy:
-        cd Gallery-Frontend
       deploy:
         provider: heroku
         api_key:
