@@ -2,7 +2,6 @@ dist: xenial
 jobs:
   include:
     - language: java
-      java: openjdk11
       script:
       - "./gradlew build"
       deploy:
