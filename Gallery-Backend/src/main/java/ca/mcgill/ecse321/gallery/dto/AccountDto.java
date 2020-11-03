@@ -3,6 +3,11 @@ package ca.mcgill.ecse321.gallery.dto;
 import java.sql.Date;
 import java.util.Set;
 
+/**
+ * 
+ * @author ericpelletier
+ *
+ */
 public class AccountDto{
 	private String accountHolderType;
 	   

@@ -1,5 +1,10 @@
 package ca.mcgill.ecse321.gallery.dto;
 
+/**
+ * 
+ * @author ericpelletier
+ *
+ */
 public class AddressDto {
 	private String streetNumber;
 

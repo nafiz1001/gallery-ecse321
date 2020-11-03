@@ -22,6 +22,12 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.gallery.dao.AddressRepository;
 import ca.mcgill.ecse321.gallery.model.Address;
 
+/**
+ * 
+ * @author ericpelletier
+ * Test the methods inside of AddressService.
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class AddressServiceTest {
 
@@ -34,6 +40,9 @@ public class AddressServiceTest {
 	private String id = "0";
 	private HashSet<Address> savedAddresses = new HashSet<>();
 	
+	/**
+	 * Sets up the test environment.
+	 */
 	@BeforeEach
 	public void setupMockup() {
 		// address id generator mock
@@ -74,14 +83,20 @@ public class AddressServiceTest {
 		});
 	}
 	
+	/**
+	 * Test a successful creation of address.
+	 */
 	@Test
-	void testSuccessfulAccount() {
+	void testSuccessfulAddress() {
 		Optional<Address> address = addressService.createAddress("8", "Lakeview", "Baie-D'Urfe", "Quebec", "H9X 3B1");
 		
 		assertTrue(address.isPresent());
 		
 	}
 	
+	/**
+	 * Test a postalCode violation.
+	 */
 	@Test
 	void testPostalCodeViolations() {
 		// length > 7
@@ -120,7 +135,10 @@ public class AddressServiceTest {
 		address = addressService.createAddress("8", "Lakeview", "Baie-D'Urfe", "Quebec", "H9X 3BP");
 		assertTrue(address.isEmpty());
 	}
-	
+		
+	/**
+	 * Test the retrieval of an address by id.
+	 */
 	@Test
 	void testGetAddress() {
 		assertTrue(addressService.getAddressById("0").isEmpty());
@@ -130,6 +148,9 @@ public class AddressServiceTest {
 		
 	}
 	
+	/**
+	 * Test the retrieval of all address' inside the database.
+	 */
 	@Test 
 	void testGetAddressesByPostalCode() {
 		// there should be no addresses with postal code H9X 3B1 before creation of address

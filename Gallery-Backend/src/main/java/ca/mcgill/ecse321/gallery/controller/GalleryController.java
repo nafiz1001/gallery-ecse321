@@ -49,6 +49,11 @@ import ca.mcgill.ecse321.gallery.model.Profile;
 import ca.mcgill.ecse321.gallery.model.Revenu;
 import ca.mcgill.ecse321.gallery.service.*;
 
+/**
+ * 
+ * @author ericpelletier, atoniannistor, nafiz1001, BbananasS, halukcalin
+ * Gallery controller
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class GalleryController {
@@ -80,6 +85,11 @@ public class GalleryController {
 	@Autowired
 	private RevenuService revenuService;
 	
+	/**
+	 * Creates an Identity.
+	 * @param email The email associated to the identity
+	 * @return The identity created converted to Dto
+	 */
 	@PostMapping(value = { "/identity/create", "identity/create/"} )
 	private IdentityDto createIdentity(@RequestParam(name = "email") String email) {
 		Optional<Identity> identity = identityService.findIdentityByEmail(email);
@@ -90,6 +100,11 @@ public class GalleryController {
 		return convertToDto(identity.get());
 	}
 
+	/**
+	 * Creates an Account.
+	 * @param aDto The account to be created
+	 * @return The account created converted to Dto
+	 */
 	@PostMapping(value = { "/account/create", "/account/create/" })
 	private AccountDto createAccount(@RequestBody AccountDto aDto) {
 		IdentityDto email = aDto.getIdentity();
@@ -115,6 +130,12 @@ public class GalleryController {
 		return convertToDto(account);
 	}
 
+	/**
+	 * Edits an Account.
+	 * @param aDto The account to edit
+	 * @param password The password for verification
+	 * @return The newly edited account converted to Dto
+	 */
 	@PostMapping(value = { "/account/edit", "/account/edit/" })
 	private AccountDto editAccount(@RequestBody AccountDto aDto,
 			@RequestParam(name = "password") String password) {
@@ -137,6 +158,12 @@ public class GalleryController {
 		return convertToDto(account.get());
 	}
 
+	/**
+	 * Views an Account.
+	 * @param username The username of the account to view
+	 * @param password The password of the account for verification
+	 * @return The account to view converted to Dto
+	 */
 	@GetMapping(value = { "/account", "/account/" })
 	private AccountDto viewAccount(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
@@ -148,7 +175,12 @@ public class GalleryController {
 		}
 	}
 
-
+	/**
+	 * Edits a Profile
+	 * @param pDto The profile to edit
+	 * @param password The password of the account associated to the profile for verification
+	 * @return The newly edited Profile converted to Dto
+	 */
 	@PostMapping(value = { "/profile/edit", "/profile/edit/" })
 	private ProfileDto editProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
 		Optional<Profile> profile = profileService.getProfile(pDto.getId());
@@ -167,6 +199,12 @@ public class GalleryController {
 		}
 	}
 	
+	/**
+	 * Creates a Profile
+	 * @param pDto The profile to be created
+	 * @param password The password of the account associated to the profile for verification
+	 * @return The Profile created converted to Dto
+	 */
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
 	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
 		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
@@ -188,12 +226,23 @@ public class GalleryController {
 		return convertToDto(profile);
 	}
 
+	/**
+	 * Views a Profile
+	 * @param id The id of the profile to view
+	 * @return The profile to view converted to Dto
+	 */
 	@GetMapping(value = { "/profile/{id}", "/profile/{id}/" })
 	private ProfileDto viewProfile(@PathVariable("id") String id) {
 		Optional<Profile> profile = profileService.getProfile(id);
 		return convertToDto(profile.get());
 	}
 
+	/**
+	 * Creates a Payment.
+	 * @param pDto The payment to be created
+	 * @return The payment created converted to Dto 
+	 * @throws Exception Revenu can not be created for listing
+	 */
 	@PostMapping(value = { "/pay", "/pay/" })
 	private PaymentDto pay(@RequestBody PaymentDto pDto) throws Exception {
 		ArrayList<Listing> relevantListings = new ArrayList<>();
@@ -225,6 +274,12 @@ public class GalleryController {
 		return convertToDto(payment);
 	}
 
+	/**
+	 * Retrieves all revenus of a specific account
+	 * @param username The username of the account 
+	 * @param password The password of the account for verification
+	 * @return An array of revenus converted to Dto
+	 */
 	@GetMapping(value = { "/revenus", "/revenus/" })
 	private ArrayList<RevenuDto> getAllRevenus(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password) {
@@ -247,6 +302,10 @@ public class GalleryController {
 		return revenusDto;
 	}
 
+	/**
+	 * Retrieves all listings
+	 * @return A list of listings converted to Dto
+	 */
 	@GetMapping(value = { "/listings", "/listings/" })
 	private List<ListingDto> getAllListings() {
 
@@ -265,6 +324,12 @@ public class GalleryController {
 		return convertToDto(listing);
 	}
 
+	/**
+	 * Edits a listing
+	 * @param lDto The listing to edit
+	 * @param password The password of the account associated to the account for verification
+	 * @return The newly created listing converted to Dto
+	 */
 	@PostMapping(value = { "/listing/edit", "/listing/edit/" })
 	private ListingDto editListing(@RequestBody ListingDto lDto, @RequestParam(name = "password") String password) {
 
@@ -276,6 +341,10 @@ public class GalleryController {
 		return convertToDto(listing);
 	}
 
+	/**
+	 * Creation of Gallery
+	 * @return The created Gallery converted to Dto
+	 */
 	@GetMapping(value = { "/gallery/view", "/gallery/view/" })
 	private GalleryDto aboutUs() {
 		Optional<Gallery> gallery = galleryService.getGallery("Gallery");
@@ -287,6 +356,11 @@ public class GalleryController {
 		}
 	}
 	
+	/**
+	 * Retrieves all art of a specific profile
+	 * @param id The id of the profile
+	 * @return A list of art associated to a specific profile converted to Dto
+	 */
 	@GetMapping(value = { "/arts/{id}", "/arts/{id}/" })
 	private List<ArtDto> getAllArts(@PathVariable("id") String id) {
 		Optional<Profile> profile = profileService.getProfile(id);
@@ -296,6 +370,13 @@ public class GalleryController {
 		return profile.get().getArts().stream().map(l -> convertToDto(l)).collect(Collectors.toList());
 	}
 
+	/**
+	 * Creates a Art
+	 * @param aDto The art to be created
+	 * @param password The password of the account associated to the profile 
+	 * @return The created Art converted to Dto
+	 * @throws IllegalArgumentException The is no profile with id of the art's owner
+	 */
 	@PostMapping(value = { "/art/create", "/art/create/" })
 	private ArtDto createArt(@RequestBody ArtDto aDto, @RequestParam(name = "password") String password) throws IllegalArgumentException {
 		Optional<Profile> profile = profileService.getProfile(aDto.getOwner().getId());
@@ -309,6 +390,11 @@ public class GalleryController {
 		return convertToDto(art.get());
 	}
 
+	/**
+	 * Convert payment to Dto
+	 * @param payment
+	 * @return Payment converted to Dto
+	 */
 	private PaymentDto convertToDto(Optional<Payment> payment) {
 		if (payment.isEmpty()) {
 			return null;
@@ -330,6 +416,11 @@ public class GalleryController {
 		return paymentDto;
 	}
 
+	/**
+	 * Convert Address to Dto
+	 * @param address
+	 * @return Address converted to Dto
+	 */
 	private AddressDto convertToDto(Address a) {
 		if (a == null) {
 			return null;
@@ -344,6 +435,11 @@ public class GalleryController {
 		return addressDto;
 	}
 
+	/**
+	 * Convert Account to Dto
+	 * @param account
+	 * @return Account converted to Dto
+	 */
 	private AccountDto convertToDto(Account a) {
 		if (a == null) {
 			return null;
@@ -370,6 +466,11 @@ public class GalleryController {
 		return accountDto;
 	}
 
+	/**
+	 * Convert Art to Dto
+	 * @param art
+	 * @return Art converted to Dto
+	 */
 	private ArtDto convertToDto(Art a) {
 		if (a == null) {
 			return null;
@@ -398,6 +499,11 @@ public class GalleryController {
 
 	}
 
+	/**
+	 * Convert Gallery to Dto
+	 * @param gallery
+	 * @return Gallery converted to Dto
+	 */
 	private GalleryDto convertToDto(Gallery g) {
 		if (g == null) {
 			return null;
@@ -413,6 +519,11 @@ public class GalleryController {
 		return galleryDto;
 	}
 
+	/**
+	 * Convert Identity to Dto
+	 * @param Identity
+	 * @return Identity converted to Dto
+	 */
 	private IdentityDto convertToDto(Identity i) {
 		if (i == null) {
 			return null;
@@ -423,6 +534,11 @@ public class GalleryController {
 		return identityDto;
 	}
 
+	/**
+	 * Convert Listing to Dto
+	 * @param listing
+	 * @return Listing converted to Dto
+	 */
 	private ListingDto convertToDto(Listing l) {
 		if (l == null) {
 			return null;
@@ -442,6 +558,11 @@ public class GalleryController {
 		return listingDto;
 	}
 
+	/**
+	 * Convert Profile to Dto
+	 * @param profile
+	 * @return Profile converted to Dto
+	 */
 	private ProfileDto convertToDto(Profile p) {
 		if (p == null) {
 			return null;
@@ -469,6 +590,11 @@ public class GalleryController {
 		return profileDto;
 	}
 
+	/**
+	 * Convert Revenu to Dto
+	 * @param revenu
+	 * @return Revenu converted to Dto
+	 */
 	private RevenuDto convertToDto(Revenu r) {
 		if (r == null) {
 			return null;
