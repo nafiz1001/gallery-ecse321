@@ -1,9 +1,10 @@
 <template>
     <div id="checkout">
-        <div>
+        <div id="email">
             <span>Email (optional): </span>
             <input v-model="email" placeholder="">
         </div>
+        <div id="payment">
         <div>
             <span>Payment Type: </span>
             <select v-model="paymentType">
@@ -32,15 +33,15 @@
             <input type="text" placeholder="0123">
         </div>
         </div>
-        <div>
+        </div>
+        <div id="delivery">
             <span>Delivery Type: </span>
             <select v-model="deliveryType">
                 <option disabled value="">Please select one</option>
                 <option>Pick Up</option>
                 <option>Shipping</option>
             </select>
-        </div>
-        <div v-if="deliveryType === 'Shipping'">
+            <div v-if="deliveryType === 'Shipping'" id="address">
             <div>
                 <span>Street Number: </span>
                 <input v-model="address.streetNumber" placeholder="9999">
@@ -61,6 +62,7 @@
                 <span>Postal Code: </span>
                 <input v-model="address.postalCode" placeholder="H0H 0H0">
             </div>
+        </div>
         </div>
          <button v-on:click="pay(paymentType, deliveryType, transactionNumber, address, email)">Buy Now!</button>
     </div>
