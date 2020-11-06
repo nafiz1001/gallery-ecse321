@@ -9,6 +9,32 @@ const AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
+function getListing(id) {
+  return {id: id};
+}
+
+function pay(paymentType, deliveryType, transactionNumber, address, email) {
+  const listings = localStorage.getItem('cart');
+  
+  const body = {
+      paymentType: paymentType,
+      deliveryType: deliveryType,
+      transactionNumber: transactionNumber,
+      listing: listings,
+      identity: {
+          email: email
+      },
+      address: address
+  };
+
+  AXIOS.post('/pay', body).then(response => {
+      console.log("Payment succeded for successful reason");
+  }).catch(error => {
+      console.log("Payment failed for failureful reason");
+  });
+}
+
 export default {
-  AXIOS: AXIOS
+  getListing: getListing,
+  pay: pay
 }
