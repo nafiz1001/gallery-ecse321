@@ -529,7 +529,11 @@ public class GalleryController {
 			return null;
 		}
 		IdentityDto identityDto = new IdentityDto();
-		identityDto.setAccount(null);
+		AccountDto aDto = new AccountDto();
+		if (i.getAccount() != null) {
+			aDto.setUsername(i.getAccount().getUsername());
+			identityDto.setAccount(aDto);
+		}
 		identityDto.setEmail(i.getEmail());
 		return identityDto;
 	}
