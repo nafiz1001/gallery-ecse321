@@ -17,21 +17,21 @@
         <div class="passline"> </div>
         <button
           type="button"
-          style="background-color: rgb(224, 224, 224); color: rgb(58, 96, 110)"
+          style="background-color: rgb(224, 224, 224); color: rgb(85, 23, 23)"
         >
           Continue As Guest
         </button>
 
         <button
           type="button"
-          style="background-color: rgb(224, 224, 224); color: rgb(58, 96, 110)"
+          style="background-color: rgb(224, 224, 224); color: rgb(85, 23, 23)"
         >
           Log In
         </button>
 
         <button
           type="button"
-          style="background-color: rgb(224, 224, 224); color: rgb(58, 96, 110)"
+          style="background-color: rgb(224, 224, 224); color: rgb(85, 23, 23)"
         >
           Create Account
         </button>
@@ -44,24 +44,24 @@
           style="
             font-family: Didot;
             font-size: 40px;
-            color: rgb(58, 96, 110);
+            color: rgb(85, 23, 23);
             font-weight: bold;
           "
         >
           I am an Artist!
         </h2>
-        <img src="https://i.ibb.co/gS3kRc8/imageedit-20-9541402536.png"/>
+        <img src="https://i.ibb.co/0KsLJ33/imageedit-33-4884394458.png"/>
         <p></p>
         <button
           type="button"
-          style="background-color: rgb(58, 96, 110); color: rgb(224, 224, 224)"
+          style="background-color: rgb(85, 23, 23); color: rgb(224, 224, 224)"
         >
           Log In
         </button>
 
         <button
           type="button"
-          style="background-color: rgb(58, 96, 110); color: rgb(224, 224, 224)"
+          style="background-color: rgb(85, 23, 23); color: rgb(224, 224, 224)"
         >
           Create Profile
         </button>
@@ -89,7 +89,7 @@
 /* Control the left side */
 .left {
   left: 0;
-  background-color: rgb(58, 96, 110);
+  background-color: rgb(85, 23, 23);
 }
 
 /* Control the right side */
