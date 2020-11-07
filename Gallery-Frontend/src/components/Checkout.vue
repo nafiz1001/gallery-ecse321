@@ -3,10 +3,12 @@
         <div id="checkout-forms">
             <h2>Checkout Information</h2>
             <div id="email">
+                <h3>Email</h3>
                 <span>Email (optional): </span>
                 <input v-model="email" placeholder="">
             </div>
             <div id="payment">
+                <h3>Payment</h3>
                 <div>
                     <span>Payment Type: </span>
                     <select v-model="paymentType">
@@ -37,13 +39,16 @@
                 </div>
             </div>
             <div id="delivery">
+                <h3>Delivery</h3>
                 <span>Delivery Type: </span>
                 <select v-model="deliveryType">
                     <option disabled value="">Please select one</option>
                     <option>Pick Up</option>
                     <option>Shipping</option>
                 </select>
-                <div id="address">
+            </div>
+            <div id="address">
+                    <h3>Address</h3>
                     <div>
                         <span>Street Number: </span>
                         <input v-model="address.streetNumber" placeholder="9999">
@@ -65,7 +70,6 @@
                         <input v-model="address.postalCode" placeholder="H0H 0H0">
                     </div>
                 </div>
-            </div>
             <button v-on:click="pay(paymentType, deliveryType, transactionNumber, address, email)">Buy Now!</button>
         </div>
         <div id="cart">
@@ -78,12 +82,23 @@
 <style>
     #checkout {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+
+    #checkout h3 {
+        font-size: 1.5em;
     }
 
     #cart {
         display: flex;
         flex-direction: column;
+    }
+
+    #checkout-forms > div {
+        margin-bottom: 2em;
+        text-align: left;
     }
 </style>
 
