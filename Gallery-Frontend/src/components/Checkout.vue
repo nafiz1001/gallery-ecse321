@@ -10,14 +10,13 @@
             <div id="payment">
                 <h3>Payment</h3>
                 <div>
-                    <span>Payment Type: </span>
-                    <select v-model="paymentType">
-                        <option disabled value="">Please select one</option>
-                        <option>Paypal</option>
-                        <option>Credit Card</option>
-                    </select>
+                    <input type="radio" id="credit" value="credit" v-model="paymentType">
+                    <label for="credit">Credit Card</label>
+                    <br>
+                    <input type="radio" id="paypal" value="paypal" v-model="paymentType">
+                    <label for="paypal">PayPal</label>
                 </div>
-                <div v-if="paymentType === 'Credit Card'">
+                <div v-if="paymentType === 'credit'">
                     <div>
                         <span>Card Number: </span>
                         <input v-model="transactionNumber" type="text" placeholder="012345">
@@ -27,7 +26,7 @@
                         <input type="text" placeholder="123">
                     </div>
                 </div>
-                <div v-if="paymentType === 'Paypal'">
+                <div v-if="paymentType === 'paypal'">
                     <div>
                         <span>Paypal ID: </span>
                         <input v-model="transactionNumber" type="text" placeholder="012345">
@@ -40,12 +39,11 @@
             </div>
             <div id="delivery">
                 <h3>Delivery</h3>
-                <span>Delivery Type: </span>
-                <select v-model="deliveryType">
-                    <option disabled value="">Please select one</option>
-                    <option>Pick Up</option>
-                    <option>Shipping</option>
-                </select>
+                <input type="radio" id="pickup" value="pickup" v-model="deliveryType">
+                <label for="pickup">Pick Up</label>
+                <br>
+                <input type="radio" id="shipping" value="shipping" v-model="deliveryType">
+                <label for="shipping">Shipping</label>
             </div>
             <div id="address">
                     <h3>Address</h3>
