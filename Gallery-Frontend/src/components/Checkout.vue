@@ -20,7 +20,7 @@
                 <div v-if="paymentType === 'Credit Card'">
                     <div>
                         <span>Card Number: </span>
-                        <input v-model="transactionNumber" placeholder="012345">
+                        <input v-model="transactionNumber" type="text" placeholder="012345">
                     </div>
                     <div>
                         <span>Pin Code: </span>
@@ -29,8 +29,8 @@
                 </div>
                 <div v-if="paymentType === 'Paypal'">
                     <div>
-                        <span>Paypal Number: </span>
-                        <input type="text" placeholder="012345">
+                        <span>Paypal ID: </span>
+                        <input v-model="transactionNumber" type="text" placeholder="012345">
                     </div>
                     <div>
                         <span>Password: </span>
