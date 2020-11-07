@@ -77,11 +77,11 @@
 }
 /* Split the screen in half */
 .split {
-  height: 80%;
+  height: 100%;
   width: 50%;
   position: fixed;
   z-index: 1;
-  top: 20;
+  top: 10;
   overflow-x: hidden;
   padding-top: 20px;
 }
