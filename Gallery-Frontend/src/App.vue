@@ -4,6 +4,7 @@
     <div>
     <router-link to="/">Home Page!</router-link>
     <router-link to="/checkout">Checkout!</router-link>
+    <router-link to="/HomePage">Real HomePage!</router-link>
     </div>
     <router-view></router-view>
   </div>
