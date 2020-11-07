@@ -112,9 +112,8 @@ export default {
     },
     data: () => {
         return {
-            paymentType: '',
-            deliveryType: '',
-            transactionNumber: '',
+            paymentType: 'credit',
+            deliveryType: 'pickup',
             address: {
                 streetNumber: '',
                 street: '',
