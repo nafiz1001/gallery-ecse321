@@ -6,7 +6,7 @@
           style="
             font-family: Didot;
             font-size: 40px;
-            color: rgb(224, 224, 224);
+            color: #ffffff;
             font-weight: bold;
           "
         >
@@ -17,21 +17,21 @@
         <div class="passline"> </div>
         <button
           type="button"
-          style="background-color: rgb(224, 224, 224); color: rgb(85, 23, 23)"
+          style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #FFFFFF"
         >
           Continue As Guest
         </button>
 
         <button
           type="button"
-          style="background-color: rgb(224, 224, 224); color: rgb(85, 23, 23)"
+          style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #FFFFFF"
         >
           Log In
         </button>
 
         <button
           type="button"
-          style="background-color: rgb(224, 224, 224); color: rgb(85, 23, 23)"
+          style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #FFFFFF"
         >
           Create Account
         </button>
@@ -44,24 +44,24 @@
           style="
             font-family: Didot;
             font-size: 40px;
-            color: rgb(85, 23, 23);
+            color: #000000;
             font-weight: bold;
           "
         >
           I am an Artist!
         </h2>
-        <img src="https://i.ibb.co/0KsLJ33/imageedit-33-4884394458.png"/>
+        <img src="https://i.ibb.co/YNFx3pJ/art-icon-260nw-349560422-jpg-removebg-preview.png"/>
         <p></p>
         <button
           type="button"
-          style="background-color: rgb(85, 23, 23); color: rgb(224, 224, 224)"
+          style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #000000"
         >
           Log In
         </button>
 
         <button
           type="button"
-          style="background-color: rgb(85, 23, 23); color: rgb(224, 224, 224)"
+          style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #000000"
         >
           Create Profile
         </button>
@@ -89,13 +89,13 @@
 /* Control the left side */
 .left {
   left: 0;
-  background-color: rgb(85, 23, 23);
+  background-color: #000000;
 }
 
 /* Control the right side */
 .right {
   right: 0;
-  background-color: rgb(224, 224, 224);
+  background-color: #ffffff;
 }
 
 /* If you want the content centered horizontally and vertically */

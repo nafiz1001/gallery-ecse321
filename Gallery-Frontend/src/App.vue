@@ -9,6 +9,7 @@
       
     
     <li><router-link class="navtext" to="/HomePage"> Homepage </router-link></li>
+    <li><router-link class="navtext" to="/ArtistSignUp">ArtistSignUp</router-link></li>
     <li><router-link class="navtext" to="/checkout">Checkout</router-link></li>
     
     </nav>
@@ -34,20 +35,20 @@ export default {
 }
 
 .navtext{
-  border: 2px solid rgb(255,255,255) ;
+  border: 2px solid #2B2D42 ;
   padding: 3px;
-  font-family: Didot; 
+  font-family: Raleway Medium Alt1; 
   font-size: 20px;
-  color: rgb(255,255,255);
+  color: #2B2D42 ;
   margin:8px;
   
 }
 .navtext:hover{
-  color: rgb(255,255,255);
+  color: #2B2D42 ;
 }
 
 .navbar{
-  background-color: rgb(71, 85, 71);
+  background-color: #8D99AE;
   margin: 0px;
   padding: 0px;
   position:sticky;
@@ -56,7 +57,7 @@ export default {
   
 }
 .header{
-  background-color:rgb(71, 85, 71) ;
+  background-color:#8D99AE ;
   display:flex;
   flex-direction: row;
   justify-content:flex-start;
