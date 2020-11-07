@@ -11,6 +11,7 @@
     <li><router-link class="navtext" to="/HomePage"> Homepage </router-link></li>
     <li><router-link class="navtext" to="/ArtistSignUp">ArtistSignUp</router-link></li>
     <li><router-link class="navtext" to="/checkout">Checkout</router-link></li>
+    <li><router-link class="navtext" to="/Listing">View Listing</router-link></li>
     
     </nav>
     </div>
