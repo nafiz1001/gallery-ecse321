@@ -6,6 +6,7 @@ import HomePage from '@/components/HomePage'
 import ArtistSignUp from '@/components/ArtistSignUp'
 import ArtistSignIn from '@/components/ArtistSignIn'
 import OneListing from '@/components/OneListing'
+import OneProfile from '@/components/OneProfile'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/Listing',
       name: 'OneListing',
       component: OneListing
+    },
+    {
+      path: '/Profile',
+      name: 'OneProfile',
+      component: OneProfile
     },
     {
       path: '/HomePage',
