@@ -11,30 +11,30 @@
             <div id="payment">
                 <h3>Payment</h3>
                 <div>
-                    <input type="radio" id="credit" value="credit" v-model="paymentType">
+                    <input type="radio" id="credit" value="credit" v-model="payment.type">
                     <label for="credit">Credit Card</label>
                     <br>
-                    <input type="radio" id="paypal" value="paypal" v-model="paymentType">
+                    <input type="radio" id="paypal" value="paypal" v-model="payment.type">
                     <label for="paypal">PayPal</label>
                 </div>
-                <div v-if="paymentType === 'credit'">
+                <div v-if="payment.type === 'credit'">
                     <div>
                         <div>Card Number: </div>
-                        <input type="text" placeholder="012345">
+                        <input type="text" v-model="payment.id" placeholder="012345">
                     </div>
                     <div>
                         <div>Pin Code: </div>
-                        <input type="text" placeholder="123">
+                        <input type="text" v-model="payment.pass" placeholder="123">
                     </div>
                 </div>
-                <div v-if="paymentType === 'paypal'">
+                <div v-if="payment.type === 'paypal'">
                     <div>
                         <div>Paypal ID: </div>
-                        <input type="text" placeholder="012345">
+                        <input type="text" v-model="payment.id" placeholder="012345">
                     </div>
                     <div>
                         <div>Password: </div>
-                        <input type="text" placeholder="0123">
+                        <input type="text" v-model="payment.pass" placeholder="0123">
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                         <input v-model="address.postalCode" placeholder="H0H 0H0">
                     </div>
             </div>
-            <button v-on:click="error = pay(paymentType, deliveryType, address, email)">Buy Now!</button>
+            <button v-on:click="error = pay(email, payment, deliveryType, address, pay)">Buy Now!</button>
         </div>
         <div id="cart">
             <h2>Cart</h2>
@@ -163,12 +163,13 @@ function validateAddress(address, deliveryType) {
     return deliveryType === 'pickup' && result;
 }
 
-function pay(paymentType, deliveryType, address, email) {
+function pay(payment, deliveryType, address, email) {
     let isPaymentValid = true;
     const error = {
         email: '',
         deliveryType: '',
-        address: ''
+        address: '',
+        payment: {id: '', pass: ''}
     };
 
     if (email && !validateEmail(email)) {
@@ -187,6 +188,14 @@ function pay(paymentType, deliveryType, address, email) {
         isPaymentValid = false;
     }
 
+    if (!payment.id) {
+        error.payment.id = "Paypal ccount or credit card number must be specified";
+    }
+
+    if (!payment.pass) {
+        error.payment.pass = "Paypal ccount password or credit card pin number must be specified";
+    }
+
     return error;
 }
 
@@ -197,7 +206,7 @@ export default {
     },
     data: () => {
         return {
-            paymentType: 'credit',
+            payment: {type: 'credit', id: '', pass: ''},
             deliveryType: 'pickup',
             address: {
                 streetNumber: '',
