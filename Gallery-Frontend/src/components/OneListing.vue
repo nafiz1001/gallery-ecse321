@@ -1,9 +1,9 @@
 <template>
   <div id="Listing">
-      <div class="split left">
+      <div class="split left1">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <a class="leftText>">Back to Listings</a>
-  <div class="centered">
+  <div class="centered1">
     <img src="https://i.ibb.co/jG0C1WJ/The-Starry-Night-1889-by-Vincent-Van-Gogh-Original-from-Wikimedia-Commons-Digitally-enhanced-by-rawp.jpg">
     <div class="passline"> </div>
     <h3 style="font-family: Raleway; color: #2B2D42  ">Select Quantity: </h3>
@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="split right">
+<div class="split right1">
  
 <div class="passBigLine"> </div>
     <h1 style="text-decoration: underline; font-family: Raleway; font-weight: bold"> Listing Specifications</h1>
@@ -81,13 +81,13 @@ a:hover{
 }
 
 /* Control the left side */
-.left {
+.left1 {
   left: 0;
   background-color: #FFFFFF;
 }
 
 /* Control the right side */
-.right {
+.right1 {
   right: 0;
   background-color: #00FF80;
   text-align: left;
@@ -97,7 +97,7 @@ a:hover{
 }
 
 /* If you want the content centered horizontally and vertically */
-.centered {
+.centered1 {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -106,7 +106,7 @@ a:hover{
 }
 
 /* Style the image inside the centered container, if needed */
-.centered img {
+.centered1 img {
   padding:4px;
    border:3px solid #2B2D42;
   width: 550px;
