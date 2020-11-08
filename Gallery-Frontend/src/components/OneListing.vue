@@ -22,6 +22,7 @@
     <h3 style="display:inline ; font-family: Raleway; font-weight: bold"> Title: </h3> <p style="display:inline; font-size:22px; font-family: Raleway"> mona lisa</p> </div>
    <div class="passline"> </div>
    <h3 style="display:inline; font-family: Raleway; font-weight: bold"> Author: </h3><p style="display:inline; font-size:22px; font-family: Raleway"> van Gogh</p>
+   <a class="viewP"> View Profile</a>
     <div class="passline"> </div>
     <h3 style="display:inline; font-family: Raleway; font-weight: bold"> Price: </h3><p style="display:inline; font-size:22px; font-family: Raleway"> 1000000$</p>
    <div class="passline"> </div>
@@ -44,6 +45,19 @@
 </template>
 
 <style>
+.viewP{
+  display: inline;
+  font-family: Raleway; 
+    font-size: 20px;
+    
+    color: #000000 ;
+     margin:8px;
+     border: 2px solid #000000 ;
+    padding: 3px;
+}
+.viewP:hover{
+  color: #000000 ;
+}
 .title{
     display:inline;
 }
