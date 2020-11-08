@@ -4,18 +4,33 @@
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
+  <div class="container profilePic">
+  <img src="https://banner2.cleanpng.com/20190629/vqv/kisspng-clip-art-computer-icons-transparency-portable-netw-5d16f7b3df7295.5493661015617862919153.jpg" alt="Image">
+  <input id="fileInput" type="file" style="display:none;" />
+  <input type="btn" value="Select Profile Picture" onclick="document.getElementById('fileInput').click();" />   
+</div>
+    <label for="firstName"><b>First Name</b></label><br>
+    <input type="text" placeholder="Enter First Name" name="firtName" id="firstName" required>
 
-    <label for="email"><b>Email</b></label><br>
+    <br><label for="lastName"><b>Last Name</b></label><br>
+    <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" required>
+
+    <br><label for="email"><b>Email</b></label><br>
     <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+    <br><label for="username"><b>Username</b></label><br>
+    <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
     <br><label for="psw"><b>Password</b></label><br>
     <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
     <br><label for="psw-repeat"><b>Repeat Password</b></label><br>
     <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+
+    <br><label for="bio"><b>Bio</b></label><br>
+    <input type="text" placeholder="Write a bio" name="bio" id="bio">
     <hr>
 
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
     <button type="submit" class="registerbtn">Register</button>
   </div>
 
@@ -33,6 +48,38 @@
   padding: 16px;
 }
 
+/* Container needed to position the button. Adjust the width as needed */
+.profilePic {
+  position: relative;
+  width: 50%;
+}
+
+/* Make the image responsive */
+.profilePic img {
+  width: 50%;
+  height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+input[type=btn] {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #8D99AE;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+input[type=btn]:hover {
+  background-color: #2B2D42;
+}
+
 /* Half-width input fields */
 input[type=text], input[type=password] {
   width: 50%;
@@ -43,7 +90,17 @@ input[type=text], input[type=password] {
   background: #f1f1f1;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+/* Half-width input fields */
+input[id=bio] {
+  width: 50%;
+  padding: 60px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=bio] {
   background-color: #ddd;
   outline: none;
 }
@@ -89,3 +146,13 @@ a {
       name: 'ArtistSignUp',
       component: ArtistSignUp
     }-->
+
+  <script>  
+function openAttachment() {
+  document.getElementById('attachment').click();
+}
+
+function fileSelected(input){
+  document.getElementById('btnAttachment').value = "File: " + input.files[0].name
+}
+</script>

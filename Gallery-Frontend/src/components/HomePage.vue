@@ -62,6 +62,7 @@
         <button
           type="button"
           style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #000000"
+        @click="$router.push('ArtistSignUp')"
         >
           Create Profile
         </button>
