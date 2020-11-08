@@ -4,7 +4,7 @@
             <h2>Checkout Information</h2>
             <div id="email">
                 <h3>Email</h3>
-                <div id="error-email" class="error-hidden">Insert error here</div>
+                <div v-show="error.email" class="error">{{error.email}}</div>
                 <div>Email (optional): </div>
                 <input v-model="email" placeholder="">
             </div>
@@ -40,7 +40,7 @@
             </div>
             <div id="delivery">
                 <h3>Delivery</h3>
-                <div id="error-delivery" class="error-hidden">Insert error here</div>
+                <div v-show="error.deliveryType" class="error">{{error.deliveryType}}</div>
                 <input type="radio" id="pickup" value="pickup" v-model="deliveryType">
                 <label for="pickup">Pick Up</label>
                 <br>
@@ -49,7 +49,7 @@
             </div>
             <div id="address">
                     <h3>Address</h3>
-                    <div id="error-address" class="error-hidden">Insert error here</div>
+                    <div v-show="error.address" class="error">{{error.address}}</div>
                     <div>
                         <div>Street Number: </div>
                         <input v-model="address.streetNumber" placeholder="9999">
@@ -71,7 +71,7 @@
                         <input v-model="address.postalCode" placeholder="H0H 0H0">
                     </div>
             </div>
-            <button v-on:click="pay(paymentType, deliveryType, address, email)">Buy Now!</button>
+            <button v-on:click="error = pay(paymentType, deliveryType, address, email)">Buy Now!</button>
         </div>
         <div id="cart">
             <h2>Cart</h2>
@@ -114,18 +114,10 @@
         align-content: left;
     }
 
-    .error-hidden {
-        visibility: hidden;
-        font-size: 0%;
-    }
-
-    .error-shown {
-        visibility: visible;
+    .error {
         color: red;
         font-style: italic;
         word-wrap: break-word;
-        max-width: 100%;
-        font-size: 100%;
     }
 </style>
 
@@ -172,38 +164,30 @@ function validateAddress(address, deliveryType) {
 }
 
 function pay(paymentType, deliveryType, address, email) {
-    function makeErrorAppear(id, msg) {
-        const el = document.getElementById(id);
-        el.setAttribute('class', 'error-shown');
-        el.textContent = msg;
-    }
-
-    function makeErrorDisappear(id) {
-        const el = document.getElementById(id);
-        el.setAttribute('class', 'error-hidden');
-    }
-
     let isPaymentValid = true;
+    const error = {
+        email: '',
+        deliveryType: '',
+        address: ''
+    };
+
     if (email && !validateEmail(email)) {
-        makeErrorAppear('error-email', 'Email format invalid');
+        error.email = "Email format invalid";
         isPaymentValid = false;
-    } else {
-        makeErrorDisappear('error-email');
     }
 
     if (!validateDeliveryType(deliveryType)) {
-        makeErrorAppear('error-delivery', "The delivery type is invalid");
+        error.deliveryType = "The delivery type is invalid";
         isPaymentValid = false;
-    } else {
-        makeErrorDisappear('error-delivery');
     }
 
+
     if (!validateAddress(address, deliveryType)) {
-        makeErrorAppear('error-address', "The address must be specified correctly. At least the postal code must be specified");
+        error.address  = "The address must be specified correctly. At least the postal code must be specified";
         isPaymentValid = false;
-    } else {
-        makeErrorDisappear('error-address');
     }
+
+    return error;
 }
 
 export default {
