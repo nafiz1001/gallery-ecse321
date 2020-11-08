@@ -126,8 +126,8 @@ hr {
 
 /* Set a style for the submit/register button */
 .registerbtn {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #00ff80;
+  color: black;
   padding: 16px 20px;
   margin: 8px 0;
   border: none;
@@ -149,6 +149,7 @@ a {
 .signinbtn {
   background-color: #f1f1f1;
   text-align: center;
+  border: none;
 }
 
 label[id=label]{
