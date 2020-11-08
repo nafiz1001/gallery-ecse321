@@ -9,33 +9,44 @@
   <input id="fileInput" type="file" style="display:none;" />
   <input type="btn" value="Select Profile Picture" onclick="document.getElementById('fileInput').click();" />   
 </div>
-    <label for="firstName"><b>First Name</b></label><br>
+    <label id="label" for="firstName"><b>First Name</b></label><br>
     <input type="text" placeholder="Enter First Name" name="firtName" id="firstName" required>
 
-    <br><label for="lastName"><b>Last Name</b></label><br>
+    <br><label id="label" for="lastName"><b>Last Name</b></label><br>
     <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" required>
 
-    <br><label for="email"><b>Email</b></label><br>
+    <br><label id="label" for="email"><b>Email</b></label><br>
     <input type="text" placeholder="Enter Email" name="email" id="email" required>
 
-    <br><label for="username"><b>Username</b></label><br>
+    <br><label id="label" for="gender"><b>Gender</b></label><br>
+    <select name="gender" id="gender">
+     <option value="male"></option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="other">Other</option>
+  </select>
+
+    <br><label id="label" for="date"><b>Date of Birth</b></label><br>
+        <input type="date" id="date" name="date" required>
+
+    <br><label id="label" for="username"><b>Username</b></label><br>
     <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
-    <br><label for="psw"><b>Password</b></label><br>
+    <br><label id="label" for="psw"><b>Password</b></label><br>
     <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
-    <br><label for="psw-repeat"><b>Repeat Password</b></label><br>
+    <br><label id="label" for="psw-repeat"><b>Repeat Password</b></label><br>
     <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
 
-    <br><label for="bio"><b>Bio</b></label><br>
-    <input type="text" placeholder="Write a bio" name="bio" id="bio">
+    <br><label id="label" for="bio"><b>Bio</b></label><br>
+    <textarea type="text" placeholder="Write a bio" name="bio" id="bio"></textarea>
     <hr>
 
     <button type="submit" class="registerbtn">Register</button>
   </div>
 
-  <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
+  <div class="container signinbtn">
+    <p>Already have an account? <router-link to="/ArtistSignIn">Sign in</router-link>.</p>
   </div>
 </form>
 </template>
@@ -81,7 +92,7 @@ input[type=btn]:hover {
 }
 
 /* Half-width input fields */
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=date], select[name=gender] {
   width: 50%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -90,15 +101,17 @@ input[type=text], input[type=password] {
   background: #f1f1f1;
 }
 
-/* Half-width input fields */
-input[id=bio] {
+/* Half-width textasre field */
+textarea {
   width: 50%;
-  padding: 60px;
+  height: 200px;
+  padding: 30px;
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
   background: #f1f1f1;
 }
+
 
 input[type=text]:focus, input[type=password]:focus, input[type=bio] {
   background-color: #ddd;
@@ -133,19 +146,18 @@ a {
 }
 
 /* Set a grey background color and center the text of the "sign in" section */
-.signin {
+.signinbtn {
   background-color: #f1f1f1;
   text-align: center;
 }
-</style>
-<!-- <router-link to="/ArtistSignUp">ArtistSignUp</router-link> 
 
-,
-    {
-      path: '/ArtistSignUp',
-      name: 'ArtistSignUp',
-      component: ArtistSignUp
-    }-->
+label[id=label]{
+    left: 330px;
+    position: absolute; 
+    
+}
+</style>
+<!-- -->
 
   <script>  
 function openAttachment() {
