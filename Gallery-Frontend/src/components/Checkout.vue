@@ -17,25 +17,13 @@
                     <input type="radio" id="paypal" value="paypal" v-model="payment.type">
                     <label for="paypal">PayPal</label>
                 </div>
-                <div v-if="payment.type === 'credit'">
-                    <div>
-                        <div>Card Number: </div>
-                        <input type="text" v-model="payment.id" placeholder="012345">
-                    </div>
-                    <div>
-                        <div>Pin Code: </div>
-                        <input type="text" v-model="payment.pass" placeholder="123">
-                    </div>
-                </div>
-                <div v-if="payment.type === 'paypal'">
-                    <div>
-                        <div>Paypal ID: </div>
-                        <input type="text" v-model="payment.id" placeholder="012345">
-                    </div>
-                    <div>
-                        <div>Password: </div>
-                        <input type="text" v-model="payment.pass" placeholder="0123">
-                    </div>
+                <div>
+                    <div v-show="error.payment.id" class="error">{{error.payment.id}}</div>
+                    <div>{{payment.type === 'credit' ? 'Card Number' : 'Paypal ID'}}: </div>
+                    <input type="text" v-model="payment.id" placeholder="012345">
+                    <div v-show="error.payment.pass" class="error">{{error.payment.pass}}</div>
+                    <div>{{payment.type === 'credit' ? 'Pin' : 'Password'}}: </div>
+                    <input type="password" v-model="payment.pass" placeholder="*****">
                 </div>
             </div>
             <div id="delivery">
@@ -71,7 +59,7 @@
                         <input v-model="address.postalCode" placeholder="H0H 0H0">
                     </div>
             </div>
-            <button v-on:click="error = pay(email, payment, deliveryType, address, pay)">Buy Now!</button>
+            <button v-on:click="error = pay(email, payment, deliveryType, address)">Buy Now!</button>
         </div>
         <div id="cart">
             <h2>Cart</h2>
@@ -177,7 +165,7 @@ function validateAddress(address, deliveryType) {
     return deliveryType === 'pickup' && result;
 }
 
-function pay(payment, deliveryType, address, email) {
+function pay(email, payment, deliveryType, address) {
     let isPaymentValid = true;
     const error = {
         email: '',
@@ -203,11 +191,13 @@ function pay(payment, deliveryType, address, email) {
     }
 
     if (!payment.id) {
-        error.payment.id = "Paypal ccount or credit card number must be specified";
+        error.payment.id = `${payment.type === 'paypal' ? 'Paypal id' : 'Credit card number'} must be specified`;
+        isPaymentValid = false;
     }
 
     if (!payment.pass) {
-        error.payment.pass = "Paypal ccount password or credit card pin number must be specified";
+        error.payment.pass = `${payment.type === 'paypal' ? 'Paypal password' : 'Credit card pin'} must be specified`;
+        isPaymentValid = false;
     }
 
     return error;
@@ -234,7 +224,11 @@ export default {
             error: {
                 email: '',
                 deliveryType: '',
-                address: ''
+                address: '',
+                payment: {
+                    id: '',
+                    pass: ''
+                }
             },
             cart: getCart()
         };
