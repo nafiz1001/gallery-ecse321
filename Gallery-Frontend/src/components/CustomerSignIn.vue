@@ -18,6 +18,8 @@
 </template>
 
 <style>
+* {box-sizing: border-box}
+
 /* Add padding to containers */
 .container {
   padding: 16px;
@@ -58,18 +60,6 @@ hr {
 
 .registerbtn:hover {
   opacity:1;
-}
-
-/* Add a blue text color to links */
-a {
-  color: dodgerblue;
-}
-
-/* Set a grey background color and center the text of the "sign in" section */
-.signinbtn {
-  background-color: #f1f1f1;
-  text-align: center;
-  border: none;
 }
 
 label[id=label]{

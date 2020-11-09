@@ -25,6 +25,7 @@
         <button
           type="button"
           style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #FFFFFF"
+         @click="$router.push('CustomerSignIn')"
         >
           Log In
         </button>
@@ -32,6 +33,7 @@
         <button
           type="button"
           style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #FFFFFF"
+        @click="$router.push('CustomerSignUp')"
         >
           Create Account
         </button>
@@ -55,6 +57,7 @@
         <button
           type="button"
           style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #000000"
+         @click="$router.push('ArtistSignIn')"
         >
           Log In
         </button>
@@ -62,6 +65,7 @@
         <button
           type="button"
           style="background-color: #00ff80; color: #000000; font-size: 22px; font-family: Raleway; font-weight: bold; border: 2px solid #000000"
+        @click="$router.push('ArtistSignUp')"
         >
           Create Profile
         </button>

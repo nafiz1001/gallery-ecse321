@@ -5,7 +5,10 @@ import Checkout from '@/components/Checkout'
 import HomePage from '@/components/HomePage'
 import ArtistSignUp from '@/components/ArtistSignUp'
 import ArtistSignIn from '@/components/ArtistSignIn'
+import CustomerSignUp from '@/components/CustomerSignUp'
+import CustomerSignIn from '@/components/CustomerSignIn'
 import OneListing from '@/components/OneListing'
+import OneProfile from '@/components/OneProfile'
 
 Vue.use(Router)
 
@@ -27,6 +30,11 @@ export default new Router({
       component: OneListing
     },
     {
+      path: '/Profile',
+      name: 'OneProfile',
+      component: OneProfile
+    },
+    {
       path: '/HomePage',
       name: 'HomePage',
       component: HomePage
@@ -40,6 +48,16 @@ export default new Router({
       path: '/ArtistSignIn',
       name: 'ArtistSignIn',
       component: ArtistSignIn
+    },
+    {
+      path: '/CustomerSignUp',
+      name: 'CustomerSignUp',
+      component: CustomerSignUp
+    },
+    {
+      path: '/CustomerSignIn',
+      name: 'CustomerSignIn',
+      component: CustomerSignIn
     }
   ]
 })
