@@ -62,6 +62,16 @@
       <p style="display: inline; font-size: 22px; font-family: Raleway">
         1000000$
       </p>
+
+<div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Delivery Options:
+      </h3>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">Shipping: </p>
+      <p style="display: inline; font-size: 28px; font-family: Raleway">&#9745;</p>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">In-store pickup: </p>
+  <p style="display: inline; font-size: 28px; font-family: Raleway">&#9746;</p>
+
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Quantity Available:
