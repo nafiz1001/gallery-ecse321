@@ -1,7 +1,5 @@
 <template>
-<form action="action_page.php">
 	<div id="Account">
-	<div class="container">
 		<h1>My Account</h1>
 		<hr>
 
@@ -64,6 +62,7 @@
       <p style="display: inline; font-size: 22px; font-family: Raleway">Credit</p>
       <div class="passline"></div>
     </div>
+	</div>
 </template>
 
 <style>
