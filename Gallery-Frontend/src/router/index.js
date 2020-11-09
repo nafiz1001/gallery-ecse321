@@ -12,6 +12,7 @@ import OneProfile from '@/components/OneProfile'
 import MyAccountPage from '@/components/MyAccountPage'
 import BrowseListings from '@/components/BrowseListings'
 import MyProfile from '@/components/MyProfile'
+import AboutUs from '@/components/AboutUs'
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +76,13 @@ export default new Router({
       path: '/MyProfile',
       name: 'MyProfile',
       component: MyProfile
+    },
+    {
+      path: '/AboutUs',
+      name: 'AboutUs',
+      component: AboutUs
     }
+
+
   ]
 })
