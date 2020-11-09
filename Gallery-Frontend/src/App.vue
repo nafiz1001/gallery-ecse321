@@ -12,6 +12,7 @@
     <li><router-link class="navtext" to="/checkout">Checkout</router-link></li>
     <li><router-link class="navtext" to="/Listing">View Listing</router-link></li>
     <li><router-link class="navtext" to="/Profile">View Profile</router-link></li>
+    <li><router-link class="navtext" to="/browseListings">Browse Listings</router-link></li>
      </nav>
     </div>
     <router-view></router-view>
