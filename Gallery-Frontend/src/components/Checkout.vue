@@ -75,7 +75,10 @@
         </div>
         <div id="cart">
             <h2>Cart</h2>
-            <ListingRow v-for="l in getListings()" :key="l.id" :id="l.id" />
+            <div v-for="c in cart" :key="c.id">
+                <ListingRow  :id="c.id" />
+                <QuantityInput style="font-family: Raleway; color: #2B2D42; font-size: 20px" :id="c.id" :value="c.quantity"/>
+            </div>
         </div>
     </div>
 </template>
@@ -109,6 +112,10 @@
         max-width: 100%;
     }
 
+    #cart > div {
+        display: flex;
+    }
+
     #checkout-forms > div {
         text-align: left;
         align-content: left;
@@ -125,21 +132,7 @@
 import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
 import ListingRow from './ListingRow'
-
-function getListings() {
-    return [
-                {
-                    id: 0,
-                    canPickUp: true,
-                    canDeliver: false
-                },
-                {
-                    id: 1,
-                    canPickUp: false,
-                    canDeliver: true
-                }
-            ];
-}
+import QuantityInput from './QuantityInput'
 
 function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -202,7 +195,8 @@ function pay(payment, deliveryType, address, email) {
 export default {
     name: 'checkout',
     components: {
-        ListingRow: ListingRow
+        ListingRow: ListingRow,
+        QuantityInput: QuantityInput
     },
     data: () => {
         return {
@@ -220,12 +214,25 @@ export default {
                 email: '',
                 deliveryType: '',
                 address: ''
-            }
-        }
+            },
+            cart: [
+                {
+                    id: 0,
+                    canPickUp: true,
+                    canDeliver: false,
+                    quantity: 1
+                },
+                {
+                    id: 1,
+                    canPickUp: false,
+                    canDeliver: true,
+                    quantity: 1
+                }
+            ]
+        };
     },
     methods: {
-        pay: pay,
-        getListings: getListings
+        pay: pay
     }
 }
 </script>
