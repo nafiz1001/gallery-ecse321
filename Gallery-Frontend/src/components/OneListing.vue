@@ -127,7 +127,7 @@
 .passline {
   margin: 1em;
 }
-a {
+ a {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
