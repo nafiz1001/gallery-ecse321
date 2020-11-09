@@ -149,7 +149,7 @@ function validateAddress(address, deliveryType) {
     let result = getListings().filter(l => l.canDeliver);
     if (deliveryType === 'shipping' || result) {
         const re = /([A-Z]\d){3}/;
-        return re.test(address.postalCode.toUpperCase().split(' ').join(''));
+        return address.postalCode && re.test(address.postalCode.toUpperCase().split(' ').join(''));
     }
 
     result = getListings().filter(l => l.canPickUp);
