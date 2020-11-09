@@ -48,9 +48,11 @@
   height: 250px;
   margin: 20px;
   border: 5px solid #00ff80;
-
+  
 }
-
+.showListings img:hover{
+  border: 5px solid #FFFFFF;
+}
 
 
 hr.solid {
