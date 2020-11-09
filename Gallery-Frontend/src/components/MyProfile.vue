@@ -23,7 +23,7 @@
       </h3>
 
 		<img
-          src="https://i.ibb.co/jG0C1WJ/The-Starry-Night-1889-by-Vincent-Van-Gogh-Original-from-Wikimedia-Commons-Digitally-enhanced-by-rawp.jpg"
+        src="https://i.ibb.co/w47g34z/vincent-van-gogh-self-portrait-painting-musee-dorsay-via-wikimedia-commons-promojpg.jpg"
         />
 		 <div class="passline"></div>
 
