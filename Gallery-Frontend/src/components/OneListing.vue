@@ -8,7 +8,7 @@
     <div class="passline"> </div>
     <h3 style="font-family: Raleway; color: #2B2D42  ">Select Quantity: </h3>
     <form>
-<QuantityInput style="font-family: Raleway; color: #2B2D42; font-size: 20px" :id="99" :value="0"></QuantityInput>
+<input style="font-family: Raleway; color: #2B2D42; font-size: 20px" type="number" min="1" max="100" step="1" value="1" required>
 <input style="font-family: Raleway; color: #2B2D42; font-size: 20px" type="submit" value="Add to Cart!">
 </form>
   </div>
@@ -115,10 +115,7 @@ a:hover{
 </style>
 
 <script>
-import QuantityInput from './QuantityInput'
 export default {
-    components: {
-      QuantityInput: QuantityInput
-    }
+    
 }
 </script>
