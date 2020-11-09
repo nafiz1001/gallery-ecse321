@@ -51,7 +51,7 @@ function getListing(id) {
 export default {
   name: 'listingrow',
   props: ['id'],
-  data: () => {
+  data() {
       return {
           listing: getListing(this.id)
       }
