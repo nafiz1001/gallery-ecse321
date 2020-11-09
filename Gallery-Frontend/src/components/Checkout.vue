@@ -134,6 +134,27 @@ import DTOs from '../assets/js/dtos'
 import ListingRow from './ListingRow'
 import QuantityInput from './QuantityInput'
 
+function getListings() {
+    return [
+        {
+            id: 0,
+            canPickUp: true,
+            canDeliver: false,
+            quantity: 1
+        },
+        {
+            id: 1,
+            canPickUp: false,
+            canDeliver: true,
+            quantity: 2
+        }
+    ]
+}
+
+function getCart() {
+    return getListings();
+}
+
 function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -215,20 +236,7 @@ export default {
                 deliveryType: '',
                 address: ''
             },
-            cart: [
-                {
-                    id: 0,
-                    canPickUp: true,
-                    canDeliver: false,
-                    quantity: 1
-                },
-                {
-                    id: 1,
-                    canPickUp: false,
-                    canDeliver: true,
-                    quantity: 1
-                }
-            ]
+            cart: getCart()
         };
     },
     methods: {
