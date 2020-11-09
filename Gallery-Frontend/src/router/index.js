@@ -10,6 +10,7 @@ import CustomerSignIn from '@/components/CustomerSignIn'
 import OneListing from '@/components/OneListing'
 import OneProfile from '@/components/OneProfile'
 import MyAccountPage from '@/components/MyAccountPage'
+import MyProfile from '@/components/MyProfile'
 
 Vue.use(Router)
 
@@ -64,6 +65,12 @@ export default new Router({
       path: '/MyAccountPage',
       name: 'MyAccount',
       component: MyAccountPage
+    },
+    {
+      path: '/MyProfile',
+      name: 'MyProfile',
+      component: MyProfile
     }
+
   ]
 })
