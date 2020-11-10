@@ -10,7 +10,7 @@ const AXIOS = axios.create({
 })
 
 function getListing(id) {
-  return {id: id};
+  return {id: id, quantity: id + 1};
 }
 
 function pay(paymentType, deliveryType, transactionNumber, address, email) {

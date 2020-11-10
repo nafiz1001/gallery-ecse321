@@ -16,12 +16,13 @@
             min="1"
             max="100"
             step="1"
-            value="1"
+            v-model="quantity"
             required
           />
           <input
             style="font-family: Raleway; color: #2b2d42; font-size: 20px"
             type="submit"
+            v-on:click="error.addToCart = !addToCart(0, quantity); if (error.addToCart) window.alert('You\'ve reached max quantity for this listing')"
             value="Add to Cart!"
           />
         </form>
@@ -185,5 +186,21 @@ a:hover {
 </style>
 
 <script>
-export default {};
+import Cart from '../assets/js/cart'
+import Backend from '../assets/js/backend'
+
+export default {
+  data() {
+    return {
+      quantity: Backend.getListing(0).quantity,
+      error: {
+        addToCart: false
+      },
+      window: window
+    }
+  },
+  methods: {
+    addToCart: Cart.addToCart
+  }
+};
 </script>

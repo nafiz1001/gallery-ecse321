@@ -63,11 +63,14 @@
         </div>
         <div id="cart">
             <h2>Cart</h2>
-            <div v-for="c in cart" :key="c.id">
+            <div v-for="c in cart" :key="c.id" v-show="c.quantity > 0" >
                 <ListingRow  :id="c.id" />
-                <input type="number" min="0" :max=c.quantity step="1" :value="c.quantity" required>
+                <input type="number" min="0" :max="maxQuantity(c.id)" step="1" v-model="c.quantity" v-on:input="setQuantity(c.id, c.quantity)" required>
             </div>
         </div>
+        <!--
+        <Confirmation v-show="error.confirmationnumber >= 0" :confirmationnumber="error.confirmationnumber"></Confirmation>
+        -->
     </div>
 </template>
 
@@ -120,7 +123,8 @@
 import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
 import ListingRow from './ListingRow'
-import QuantityInput from './QuantityInput'
+import Confirmation from './Confirmation'
+import Cart from '../assets/js/cart'
 
 function getListings() {
     return [
@@ -136,11 +140,7 @@ function getListings() {
             canDeliver: true,
             quantity: 2
         }
-    ]
-}
-
-function getCart() {
-    return getListings();
+    ].filter(l => Number(l.id) in Cart.getCart());
 }
 
 function validateEmail(email) {
@@ -205,7 +205,7 @@ function pay(email, payment, deliveryType, address) {
     confirmationnumber = isPaymentValid ? 0 : -1;
 
     if (isPaymentValid) {
-        alert(`Transaction successfully processed. Your confirmation number ${confirmationnumber}`);
+        window.alert(`Transaction successfully processed. Your confirmation number ${confirmationnumber}`);
         window.location = '/#/Listing';
     }
 
@@ -216,7 +216,7 @@ export default {
     name: 'checkout',
     components: {
         ListingRow: ListingRow,
-        QuantityInput: QuantityInput
+        Confirmation: Confirmation
     },
     data: () => {
         return {
@@ -240,11 +240,16 @@ export default {
                 },
                 confirmationnumber: -1
             },
-            cart: getCart()
+            cart: Cart.getCart(),
+            window: window
         };
     },
     methods: {
-        pay: pay
+        pay: pay,
+        maxQuantity (id) {
+            return getListings()[id].quantity;
+        },
+        setQuantity: Cart.setQuantity
     }
 }
 </script>
