@@ -65,7 +65,7 @@
             <h2>Cart</h2>
             <div v-for="c in cart" :key="c.id">
                 <ListingRow  :id="c.id" />
-                <QuantityInput style="font-family: Raleway; color: #2B2D42; font-size: 20px" :id="c.id" :value="c.quantity"/>
+                <input type="number" min="0" :max=c.quantity step="1" :value="c.quantity" required>
             </div>
         </div>
     </div>
