@@ -174,6 +174,8 @@ function pay(email, payment, deliveryType, address) {
         payment: {id: '', pass: ''}
     };
 
+    let confirmationnumber = -1
+
     if (email && !validateEmail(email)) {
         error.email = "Email format invalid";
         isPaymentValid = false;
@@ -198,6 +200,13 @@ function pay(email, payment, deliveryType, address) {
     if (!payment.pass) {
         error.payment.pass = `${payment.type === 'paypal' ? 'Paypal password' : 'Credit card pin'} must be specified`;
         isPaymentValid = false;
+    }
+
+    confirmationnumber = isPaymentValid ? 0 : -1;
+
+    if (isPaymentValid) {
+        alert(`Transaction successfully processed. Your confirmation number ${confirmationnumber}`);
+        window.location = '/#/Listing';
     }
 
     return error;
@@ -228,7 +237,8 @@ export default {
                 payment: {
                     id: '',
                     pass: ''
-                }
+                },
+                confirmationnumber: -1
             },
             cart: getCart()
         };
