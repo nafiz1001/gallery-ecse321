@@ -13,6 +13,7 @@ import MyAccountPage from '@/components/MyAccountPage'
 import BrowseListings from '@/components/BrowseListings'
 import MyProfile from '@/components/MyProfile'
 import AboutUs from '@/components/AboutUs'
+import BrowseArtists from '@/components/BrowseArtists'
 Vue.use(Router)
 
 export default new Router({
@@ -81,6 +82,11 @@ export default new Router({
       path: '/AboutUs',
       name: 'AboutUs',
       component: AboutUs
+    },
+    {
+      path: '/Browse-artists',
+      name: '/Browse-artists',
+      component: BrowseArtists
     }
 
 
