@@ -3,6 +3,7 @@
   <div class="container">
     <h1>Login</h1>
     <hr>
+    <h1>Welcome Back!</h1><br><br><br>
 <label id="label" for="username"><b>Username</b></label><br>
     <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
@@ -10,6 +11,10 @@
     <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
     <button type="submit" class="registerbtn">Login</button>
+  </div>
+
+  <div class="container signinbtn">
+    <p>Don't have an account? <router-link to="/ArtistSignUp">Create account</router-link>.</p>
   </div>
 </form>
 </template>
@@ -55,6 +60,18 @@ hr {
 
 .registerbtn:hover {
   opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signinbtn {
+  background-color: #f1f1f1;
+  text-align: center;
+  border: none;
 }
 
 /* Add a blue text color to links */
