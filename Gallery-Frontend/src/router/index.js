@@ -9,7 +9,11 @@ import CustomerSignUp from '@/components/CustomerSignUp'
 import CustomerSignIn from '@/components/CustomerSignIn'
 import OneListing from '@/components/OneListing'
 import OneProfile from '@/components/OneProfile'
-
+import MyAccountPage from '@/components/MyAccountPage'
+import BrowseListings from '@/components/BrowseListings'
+import MyProfile from '@/components/MyProfile'
+import AboutUs from '@/components/AboutUs'
+import BrowseArtists from '@/components/BrowseArtists'
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +62,33 @@ export default new Router({
       path: '/CustomerSignIn',
       name: 'CustomerSignIn',
       component: CustomerSignIn
+    },
+    {
+      path: '/MyAccountPage',
+      name: 'MyAccount',
+      component: MyAccountPage
+    },
+    {
+      path: '/browseListings',
+      name: 'BrowseListings',
+      component: BrowseListings
+    },
+    {
+      path: '/MyProfile',
+      name: 'MyProfile',
+      component: MyProfile
+    },
+    {
+      path: '/AboutUs',
+      name: 'AboutUs',
+      component: AboutUs
+    },
+    {
+      path: '/Browse-artists',
+      name: '/Browse-artists',
+      component: BrowseArtists
     }
+
+
   ]
 })
