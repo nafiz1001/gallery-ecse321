@@ -2,7 +2,7 @@
   <div id="Listing">
     <div class="split left1">
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <a class="leftText>">All Listings</a>
+      <router-link to="/BrowseListings">All Listings</router-link>
       <div class="centered1">
         <img
           src="https://i.ibb.co/jG0C1WJ/The-Starry-Night-1889-by-Vincent-Van-Gogh-Original-from-Wikimedia-Commons-Digitally-enhanced-by-rawp.jpg"
