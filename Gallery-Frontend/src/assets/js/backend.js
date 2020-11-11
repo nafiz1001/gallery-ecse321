@@ -34,7 +34,33 @@ function pay(paymentType, deliveryType, transactionNumber, address, email) {
   });
 }
 
+function AccountDto(accountHolderType, identity, profile, username,
+  password, dateJoined, address, dateOfBirth, revenus,
+  accountNumber, paymentType) {
+    this.accountHolderType = accountHolderType;
+    this.identity = identity;
+    this.profile = profile;
+    this.username = username;
+    this.password = password;
+    this.dateJoined = dateJoined;
+    this.address = address;
+    this.dateOfBirth = dateOfBirth;
+    this.revenus = revenus;
+    this.accountNumber = accountNumber;
+    this.paymentType = paymentType;
+}
+
+function createAccount(accountDto, successful, failure) {
+  AXIOS.post('/account/create', accountDto).then(response => {
+    successful(response);
+  }).catch(error => {
+    failure(error);
+  });
+}
+
 export default {
   getListing: getListing,
+  createAccount: createAccount,
+  AccountDto: AccountDto,
   pay: pay
 }
