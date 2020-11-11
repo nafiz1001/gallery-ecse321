@@ -1,22 +1,20 @@
 <template>
-<form action="action_page.php">
   <div class="container">
     <h1>Login</h1>
     <hr>
     <h1>Welcome Back!</h1><br><br><br>
 <label id="label" for="username"><b>Username</b></label><br>
-    <input type="text" placeholder="Enter Username" name="username" id="username" required>
+    <input type="text" placeholder="Enter Username" name="username" id="username" v-model="account.username" required>
 
     <br><label id="label" for="psw"><b>Password</b></label><br>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+    <input type="password" placeholder="Enter Password" name="psw" id="psw" v-model="account.password" required>
 
-    <button type="submit" class="registerbtn">Login</button>
-  </div>
+    <button type="submit" class="registerbtn" v-on:click="authenticateAccount(account)">Login</button>
 
-  <div class="container signinbtn">
+    <div class="container signinbtn">
     <p>Don't have an account? <router-link to="/CustomerSignUp">Create account</router-link>.</p>
   </div>
-</form>
+  </div>
 </template>
 
 <style>
@@ -82,3 +80,31 @@ label[id=label]{
     
 }
 </style>
+
+<script>
+import Account from '../assets/js/account'
+
+async function authenticateAccount(account) {
+  const {username, password} = account;
+  const data = await Account.loadAccountFromDatabase(username, password);
+  if (data) {
+    confirm(`Successfully logged in as ${data.username}`);
+  } else {
+    alert(`Failed to log in as ${data.username}`);
+  }
+}
+
+export default {
+  data() {
+    return {
+      account: {
+        username: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    authenticateAccount: authenticateAccount
+  }
+}
+</script>

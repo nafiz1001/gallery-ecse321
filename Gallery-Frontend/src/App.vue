@@ -15,6 +15,7 @@
     <li><router-link class="navtext" to="/browseListings">Browse Listings</router-link></li>
     <li><router-link class="navtext" to="/browse-artists">Browse Artists</router-link></li>
     <li><router-link class="navtext" to="/AboutUs">About Us</router-link></li>
+    <li><router-link class="navtext" to="/MyAccountPage">MyAccount</router-link></li>
      </nav>
     </div>
     <router-view></router-view>

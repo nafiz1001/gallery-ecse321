@@ -58,9 +58,19 @@ function createAccount(accountDto, successful, failure) {
   });
 }
 
+async function getAccount(username, password) {
+  return await AXIOS.get('/account', { 
+    params: {
+      username: username,
+      password: password
+    }
+  }).catch(error => alert(`account with username ${username} not found`));
+}
+
 export default {
   getListing: getListing,
   createAccount: createAccount,
+  getAccount: getAccount,
   AccountDto: AccountDto,
   pay: pay
 }

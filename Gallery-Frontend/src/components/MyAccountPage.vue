@@ -7,8 +7,7 @@
         <h3 style="display: inline; font-family: Raleway; font-weight: bold">
           Username:
         </h3>
-        <p style="display: inline; font-size: 22px; font-family: Raleway">
-          BestUsername
+        <p style="display: inline; font-size: 22px; font-family: Raleway">{{account.username}}
         </p>
 		<a class="edit"> Edit Usersame</a>
       <div class="passline"></div>
@@ -24,21 +23,21 @@
         Date Joined:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        01/09/2020
+        {{account.dateJoined}}
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Date of Birth:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-		  19/12/1998
+		  {{account.dateOfBirth}}
 		  </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Account Number:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        123456789
+        {{account.accountNumber}}
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
@@ -52,14 +51,14 @@
         Address:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        845 Sherbrooke St W, Montreal, Quebec H3A 0G4, Canada
+        {{account.address}}
       </p>
 	  <a class="edit"> Edit Address</a>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Payment Type:
       </h3>
-      <p style="display: inline; font-size: 22px; font-family: Raleway">Credit</p>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">{{account.paymentType}}</p>
       <div class="passline"></div>
     </div>
 	</div>
@@ -81,3 +80,21 @@
   color: #000000;
 }
 </style>
+
+<script>
+import Account from '../assets/js/account'
+
+const account = Account.getAccount()
+if (!account) {
+  alert("You need to sign in before accessing MyAccount");
+  window.location = '/#/CustomerSignIn';
+}
+
+export default {
+  data() {
+    return {
+      account: account
+    }
+  }
+}
+</script>
