@@ -1,54 +1,44 @@
 <template>
-<form action="action_page.php">
   <div class="container">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
   <div class="container profilePic">
-  <img src="https://banner2.cleanpng.com/20190629/vqv/kisspng-clip-art-computer-icons-transparency-portable-netw-5d16f7b3df7295.5493661015617862919153.jpg" alt="Image">
-  <input id="fileInput" type="file" style="display:none;" />
-  <input type="btn" value="Select Profile Picture" onclick="document.getElementById('fileInput').click();" />   
-</div>
+    
+  </div>
+    <label id="label" for="picture"><b>Picture Link</b></label><br>
+    <input id="fileInput" type="text" v-model="profile.picture"/>
+    <br>
     <label id="label" for="firstName"><b>First Name</b></label><br>
-    <input type="text" placeholder="Enter First Name" name="firtName" id="firstName" required>
+    <input type="text" placeholder="Enter First Name" name="firtName" id="firstName" v-model="profile.firstName" required>
 
     <br><label id="label" for="lastName"><b>Last Name</b></label><br>
-    <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" required>
+    <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" v-model="profile.lastName" required>
 
     <br><label id="label" for="email"><b>Email</b></label><br>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
-
-    <br><label id="label" for="gender"><b>Gender</b></label><br>
-    <select name="gender" id="gender">
-     <option value="male"></option>
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="other">Other</option>
-  </select>
+    <input type="text" placeholder="Enter Email" name="email" id="email" v-model="profile.email" required>
 
     <br><label id="label" for="date"><b>Date of Birth</b></label><br>
-        <input type="date" id="date" name="date" required>
+        <input type="date" id="date" name="date" v-model="profile.dateOfBirth" required>
 
     <br><label id="label" for="username"><b>Username</b></label><br>
-    <input type="text" placeholder="Enter Username" name="username" id="username" required>
+    <input type="text" placeholder="Enter Username" name="username" id="username" v-model="profile.username" required>
 
     <br><label id="label" for="psw"><b>Password</b></label><br>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+    <input type="password" placeholder="Enter Password" name="psw" id="psw" v-model="profile.password" required>
 
     <br><label id="label" for="psw-repeat"><b>Repeat Password</b></label><br>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" v-model="profile.password2" required>
 
     <br><label id="label" for="bio"><b>Bio</b></label><br>
-    <textarea type="text" placeholder="Write a bio" name="bio" id="bio"></textarea>
+    <textarea type="text" placeholder="Write a bio" name="bio" id="bio" v-model="profile.bio"></textarea>
     <hr>
 
     <button type="submit" class="registerbtn">Register</button>
-  </div>
-
-  <div class="container signinbtn">
+    <div class="container signinbtn">
     <p>Already have an account? <router-link to="/ArtistSignIn">Sign in</router-link>.</p>
   </div>
-</form>
+  </div>
 </template>
 
 <style>
@@ -167,5 +157,23 @@ function openAttachment() {
 
 function fileSelected(input){
   document.getElementById('btnAttachment').value = "File: " + input.files[0].name
+}
+
+export default {
+  data () {
+    return  {
+      profile: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        dateOfBirth: Date.now(),
+        username: '',
+        password: '',
+        password2: '',
+        bio: '',
+        picture: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg'
+      }
+    }
+  }
 }
 </script>

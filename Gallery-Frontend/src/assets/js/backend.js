@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { profile } from '../../../config/dev.env'
 const config = require('../../../config')
 
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -58,19 +59,51 @@ function createAccount(accountDto, successful, failure) {
   });
 }
 
+async function editAccount(accountDto, password) {
+  return await AXIOS.post('/account/edit', accountDto, {
+    params: {
+      'password': password
+    }
+  }).catch(error => console.error(error))
+}
+
 async function getAccount(username, password) {
   return await AXIOS.get('/account', { 
     params: {
-      username: username,
-      password: password
+      'username': username,
+      'password': password
     }
-  }).catch(error => alert(`account with username ${username} not found`));
+  }).catch(error => console.error(error))
+}
+
+function ProfileDto(bio, picture, listingDtos, accountDto, fullname, arts) {
+  this.bio = bio;
+  this.picture = picture;
+  this.ListingDtos = listingDtos;
+  this.AccountDto = accountDto;
+  this.fullname = fullname;
+  this.arts = arts;
+}
+
+async function createProfile(profileDto) {
+  return await AXIOS.post('/profile/create', profileDto);
+}
+
+async function getProfile(profileDto, id) {
+  return await AXIOS.get('/profile/', {
+  params: {
+    'id': id
+  }});
 }
 
 export default {
   getListing: getListing,
   createAccount: createAccount,
   getAccount: getAccount,
+  editAccount: editAccount,
   AccountDto: AccountDto,
+  ProfileDto: ProfileDto,
+  createProfile: createProfile,
+  getProfile: getProfile,
   pay: pay
 }

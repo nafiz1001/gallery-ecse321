@@ -10,7 +10,7 @@ function getAccount() {
 }
 
 async function loadAccountFromDatabase(username, password) {
-    const response = await Backend.getAccount(username, password);
+    const response = await Backend.getAccount(username, password).catch(error => console.error(error));
     if (response) {
         console.log(response.data);
         localStorage.setItem('account', JSON.stringify(response.data));
@@ -19,7 +19,32 @@ async function loadAccountFromDatabase(username, password) {
     return response.data;
 }
 
+async function editAccount(account) {
+    const localAccount = getAccount();
+    if (localAccount) {
+        const accountDto = new Backend.AccountDto(
+            localAccount.accountHolderType, 
+            localAccount.identity, 
+            localAccount.profile, 
+            localAccount.username,
+            account.password,
+            localAccount.dateJoined,
+            account.address,
+            account.dateOfBirth,
+            localAccount.revenus,
+            localAccount.accountNumber,
+            account.paymentType
+            );
+        
+        const response = await Backend.editAccount(accountDto, localAccount.password).catch(error => console.error(error));
+        return response.data;
+    } else {
+        return null;
+    }
+}
+
 export default {
     getAccount: getAccount,
     loadAccountFromDatabase: loadAccountFromDatabase,
+    editAccount: editAccount
 }
