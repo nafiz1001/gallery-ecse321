@@ -207,6 +207,9 @@ public class GalleryController {
 	 */
 	@PostMapping(value = { "/profile/create", "/profile/create/"})
 	private ProfileDto createProfile(@RequestBody ProfileDto pDto, @RequestParam(name = "password") String password) {
+		if (pDto.getAccountDto() == null) {
+			throw new IllegalArgumentException("AccountDto is null!");
+		}
 		Optional<Account> account = accountService.getAccountById(pDto.getAccountDto().getUsername());
 		if (account.isEmpty())
 			throw new IllegalArgumentException("There is no such Account!");

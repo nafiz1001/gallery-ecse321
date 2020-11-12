@@ -34,7 +34,7 @@
     <textarea type="text" placeholder="Write a bio" name="bio" id="bio" v-model="profile.bio"></textarea>
     <hr>
 
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="registerbtn" v-on:click="createProfile(profile)">Register</button>
     <div class="container signinbtn">
     <p>Already have an account? <router-link to="/ArtistSignIn">Sign in</router-link>.</p>
   </div>
@@ -152,45 +152,47 @@ label[id=label]{
 
   <script>  
 import Backend from '../assets/js/backend'
+import Account from '../assets/js/account'
+import Profile from '../assets/js/profile'
 
 function successful(response) {
-  confirm("You successfully created a profile");
+  //confirm("You successfully created a profile");
   window.location = '/#/ArtistSignIn';
 }
 
 function failure(error) {
   alert("Your profile creation failed");
+  console.error(error);
 }
 
-function createProfile(profile) {
+async function createProfile(profile) {
   if (profile.password != profile.password2) {
     alert("Passwords do no match");
   } else {
-    function createAccount(account){
       const accountDto = new Backend.AccountDto(
-      "Artist", 
-      {email : account.email},
-      [],
-      account.username,
-      account.password,
-      null,
-      null,
-      null,
-      [],
-      "0",
-      "CREDIT"
+        "Artist", 
+        {email : profile.email},
+        [],
+        profile.username,
+        profile.password,
+        null,
+        null,
+        null,
+        [],
+        "0",
+        "CREDIT"
       );
-    const createdAccount = Backend.createAccount(accountDto, successful, failure);
-    }
+    const createdAccount = await Account.createAccount(accountDto).catch(failure);
     const profileDto = new Backend.ProfileDto(
       profile.bio, 
       profile.picture,
       [],
-      profile.createdAccount,
-      profile.firstName,
+      createdAccount,
+      profile.firstName + profile.lastName,
       []
       );
-    Backend.createProfile(profileDto, successful, failure);
+      console.log(profileDto);
+    return await Profile.createProfile(profileDto, profile.password).catch(failure);
   }
 }
 

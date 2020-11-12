@@ -1,5 +1,14 @@
 import Backend from './backend'
 
+async function createAccount(accountDto) {
+    const res = await Backend.createAccount(accountDto);
+    if (res) {
+        return res.data;
+    }
+
+    return null;
+}
+
 function getAccount() {
     const accountString = localStorage.getItem('account');
     if (accountString) {
@@ -46,5 +55,6 @@ async function editAccount(account) {
 export default {
     getAccount: getAccount,
     loadAccountFromDatabase: loadAccountFromDatabase,
-    editAccount: editAccount
+    editAccount: editAccount,
+    createAccount: createAccount
 }

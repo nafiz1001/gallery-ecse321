@@ -51,12 +51,8 @@ function AccountDto(accountHolderType, identity, profile, username,
     this.paymentType = paymentType;
 }
 
-function createAccount(accountDto, successful, failure) {
-  AXIOS.post('/account/create', accountDto).then(response => {
-    successful(response);
-  }).catch(error => {
-    failure(error);
-  });
+async function createAccount(accountDto) {
+  return await AXIOS.post('/account/create', accountDto).catch(error => console.error(error));
 }
 
 async function editAccount(accountDto, password) {
@@ -79,21 +75,22 @@ async function getAccount(username, password) {
 function ProfileDto(bio, picture, listingDtos, accountDto, fullname, arts) {
   this.bio = bio;
   this.picture = picture;
-  this.ListingDtos = listingDtos;
-  this.AccountDto = accountDto;
+  this.listingDtos = listingDtos;
+  this.accountDto = accountDto;
   this.fullname = fullname;
   this.arts = arts;
 }
 
-async function createProfile(profileDto) {
-  return await AXIOS.post('/profile/create', profileDto);
+async function createProfile(profileDto, password) {
+  return await AXIOS.post('/profile/create', profileDto, {
+    params: {
+      'password': password
+    }
+  }).catch(error => console.error(error));
 }
 
 async function getProfile(profileDto, id) {
-  return await AXIOS.get('/profile/', {
-  params: {
-    'id': id
-  }});
+  
 }
 
 export default {
