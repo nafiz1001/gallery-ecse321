@@ -151,13 +151,49 @@ label[id=label]{
 <!-- -->
 
   <script>  
-function openAttachment() {
-  document.getElementById('attachment').click();
+import Backend from '../assets/js/backend'
+
+function successful(response) {
+  confirm("You successfully created a profile");
+  window.location = '/#/ArtistSignIn';
 }
 
-function fileSelected(input){
-  document.getElementById('btnAttachment').value = "File: " + input.files[0].name
+function failure(error) {
+  alert("Your profile creation failed");
 }
+
+function createProfile(profile) {
+  if (profile.password != profile.password2) {
+    alert("Passwords do no match");
+  } else {
+    function createAccount(account){
+      const accountDto = new Backend.AccountDto(
+      "Artist", 
+      {email : account.email},
+      [],
+      account.username,
+      account.password,
+      null,
+      null,
+      null,
+      [],
+      "0",
+      "CREDIT"
+      );
+    const createdAccount = Backend.createAccount(accountDto, successful, failure);
+    }
+    const profileDto = new Backend.ProfileDto(
+      profile.bio, 
+      profile.picture,
+      [],
+      profile.createdAccount,
+      profile.firstName,
+      []
+      );
+    Backend.createProfile(profileDto, successful, failure);
+  }
+}
+
 
 export default {
   data () {
@@ -174,6 +210,9 @@ export default {
         picture: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg'
       }
     }
+  },
+  methods: {
+      createProfile: createProfile
   }
 }
 </script>

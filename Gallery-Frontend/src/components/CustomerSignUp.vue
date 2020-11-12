@@ -4,13 +4,7 @@
     <p>Please fill in this form to create an account.</p>
     <hr>
  
-    <label id="label" for="firstName"><b>First Name</b></label><br>
-    <input type="text" placeholder="Enter First Name" name="firtName" id="firstName" required>
-
-    <br><label id="label" for="lastName"><b>Last Name</b></label><br>
-    <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" required>
-
-    <br><label id="label" for="email"><b>Email</b></label><br>
+    <label id="label" for="email"><b>Email</b></label><br>
     <input type="text" placeholder="Enter Email" name="email" id="email" v-model="account.email" required>
 
     <br><label id="label" for="username"><b>Username</b></label><br>
