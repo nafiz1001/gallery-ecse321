@@ -88,7 +88,8 @@ async function authenticateAccount(account) {
   const {username, password} = account;
   const data = await Account.loadAccountFromDatabase(username, password);
   if (data) {
-    confirm(`Successfully logged in as ${data.username}`);
+  confirm(`Successfully logged in as ${data.username}`);
+  window.location = '/#/BrowseListings';
   } else {
     alert(`Failed to log in as ${data.username}`);
   }
