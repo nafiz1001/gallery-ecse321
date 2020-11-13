@@ -14,6 +14,7 @@ import BrowseListings from '@/components/BrowseListings'
 import MyProfile from '@/components/MyProfile'
 import AboutUs from '@/components/AboutUs'
 import BrowseArtists from '@/components/BrowseArtists'
+import CreateListing from '@/components/CreateListing'
 Vue.use(Router)
 
 export default new Router({
@@ -82,6 +83,11 @@ export default new Router({
       path: '/AboutUs',
       name: 'AboutUs',
       component: AboutUs
+    },
+    {
+      path: '/CreateListing',
+      name: 'CreateListing',
+      component: CreateListing
     },
     {
       path: '/Browse-artists',

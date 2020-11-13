@@ -17,6 +17,7 @@
     <li><router-link class="navtext" to="/AboutUs">About Us</router-link></li>
     <li><router-link class="navtext" to="/MyAccountPage">MyAccount</router-link></li>
     <li><router-link class="navtext" to="/MyProfile">MyProfile</router-link></li>
+    <li><router-link class="navtext" to="/CreateListing">Create Listing</router-link></li>
      </nav>
     </div>
     <router-view></router-view>
