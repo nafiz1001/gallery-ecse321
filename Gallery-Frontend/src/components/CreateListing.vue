@@ -41,6 +41,9 @@
     <br><label id="label" for="depth"><b>Depth</b></label><br>
     <input type="text" placeholder="Enter Depth" name="depth" id="listingDepth" />
 
+     <br><label id="label" for="description"><b>Description</b></label><br>
+    <input type="text" placeholder="Enter Art Description" name="description" id="listingDescription" />
+
     <button type="submit" class="createListingBtn" >Create Listing</button>
     
   </div>
