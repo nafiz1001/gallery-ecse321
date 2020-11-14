@@ -47,26 +47,31 @@ public class ArtService {
 		for (Art art : allArt) {
 			if (art.getName().equals(title) && art.getOwner().equals(publisher)) {
 				isArtValid = false;
+				throw new IllegalArgumentException("You already created an art with title " + title);
 			}
 		}
 		
 		// is height negative?
 		if (height < 0) {
 			isArtValid = false;
+			throw new IllegalArgumentException("Height must be greater than or equal to 0");
 		}
 
 		// is width negative?
 		if (width < 0) {
 			isArtValid = false;
+			throw new IllegalArgumentException("Width must be greater than or equal to 0");
 		}
 
 		// is depth negative?
 		if (depth < 0) {
 			isArtValid = false;
+			throw new IllegalArgumentException("Depth must be greater than or equal to 0");
 		}
 		// is title empty or null?
 		if (title == null || title.trim().length() == 0) {
 			isArtValid = false;
+			throw new IllegalArgumentException("Title must be valid");
 		}
 		
 		// if Art is valid
