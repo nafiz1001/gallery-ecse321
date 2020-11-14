@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { profile } from '../../../config/dev.env'
+import dtos from './dtos'
 const config = require('../../../config')
 
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -9,6 +10,7 @@ const AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
+
 
 function getListing(id) {
   return {id: id, quantity: id + 1};
@@ -72,6 +74,22 @@ async function getAccount(username, password) {
   }).catch(error => console.error(error))
 }
 
+async function createArt(artDto){
+  return await AXIOS.post('/art/create', artDto, {
+    params:{
+      'password': password
+    }
+  }).catch(error => console.error(error))
+}
+
+async function createListing(listingDto){
+  return await AXIOS.post('/listing/create', listingDto,{
+    params:{
+      'password':password
+    }
+  }).catch(error => console.error(error))
+}
+
 function ProfileDto(bio, picture, listingDtos, accountDto, fullname, arts) {
   this.bio = bio;
   this.picture = picture;
@@ -102,5 +120,7 @@ export default {
   ProfileDto: ProfileDto,
   createProfile: createProfile,
   getProfile: getProfile,
+  createArt: createArt,
+  createListing: createListing,
   pay: pay
 }

@@ -4,47 +4,43 @@
     <p>Please fill in this form to create a listing.</p>
     <hr>
     <label id="label" for="picture"><b>Picture Link</b></label><br>
-    <input id="fileInput" placeholder="Enter Picture URL" type="text"/>
+    <input id="fileInput" placeholder="Enter Picture URL" type="text" v-model="art.picture" />
     <br>
     <br><label id="label" for="title"><b>Title</b></label><br>
-    <input type="text" placeholder="Enter Title" name="title" id="listingTitle" />
+    <input type="text" placeholder="Enter Title" name="title" id="listingTitle"  v-model="art.title"/><br>
 
     <br><label id="label" for="price"><b>Price</b></label><br>
-    <input type="text" placeholder="Enter Price" name="price" id="listingPrice" />
+    <input type="number" placeholder="Enter Price" name="price" id="listingPrice" v-model="listing.price" />
 
     <br><label id="label" for="quantity"><b>Quantity</b></label><br>
     <input type="number" min="1"
             max="100"
-            step="1" name="quantity" id="listingQuantity" v/>
+            step="1" name="quantity" id="listingQuantity" placeholder="Enter Quantity" v-model="listing.quantity"/>
 
-     <br><br><label id="label" for="shipping"><b>Available For Shipping</b></label><br>
-     <input type="radio" id="yesShipping" name="shipping" value="Yes">
-        <label for="yesShipping">Yes</label><br>
-    <input type="radio" id="noShipping" name="shipping" value="No">
-        <label for="noShipping">No</label><br>
+    <br><br><label for="checkbox"><b>Available For Shipping</b></label>
+     <input type="checkbox" id="checkbox" v-model="listing.canShipping"/>
+    
 
-    <br><label id="label" for="pickup"><b>Available For In-Store Pickup</b></label><br>
-     <input type="radio" id="yesPickup" name="pickup" value="Yes">
-        <label for="yesPickup">Yes</label><br>
-    <input type="radio" id="noPickup" name="pickup" value="No">
-        <label for="noPickup">No</label><br>
+      <br><br><label for="checkbox"><b>Available For In-Store Pickup</b></label>
+    <input type="checkbox" id="checkbox" v-model="listing.canPickup"/>
+  
 
     <br><label id="label" for="tags"><b>Tags</b></label><br>
-    <input type="text" placeholder="Enter Tags" name="tags" id="listingTags" />
+    <input type="text" placeholder="Enter Tags" name="tags" id="listingTags" v-model="art.tags" />
 
     <br><label id="label" for="height"><b>Height</b></label><br>
-    <input type="text" placeholder="Enter Height" name="height" id="listingHeight" />
+    <input type="text" placeholder="Enter Height" name="height" id="listingHeight" v-model="art.height" />
 
     <br><label id="label" for="width"><b>Width</b></label><br>
-    <input type="text" placeholder="Enter Width" name="width" id="listingWidth" />
+    <input type="text" placeholder="Enter Width" name="width" id="listingWidth" v-model="art.width"/>
 
     <br><label id="label" for="depth"><b>Depth</b></label><br>
-    <input type="text" placeholder="Enter Depth" name="depth" id="listingDepth" />
+    <input type="text" placeholder="Enter Depth" name="depth" id="listingDepth" v-model="art.depth" />
 
      <br><label id="label" for="description"><b>Description</b></label><br>
-    <input type="text" placeholder="Enter Art Description" name="description" id="listingDescription" />
+    <input type="text" placeholder="Enter Art Description" name="description" id="listingDescription" v-model="art.description" />
 
-    <button type="submit" class="createListingBtn" >Create Listing</button>
+    <button type="submit" class="createListingBtn" v-on:click="createListing(art,listing)">Create Listing </button>
     
   </div>
 </template>
@@ -115,4 +111,65 @@ label[id=label]{
 
 <script>
 
+import Backend from '../assets/js/backend'
+import Art from '../assets/js/art'
+import Listing from '../assets/js/listing'
+import Dtos from '../assets/js/dtos'
+
+function artFailure(error) {
+  alert("Your art creation failed");
+  console.error(error);
+}
+function listingFailure(error) {
+  alert("Your listing creation failed");
+  console.error(error);
+}
+
+async function createListing(art, listing){
+
+    async function createListing2(art){
+
+     const listingDto = new Dtos.ListingDto(
+         listing.price, Date.now(), listing.canPickup, listing.canShipping, listing.quantity, art, {id:1}, art.tags
+         );
+        const createdListing = await Listing.createListing(listingDto).catch(listingFailure);
+    }
+
+    const artDto = new Dtos.ArtDto(
+        art.tile, art.description, art.height, art.width, art.picture, null, Date.now(),{ id: 1 },art.depth,null
+    );
+    const createdArt = await Art.createArt(artDto).catch(artFailure).then(
+        createListing2
+    );
+}
+
+export default{
+   
+   
+   data(){
+        return{
+            art:{
+                picture:'',
+                title:'',
+                tags:'',
+                height:'',
+                width:'',
+                depth:'',
+                description:''
+            },
+
+            listing:{
+                price:0,
+                quantity:0,
+                canShipping: false,
+                canPickup:false
+
+            }
+        }
+    },
+
+    methods: {
+        createListing: createListing
+    }
+}
 </script>
