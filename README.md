@@ -45,4 +45,20 @@ Thomas Alarcon|<ul><li>Gallery and Art classes (DTO, Service, TestService)</li> 
 Nafiz Islam|<ul><li>Payment class (DTO, Service, TestService)</li><li>Controller (pay, getAllRevenus, createIdentity, aboutUs, createArt, getAllArt)</li><li> Persistence test </li><li> Integration test|32
 Antonia Nistor|<ul><li>Listing and Identity classes (DTO, Service, TestService, Test Report)</li> <li>Controller (getAllListings, createProfile)</li> <li>Wiki, README</li></ul>|22
 Eric Pelletier|<ul><li>Account and Address classes (DTO, Service, TestService, Test Report) </li> <li>Profile and Revenue Service tests </li> <li>Controller (createAccount, editAccount, viewAccount, convertToDto's) </li> <li>Persistence test </li></ul>|27
-Haluk Calin|<ul><li>Profile and Revenue service </li><li> Controller CreateProfile </li><li> SW Quality Assurance Plan | 15
+Haluk Calin|<ul><li>Profile and Revenue service </li><li> Controller CreateProfile </li><li> SW Quality Assurance Plan | 15  
+  
+   ### Deliverable 3
+
+The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Fall2020/project-group-01/wiki/Sprint-3)  
+
+Name|Contributions|Hours
+----|-------------|-----
+Thomas Alarcon|<ul></ul>|0
+Nafiz Islam|<ul></ul>|0
+Antonia Nistor|<ul></ul>|0
+Eric Pelletier|<ul></ul>|0
+Haluk Calin|<ul></ul> | 0
+
+
+  
+  
