@@ -112,7 +112,7 @@ async function getProfile(profileDto, id) {
 }
 
 export default {
-  getListing: getListing,
+  getListings: getListings,
   createAccount: createAccount,
   getAccount: getAccount,
   editAccount: editAccount,
