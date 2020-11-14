@@ -1,38 +1,79 @@
 <template>
-	  <div id="Profile">
-		  <h1>My Profile</h1>
-      <a class="edit"> Edit Profile</a>
+	  <div id="Account">
+		<h1>My Account</h1>
 		<hr>
-
-	<div class="fullname">
-		<h3 style="display: inline; font-family: Raleway; font-weight: bold">
-          Full name:
+<div class="profilePic1">
+      <img src="https://i.ibb.co/D10fJkh/vincent-van-gogh-self-portrait-painting-musee-dorsay-via-wikimedia-commons-promojpg.jpg" />
+      </div><br>
+      <a class="edit"> Change Profile Picture</a>
+      <div class="passline"></div>
+	<div class="username">
+        <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+          Username:
         </h3>
         <p style="display: inline; font-size: 22px; font-family: Raleway">
-          {{profile.fullname}}
         </p>
-		<div class="passline"></div>
-		<h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Bio:
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Password:
+      </h3>
+      <p style="display: inline; font-size: 22px; font-family: Raleway" >
+        
+      </p>
+     <!-- <input type="password" placeholder="****" > -->
+      <a class="edit"> Edit Password</a>
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Date Joined:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-         {{profile.bio}}
+        
       </p>
       <div class="passline"></div>
-	  <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Picture:
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Date of Birth:
       </h3>
-    <div class="profilePic">
-		<img
-        src="https://i.ibb.co/w47g34z/vincent-van-gogh-self-portrait-painting-musee-dorsay-via-wikimedia-commons-promojpg.jpg"
-        />
-    </div>
-		 <div class="passline"></div>
-
-     <div >
-      
-      <h2 class="profileListings"> My Listings </h2>
-      <a class="edit"> Edit Listings</a>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">
+		  
+		  </p>
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Profile ID:
+      </h3>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">
+        
+      </p>
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Revenu ($):
+      </h3>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">
+        $ -1000
+      </p>
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Address:
+      </h3>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">
+        
+      </p>
+	  <a class="edit"> Edit Address</a>
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Payment Type:
+      </h3>
+      <p style="display: inline; font-size: 22px; font-family: Raleway" ></p>
+      <a class="edit" > Edit Payment Type</a>
+      <div class="passline"></div>
+      <h3 style="display: inline; font-family: Raleway; font-weight: bold">
+        Bio:
+      </h3>
+      <a class="edit" > Edit Bio</a>
+      <div class="passline"></div>
+      <button >Edit Profile</button>
+      <div class="passline"></div>
+       <h2 class="profileListings" style="display: inline; font-family: Raleway; font-weight: bold"> My Listings </h2><br><br>
+      <router-link to="/CreateListing" class="edit" >Add Listing</router-link>
 
       <div class="showListings">
           <img
@@ -42,14 +83,21 @@
         <img src="https://i.ibb.co/Htf6NBf/190430171751-mona-lisa.jpg" />
         <img src="https://i.ibb.co/FgjqzMW/images.jpg" />
 
+    </div>
+
+		        
+
+      
+      
+      
 
 
-      </div>
+      
    </div>
      
 
 	</div>
-	</div>
+
 
   
 </template>
@@ -57,6 +105,35 @@
 
 
 <style>
+.passline {
+    margin: 3em;
+}
+
+.profilePic1 img{
+  width: 150px;
+  height: 150px;
+  padding: 4px;
+  border: 3px solid #FFFFFF;
+}
+.profilePic1{
+  display:inline;
+  
+  padding-top: 20px;
+}
+
+.edit {
+  display: inline;
+  font-family: Raleway;
+  font-size: 20px;
+
+  color: #000000;
+  margin: 8px;
+  border: 2px solid #000000;
+  padding: 3px;
+}
+.edit:hover {
+  color: #000000;
+}
 
 .profilePic img{
   width: 150px;
@@ -82,33 +159,10 @@
 }
 
 .profileListings{
-  display:flex;
-  justify-content: flex-start;
-  
-  padding-left: 650px; 
+  display:inline;
   text-decoration:underline; 
   font-family: Raleway; 
   
 }
 </style>
 
-<!--
-<script>
-import Profile from '../assets/js/profile'
-
-const profile = Profile.getProfile()
-if (!profile) {
-  alert("You need to sign in before accessing MyProfile");
-  window.location = '/#/ArtistSignIn';
-}
-
-export default {
-  data() {
-    return {
-      profile: profile
-    }
-  }
-}
-</script> 
-
--->
