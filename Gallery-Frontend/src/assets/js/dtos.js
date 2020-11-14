@@ -33,11 +33,20 @@ this.publisher = publisher;
 this.tags = tags;
 }
 
+function PaymentDto(transactionNumber, paymentType, deliveryType, address, listing, identity) {
+this.transactionNumber = transactionNumber;
+this.paymentType = paymentType;
+this.deliveryType = deliveryType;
+this.address = address;
+this.listing = listing;
+this.identity = identity;
+}
 
 
 export default {
     AddressDto: AddressDto,
     ArtDto : ArtDto,
-    ListingDto: ListingDto
+    ListingDto: ListingDto,
+    PaymentDto: PaymentDto
 }
 

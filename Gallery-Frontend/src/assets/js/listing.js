@@ -9,7 +9,11 @@ async function createListing(listingDto){
 }
 
 async function getListings() {
-    return await Backend.getListings().catch(console.error);
+    const result = await Backend.getListings().catch(console.error);
+    if (result)
+        return result.data;
+    else
+        return null;
 }
 
 async function getListing(id) {

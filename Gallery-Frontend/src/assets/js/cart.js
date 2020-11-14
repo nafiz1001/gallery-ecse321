@@ -12,7 +12,7 @@ function getCart() {
   
   function addToCart(id, quantity) {
     const currQuantity = getQuantity(id);
-    const maxQuantity = Backend.getListing(id).quantity;
+    const maxQuantity = Backend.getListing(id).data.quantity;
 
     if (currQuantity + quantity > maxQuantity) {
         return false;

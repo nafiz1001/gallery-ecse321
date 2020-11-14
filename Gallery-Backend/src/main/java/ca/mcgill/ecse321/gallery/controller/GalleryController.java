@@ -315,6 +315,15 @@ public class GalleryController {
 		return listingService.getAllListings().stream().map(l -> convertToDto(l)).collect(Collectors.toList());
 	}
 
+	@GetMapping(value = { "/listing/{id}", "/listing/{id}/" })
+	private ListingDto getListing(@PathVariable("id") String id) {
+		for (Listing listing : listingService.getAllListings()) {
+			if (Long.parseLong(id) == listing.getId())
+				return convertToDto(listing);
+		}
+		return null;
+	}
+
 	@PostMapping(value = { "/listing/create", "/listing/create/" })
 	private ListingDto createListing(@RequestBody ListingDto lDto, @RequestParam(name = "password") String password) throws IllegalArgumentException {
 
