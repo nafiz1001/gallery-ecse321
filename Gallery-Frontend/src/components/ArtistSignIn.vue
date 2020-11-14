@@ -1,5 +1,4 @@
 <template>
-<form action="action_page.php">
   <div class="container">
     <h1>Login</h1>
     <hr>
@@ -10,13 +9,13 @@
     <br><label id="label" for="psw"><b>Password</b></label><br>
     <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
-    <button type="submit" class="registerbtn">Login</button>
+    <button type="submit" class="registerbtn">Login</button> 
+    <div class="container signinbtn">
+      <p>Don't have an account? <router-link to="/ArtistSignUp">Create account</router-link>.</p>
+    </div>
   </div>
 
-  <div class="container signinbtn">
-    <p>Don't have an account? <router-link to="/ArtistSignUp">Create account</router-link>.</p>
-  </div>
-</form>
+ 
 </template>
 
 <style>
