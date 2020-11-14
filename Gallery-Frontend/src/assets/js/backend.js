@@ -74,7 +74,7 @@ async function getAccount(username, password) {
   }).catch(error => console.error(error))
 }
 
-async function createArt(artDto){
+async function createArt(artDto, password){
   return await AXIOS.post('/art/create', artDto, {
     params:{
       'password': password
@@ -82,7 +82,7 @@ async function createArt(artDto){
   }).catch(error => console.error(error))
 }
 
-async function createListing(listingDto){
+async function createListing(listingDto, password){
   return await AXIOS.post('/listing/create', listingDto,{
     params:{
       'password':password
