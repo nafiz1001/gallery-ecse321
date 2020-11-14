@@ -12,8 +12,8 @@ const AXIOS = axios.create({
 })
 
 
-function getListing(id) {
-  return {id: id, quantity: id + 1};
+function getListings() {
+  return AXIOS.get(`/listings`).catch(console.error);
 }
 
 function pay(paymentType, deliveryType, transactionNumber, address, email) {
