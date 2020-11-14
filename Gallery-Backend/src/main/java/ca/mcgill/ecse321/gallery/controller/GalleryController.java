@@ -568,6 +568,7 @@ public class GalleryController {
 		listingDto.setPrice(l.getPrice());
 		ProfileDto pDto = new ProfileDto();
 		pDto.setId(l.getPublisher().getId());
+		pDto.setFullname(l.getPublisher().getFullname());
 		listingDto.setPublisher(pDto);
 		listingDto.setQuantity(l.getQuantity());
 		listingDto.setTags(l.getTags());

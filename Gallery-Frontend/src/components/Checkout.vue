@@ -124,6 +124,7 @@ import Confirmation from './Confirmation'
 import Cart from '../assets/js/cart'
 import Listing from '../assets/js/listing'
 import Payment from '../assets/js/payment'
+import listing from '../assets/js/listing'
 
 async function pay(email, payment, deliveryType, address) {
     let paymentFormValid = true;
@@ -135,8 +136,16 @@ async function pay(email, payment, deliveryType, address) {
     };
 
     async function startPaying(listingDtos) {
-        listingDtos = listingDtos.filter(l => l.id in {1: {id: 1, quantity: 1}})
+        const cart = Cart.getCart();
+        listingDtos = listingDtos.filter(l => l.id in cart)
         if (listingDtos) {
+            for (const listing of listingDtos) {
+                if (cart[listing.id].quantity > listing.quantity) {
+                    alert(`You can't buy more than ${listing.quantity} of ${listing.art.name} by ${listing.publisher.fullname}`);
+                    return error;
+                }
+            }
+
             function validateEmail(email) {
                 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(String(email).toLowerCase());
