@@ -4,7 +4,7 @@
 		<hr>
 <div class="profilePic1">
       <img src="https://i.ibb.co/D10fJkh/vincent-van-gogh-self-portrait-painting-musee-dorsay-via-wikimedia-commons-promojpg.jpg" />
-      </div>
+      </div><br>
       <a class="edit"> Change Profile Picture</a>
       <div class="passline"></div>
 	<div class="username">
@@ -71,14 +71,8 @@
       <a class="edit" > Edit Bio</a>
       <div class="passline"></div>
       <button >Edit Profile</button>
-       
-    </div>
-
-		        <div class="passline"></div>
-
-      <div >
-      
-      <h2 class="profileListings" style="padding-left: 525px"> My Listings </h2>
+      <div class="passline"></div>
+       <h2 class="profileListings" style="display: inline; font-family: Raleway; font-weight: bold"> My Listings </h2><br><br>
       <router-link to="/CreateListing" class="edit" >Add Listing</router-link>
 
       <div class="showListings">
@@ -89,9 +83,16 @@
         <img src="https://i.ibb.co/Htf6NBf/190430171751-mona-lisa.jpg" />
         <img src="https://i.ibb.co/FgjqzMW/images.jpg" />
 
+    </div>
+
+		        
+
+      
+      
+      
 
 
-      </div>
+      
    </div>
      
 
@@ -115,10 +116,8 @@
   border: 3px solid #FFFFFF;
 }
 .profilePic1{
-  display:flex;
-  flex-direction: row;
-  justify-content:flex-start;
-  padding-left: 525px;
+  display:inline;
+  
   padding-top: 20px;
 }
 
@@ -160,10 +159,7 @@
 }
 
 .profileListings{
-  display:flex;
-  justify-content: flex-start;
-  
-  padding-left: 650px; 
+  display:inline;
   text-decoration:underline; 
   font-family: Raleway; 
   
