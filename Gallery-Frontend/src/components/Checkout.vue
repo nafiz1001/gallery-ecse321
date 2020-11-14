@@ -59,7 +59,7 @@
                         <input v-model="address.postalCode" placeholder="H0H 0H0">
                     </div>
             </div>
-            <button v-on:click="error = pay(email, payment, deliveryType, address)">Buy Now!</button>
+            <button v-on:click="pay(email, payment, deliveryType, address).then(e => error = e)">Buy Now!</button>
         </div>
         <div id="cart">
             <h2>Cart</h2>
@@ -68,9 +68,6 @@
                 <input type="number" min="0" :max="maxQuantity(c.id)" step="1" v-model="c.quantity" v-on:input="setQuantity(c.id, c.quantity)" required>
             </div>
         </div>
-        <!--
-        <Confirmation v-show="error.confirmationnumber >= 0" :confirmationnumber="error.confirmationnumber"></Confirmation>
-        -->
     </div>
 </template>
 
@@ -125,48 +122,11 @@ import DTOs from '../assets/js/dtos'
 import ListingRow from './ListingRow'
 import Confirmation from './Confirmation'
 import Cart from '../assets/js/cart'
+import Listing from '../assets/js/listing'
+import Payment from '../assets/js/payment'
 
-function getListings() {
-    return [
-        {
-            id: 0,
-            canPickUp: true,
-            canDeliver: false,
-            quantity: 1
-        },
-        {
-            id: 1,
-            canPickUp: false,
-            canDeliver: true,
-            quantity: 2
-        }
-    ].filter(l => Number(l.id) in Cart.getCart());
-}
-
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
-
-function validateDeliveryType(deliveryType) {
-    const listings = getListings();
-    const result = listings.filter(l => deliveryType === 'pickup' ? l.canPickUp : l.canDeliver);
-    return result.length > 0;
-}
-
-function validateAddress(address, deliveryType) {
-    let result = getListings().filter(l => l.canDeliver);
-    if (deliveryType === 'shipping' || result) {
-        const re = /([A-Z]\d){3}/;
-        return address.postalCode && re.test(address.postalCode.toUpperCase().split(' ').join(''));
-    }
-
-    result = getListings().filter(l => l.canPickUp);
-    return deliveryType === 'pickup' && result;
-}
-
-function pay(email, payment, deliveryType, address) {
-    let isPaymentValid = true;
+async function pay(email, payment, deliveryType, address) {
+    let paymentFormValid = true;
     const error = {
         email: '',
         deliveryType: '',
@@ -174,42 +134,77 @@ function pay(email, payment, deliveryType, address) {
         payment: {id: '', pass: ''}
     };
 
-    let confirmationnumber = -1
+    async function startPaying(listingDtos) {
+        listingDtos = listingDtos.filter(l => l.id in {1: {id: 1, quantity: 1}})
+        if (listingDtos) {
+            function validateEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
 
-    if (email && !validateEmail(email)) {
-        error.email = "Email format invalid";
-        isPaymentValid = false;
+            function validateDeliveryType(deliveryType) {
+                const result = listingDtos.filter(l => deliveryType === 'pickup' ? l.canPickUp : l.canDeliver);
+                return result.length > 0;
+            }
+
+            function validateAddress(address, deliveryType) {
+                let result = listingDtos.filter(l => l.canDeliver && !l.canPickUp);
+                if (deliveryType === 'shipping' && result) {
+                    const re = /[a-zA-Z][0-9][a-zA-Z]\s[0-9][a-zA-Z][0-9]/;
+                    return address.postalCode && re.test(address.postalCode.toUpperCase().split(' ').join(''));
+                }
+
+                result = listingDtos.filter(l => l.canPickUp);
+                return deliveryType === 'pickup' && result;
+            }
+
+            if (email && !validateEmail(email)) {
+                error.email = "Email format invalid";
+                paymentFormValid = false;
+            }
+
+            if (!validateDeliveryType(deliveryType)) {
+                error.deliveryType = "The delivery type is invalid";
+                paymentFormValid = false;
+            }
+
+
+            if (!validateAddress(address, deliveryType)) {
+                error.address  = "The address must be specified correctly. At least the postal code must be specified";
+                paymentFormValid = false;
+            }
+
+            if (!payment.id) {
+                error.payment.id = `${payment.type === 'paypal' ? 'Paypal id' : 'Credit card number'} must be specified`;
+                paymentFormValid = false;
+            }
+
+            if (!payment.pass) {
+                error.payment.pass = `${payment.type === 'paypal' ? 'Paypal password' : 'Credit card pin'} must be specified`;
+                paymentFormValid = false;
+            }
+
+            if (paymentFormValid) {
+                const paymentType = payment.type === "paypal" ? 0 : 1;
+                const deliveryType2 = deliveryType === "pickup" ? 0 : 1;
+                address = deliveryType === "pickup" ? null : address;
+                const paymentDto = new DTOs.PaymentDto(payment.id + payment.pass, paymentType, deliveryType2, address, listingDtos, null);
+                const response = await Payment.pay(paymentDto).then(dto => {
+                    console.log(dto);
+                    window.confirm(`Transaction successfully processed. Your confirmation number ${dto.data.confirmationNumber}`)
+                }).catch(error => window.alert(`Failed to process your payment ${error}`));
+            } else {
+                alert("Correct your payment form");
+                console.log(error);
+            }
+        } else {
+            alert("Could not find any listing from your cart");
+        }
+
+        return error;
     }
 
-    if (!validateDeliveryType(deliveryType)) {
-        error.deliveryType = "The delivery type is invalid";
-        isPaymentValid = false;
-    }
-
-
-    if (!validateAddress(address, deliveryType)) {
-        error.address  = "The address must be specified correctly. At least the postal code must be specified";
-        isPaymentValid = false;
-    }
-
-    if (!payment.id) {
-        error.payment.id = `${payment.type === 'paypal' ? 'Paypal id' : 'Credit card number'} must be specified`;
-        isPaymentValid = false;
-    }
-
-    if (!payment.pass) {
-        error.payment.pass = `${payment.type === 'paypal' ? 'Paypal password' : 'Credit card pin'} must be specified`;
-        isPaymentValid = false;
-    }
-
-    confirmationnumber = isPaymentValid ? 0 : -1;
-
-    if (isPaymentValid) {
-        window.alert(`Transaction successfully processed. Your confirmation number ${confirmationnumber}`);
-        window.location = '/#/Listing';
-    }
-
-    return error;
+    return await Listing.getListings().then(startPaying).catch(console.error);
 }
 
 export default {
@@ -218,7 +213,7 @@ export default {
         ListingRow: ListingRow,
         Confirmation: Confirmation
     },
-    data: () => {
+    data() {
         return {
             payment: {type: 'credit', id: '', pass: ''},
             deliveryType: 'pickup',
@@ -237,17 +232,16 @@ export default {
                 payment: {
                     id: '',
                     pass: ''
-                },
-                confirmationnumber: -1
+                }
             },
-            cart: Cart.getCart(),
+            cart: {1: {id: 1, quantity: 1}},
             window: window
         };
     },
     methods: {
         pay: pay,
         maxQuantity (id) {
-            return getListings()[id].quantity;
+            return 1;
         },
         setQuantity: Cart.setQuantity
     }
