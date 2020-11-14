@@ -92,3 +92,32 @@ label[id=label]{
     
 }
 </style>
+
+<script>
+import Profile from '../assets/js/profile'
+
+async function authenticateProfile(profile) {
+  const {id} = profile;
+  const data = await Profile.loadProfileFromDatabase(id);
+  if (data) {
+  confirm(`Successfully logged in as ${data.username}`);
+  window.location = '/#/BrowseListings';
+  } else {
+    alert(`Failed to log in as ${data.username}`);
+  }
+}
+
+export default {
+  data() {
+    return {
+      profile: {
+        username: '',
+        id: ''
+      }
+    }
+  },
+  methods: {
+    authenticateProfile: authenticateProfile
+  }
+}
+</script>
