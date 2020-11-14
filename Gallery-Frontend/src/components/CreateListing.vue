@@ -26,7 +26,7 @@
   
 
     <br><label id="label" for="tags"><b>Tags</b></label><br>
-    <input type="text" placeholder="Enter Tags" name="tags" id="listingTags" v-model="art.tags" />
+    <input type="text" placeholder="Enter Tags" name="tags" id="listingTags" v-model="listing.tags" />
 
     <br><label id="label" for="height"><b>Height</b></label><br>
     <input type="text" placeholder="Enter Height" name="height" id="listingHeight" v-model="art.height" />
@@ -130,17 +130,17 @@ async function createListing(art, listing){
     async function createListing2(art){
 
      const listingDto = new Dtos.ListingDto(
-         listing.price, Date.now(), listing.canPickup, listing.canShipping, listing.quantity, art, {id:1}, art.tags
+         listing.price, Date.now(), listing.canPickup, listing.canShipping, listing.quantity, art, {id:"nafiz:NafizIslam"}, listing.tags
          );
-        const createdListing = await Listing.createListing(listingDto).catch(listingFailure);
+        await Listing.createListing(listingDto).catch(listingFailure).then(response => confirm(`Successfully created listing! ID is ${response.id}`));
     }
 
     const artDto = new Dtos.ArtDto(
-        art.tile, art.description, art.height, art.width, art.picture, null, Date.now(),{ id: 1 },art.depth,null
+        art.title, art.description, art.height, art.width, art.picture, null, Date.now(),{ id: "nafiz:NafizIslam" },art.depth,null
     );
-    const createdArt = await Art.createArt(artDto).catch(artFailure).then(
+    const createdArt = await Art.createArt(artDto).then(
         createListing2
-    );
+    ).catch(artFailure);
 }
 
 export default{
@@ -151,7 +151,6 @@ export default{
             art:{
                 picture:'',
                 title:'',
-                tags:'',
                 height:'',
                 width:'',
                 depth:'',
@@ -162,8 +161,8 @@ export default{
                 price:0,
                 quantity:0,
                 canShipping: false,
-                canPickup:false
-
+                canPickup:false,
+                 tags:''
             }
         }
     },
