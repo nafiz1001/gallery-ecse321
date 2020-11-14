@@ -28,5 +28,6 @@ async function getListing(id) {
 
 export default {
     createListing: createListing,
-    getListing: getListing
+    getListing: getListing,
+    getListings: getListings
 }
