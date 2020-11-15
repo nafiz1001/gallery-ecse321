@@ -59,7 +59,7 @@ import Profile from '../assets/js/profile'
 import ArtistGrid from './ArtistGrid'
 
 Profile.loadProfilesFromDatabase();
-const profiles = JSON.parse(Profile.getProfiles());
+const profiles = Profile.getProfiles();
 
 function search_text(profiles, search) {
     var profileMatch = [];

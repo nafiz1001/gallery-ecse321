@@ -13,31 +13,29 @@ async function createListing(listingDto){
     return null;
 }
 
-async function getListings() {
-    const result = await Backend.getListings().catch(console.error);
+function getListings() {
+    const result = localStorage.getItem('listings');
     if (result)
-        return result.data;
+        return JSON.parse(result);
     else
-        return null;
+        return [];
 }
 
-async function getListing(id) {
-    const response = await getListings().catch(console.error);
-    if (response) {
-        const matchedListings = response.filter(l => l.id == id);
+function getListing(id) {
+    const result = getListings();
+    if (result) {
+        const matchedListings = result.filter(l => l.id == id);
         if (matchedListings) {
             return matchedListings[0];
         } else {
             return null;
         }
     }
-
-    return null;
 }
 
 async function loadListingsFromDatabase() {
-    const listings = await getListings().catch(console.error);
-    localStorage.setItem('listings', JSON.stringify(listings));
+    const listings = await Backend.getListings().catch(console.error);
+    localStorage.setItem('listings', JSON.stringify(listings.data));
     return listings;
 }
 

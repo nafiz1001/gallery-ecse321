@@ -116,6 +116,7 @@ import Art from '../assets/js/art'
 import Listing from '../assets/js/listing'
 import Dtos from '../assets/js/dtos'
 import Profile from '../assets/js/profile'
+import Account from '../assets/js/account'
 
   function artFailure(error) {
     alert("Your art creation failed");
@@ -140,6 +141,7 @@ import Profile from '../assets/js/profile'
       const artDto = new Dtos.ArtDto(
           art.title, art.description, art.height, art.width, art.picture, null, Date.now(), profile, art.depth,null
       );
+
       const createdArt = await Art.createArt(artDto).then(
           createListing2
       ).catch(artFailure);
