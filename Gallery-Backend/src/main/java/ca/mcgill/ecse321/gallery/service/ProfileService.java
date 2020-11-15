@@ -64,7 +64,7 @@ public class ProfileService {
 		}
 		
 		
-		if (profileRepository.findById(account.getUsername() + ":" + fullname).isPresent())
+		if (profileRepository.findById(account.getUsername()).isPresent())
 			throw new IllegalArgumentException("Profile with fullname " + fullname + " already created");
 		
 		Profile profile = new Profile();
@@ -75,7 +75,7 @@ public class ProfileService {
 		profile.setAccount(account);
 		profile.setFullname(fullname);
 		profile.setArts(Utils.toSet(arts));
-		profile.setId(account.getUsername() + ":" + fullname);
+		profile.setId(account.getUsername());
 
 		profileRepository.save(profile);
 
