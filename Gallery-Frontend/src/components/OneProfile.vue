@@ -19,13 +19,9 @@
       <h2 class="profileListings"> Listings </h2>
 
       <div class="showListings">
-          <img
-          src="https://i.ibb.co/jG0C1WJ/The-Starry-Night-1889-by-Vincent-Van-Gogh-Original-from-Wikimedia-Commons-Digitally-enhanced-by-rawp.jpg" @click="$router.push('Listing')"
-        />
-        <img src="https://i.ibb.co/C7k2rpY/10-lesser-known-van-gogh-masterpieces-900x450-c.jpg"/>
-        <img src="https://i.ibb.co/Htf6NBf/190430171751-mona-lisa.jpg" />
-        <img src="https://i.ibb.co/FgjqzMW/images.jpg" />
-
+         <div v-for="l in listings" :key="l.id">
+          <a :href="`/Listing/${l.id}`"><img :src="l.art.image"></a>
+        </div>
 
 
       </div>
@@ -136,14 +132,25 @@ a:hover {
 
 import Profile from '../assets/js/profile'
 import Account from '../assets/js/account'
+import Listing from '../assets/js/listing'
 
 Profile.loadProfilesFromDatabase();
+
+const profile = Profile.getProfile();
+let listings = [];
+if (profile) {
+  listings = Listing.getListings(profile.id);
+  listings = listings.filter(l => l.publisher.id == profile.id);
+} else {
+  alert("You need to sign in as artist before viewing MyProfile");
+}
 
 export default {
   props: ['id'],
   data(){
     return{
-      profile:profile
+     listings: listings,
+     profile:profile
     }
   },
   methods: {

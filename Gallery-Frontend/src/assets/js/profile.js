@@ -70,12 +70,31 @@ async function loadProfileFromDatabase(username, password) {
     await Account.loadAccountFromDatabase(username, password).then(loadAccountSuccessful).catch(console.error);
 }
 
+async function editProfile(profile) {
+    const localProfile = getProfile();
+    if (localProfile) {
+        const profileDto = new Backend.ProfileDto(
+            profile.bio,
+            profile.picture,
+            localProfile.listingDtos,
+            localProfile.accountDto,
+            localProfile.fullname,
+            localProfile.arts
+            );
+        
+        const response = await Backend.editProfile(profileDto, localProfile.accountDto.password).catch(error => console.error(error));
+        return response.data;
+    } else {
+        return null;
+    }
+}
+
 export default {
     createProfile: createProfile,
     loadProfileFromDatabase: loadProfileFromDatabase,
     getProfile: getProfile,
     getOneProfile: getOneProfile,
     getProfiles : getProfiles,
-    loadProfilesFromDatabase : loadProfilesFromDatabase
-    
+    loadProfilesFromDatabase : loadProfilesFromDatabase,
+    editProfile: editProfile
 }
