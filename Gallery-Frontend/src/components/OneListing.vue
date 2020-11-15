@@ -55,7 +55,7 @@
       <p style="display: inline; font-size: 22px; font-family: Raleway">
        {{getListing(id).publisher.fullname}}
       </p>
-      <a class="viewP"> View Profile</a>
+      <a :href="`/#/Profile/${getListing(id).publisher.id}`" class="viewP"> View Profile</a>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Price:
