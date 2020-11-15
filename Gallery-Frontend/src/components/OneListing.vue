@@ -113,7 +113,7 @@
         Listing ID:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        00000
+        {{getListing(id).id}}
       </p>
     </div>
   </div>
