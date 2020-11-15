@@ -24,8 +24,8 @@ function getProfile() {
 
 function getOneProfile(id){
     const profileString = localStorage.getItem('profiles');
-    while(!profileString);
     if (profileString){
+        console.log(profileString);
         const profiles = JSON.parse(profileString);
         return profiles.find(p => p.id == id);
     }
@@ -42,8 +42,12 @@ function getProfiles(){
 
 async function loadProfilesFromDatabase(){
     const profiles = await Backend.getProfiles().catch(console.error);
-    localStorage.setItem('profiles', JSON.stringify(profiles));
-    return profiles;
+    if (profiles) {
+        localStorage.setItem('profiles', JSON.stringify(profiles.data));
+        return profiles;
+    }
+
+    return null;
 }
 
 async function loadProfileFromDatabase(username, password) {
