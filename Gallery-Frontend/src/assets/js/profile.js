@@ -22,6 +22,30 @@ function getProfile() {
     }
 }
 
+function getOneProfile(id){
+    const profileString = localStorage.getItem('profiles');
+    while(!profileString);
+    if (profileString){
+        const profiles = JSON.parse(profileString);
+        return profiles.find(p => p.id == id);
+    }
+}
+
+function getProfiles(){
+    const result = localStorage.getItem('profiles');
+    if (result){
+        return JSON.parse(result);
+    }else{
+        return null;
+    }
+}
+
+async function loadProfilesFromDatabase(){
+    const profiles = await Backend.getProfiles().catch(console.error);
+    localStorage.setItem('profiles', JSON.stringify(profiles));
+    return profiles;
+}
+
 async function loadProfileFromDatabase(username, password) {
     async function loadProfileFromDatabase(id) {
         return await Backend.getProfile(id).then(response => {
@@ -44,5 +68,9 @@ async function loadProfileFromDatabase(username, password) {
 export default {
     createProfile: createProfile,
     loadProfileFromDatabase: loadProfileFromDatabase,
-    getProfile: getProfile
+    getProfile: getProfile,
+    getOneProfile: getOneProfile,
+    getProfiles : getProfiles,
+    loadProfilesFromDatabase : loadProfilesFromDatabase
+    
 }

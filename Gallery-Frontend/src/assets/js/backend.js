@@ -16,6 +16,10 @@ function getListings() {
   return AXIOS.get(`/listings`).catch(console.error);
 }
 
+function getProfiles(){
+  return AXIOS.get(`/profiles`).catch(console.error);
+}
+
 function pay(paymentType, deliveryType, transactionNumber, address, email) {
   const listings = localStorage.getItem('cart');
   
@@ -126,5 +130,6 @@ export default {
   getProfile: getProfile,
   createArt: createArt,
   createListing: createListing,
-  pay: pay
+  pay: pay,
+  getProfiles: getProfiles
 }

@@ -131,3 +131,18 @@ a:hover {
   color: #2b2d42;
 }
 </style>
+
+<script>
+
+import Profile from '../assets/js/profile'
+import Account from '../assets/js/account'
+
+
+
+export default {
+  props: ['id'],
+  data(){
+    
+  }
+}
+</script>
