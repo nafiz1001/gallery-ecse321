@@ -24,10 +24,10 @@
                     <br>
                     <form id="ranges">
                         <label for="min">Min:</label>
-                        <input type="text" placeholder="0.00" id="min" v-model="min">
+                        <input type="number" placeholder="0.00" id="min" v-model="min">
                         <br>
                         <label for="max">Max:</label>
-                        <input type="text" placeholder="1000.00" id="max" v-model="max">
+                        <input type="number" placeholder="1000.00" id="max" v-model="max">
                     </form>
                 </form>
             </div>
@@ -35,7 +35,7 @@
         <div id="listings">
             <h2>Listings</h2>
             <div id="listings-grid">
-                <div v-for="c in listingsToDisplay" :key="c.id">
+                <div v-for="c in filteredListings" :key="c.id">
                     <ListingGrid  :id="c.id" />
                 </div>
             </div>
@@ -170,18 +170,17 @@ function getListings() {
 
 }
 
-function sort(filterId) {
-    const listings = getListings();
+function sort(filterId, listings, min, max) {
     if (filterId == 'noFilters') {
-        filteredListings = listings
+        return listings;
     } else if (filterId == 'pickUpOnly') {
         return listings.filter(l => l.canDeliver == true)
     } else if (filterId == 'deliveryOnly') {
         return listings.filter(l => l.canPickUp == true)
     } else if (filterId == 'ascendingPrice') {
-       listings.sort((a, b) => (a.price > b.price ? 1 : -1))
+       return listings.sort((a, b) => (a.price > b.price ? 1 : -1))
     } else if (filterId == 'descendingPrice') {
-        listings.sort((a, b) => (a.price < b.price ? 1 : -1))
+        return listings.sort((a, b) => (a.price < b.price ? 1 : -1))
     } else if (filterId == 'priceRange') {
         return listings.filter(l => l.price >= min && l.price <= max)
     } else {
@@ -198,23 +197,25 @@ export default {
     },
     data () {
         return {
-            min: '',
-            max: '',
-            filterId: 'noFilter',
-            listingsToDisplay: sort(filterId)
+            min: 0,
+            max: 100,
+            filterIds: {
+                noFilters: true,
+                pickupOnly: false,
+                deliveryOnly: false,
+                ascendingPrice: false,
+                descendingPrice: false,
+                priceRange: false
+            },
+            filterId: '',
+            listings: getListings()
         };
     },
-    methods: {
-        // sort: sort(filterId),
-        // setFilterId(id) {
-        //     this.filterId = id;
-        // },
-        // setMin(min) {
-        //     this.min = min
-        // },
-        // setMax(max) {
-        //     this.max = max
-        // }
+    computed: {
+        filteredListings: function() {
+            console.log(this.filterId);
+            return sort(this.filterId, this.listings, this.min, this.max);
+        }
    }
 }
 </script>
