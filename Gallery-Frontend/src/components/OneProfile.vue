@@ -2,13 +2,13 @@
   <div id="ProfilePage">
     <a class="leftTextTop>">All Profiles</a>
     <div class="profilePic">
-      <img src="https://i.ibb.co/D10fJkh/vincent-van-gogh-self-portrait-painting-musee-dorsay-via-wikimedia-commons-promojpg.jpg" />
-      <h2 class="artistName" > "Artist Name" </h2>
+      <img src= {{profile.picture}} />
+      <h2 class="artistName" > {{profile.fullname}} </h2>
       </div>
       <div class="passline"></div>
       <div class="bio">
       
-      <h3 style=" font-family: Raleway"> "Bio" </h3>
+      <h3 style=" font-family: Raleway"> {{profile.bio}} </h3>
     
     </div>
 <div class="passline"></div>
@@ -137,12 +137,15 @@ a:hover {
 import Profile from '../assets/js/profile'
 import Account from '../assets/js/account'
 
-
+Profile.loadProfilesFromDatabase();
+const profile = Profile.getOneProfile(this.id);
 
 export default {
   props: ['id'],
   data(){
-    
+    return{
+    profile:profile
+    }
   }
 }
 </script>
