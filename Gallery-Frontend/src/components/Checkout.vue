@@ -63,7 +63,7 @@
         </div>
         <div id="cart">
             <h2>Cart</h2>
-            <div v-for="c in cart" :key="c.id" v-show="c.quantity > 0" >
+            <div v-for="c in cart" :key="c.id">
                 <ListingRow  :id="c.id" />
                 <input type="number" min="0" :max="maxQuantity(c.id)" step="1" v-model="c.quantity" v-on:input="setQuantity(c.id, c.quantity)" required>
             </div>
@@ -250,7 +250,7 @@ export default {
     methods: {
         pay: pay,
         maxQuantity (id) {
-            return 1;
+            return id + 1;
         },
         setQuantity: Cart.setQuantity
     }
