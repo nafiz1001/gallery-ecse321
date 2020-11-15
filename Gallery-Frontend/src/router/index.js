@@ -30,9 +30,10 @@ export default new Router({
       component: Checkout
     },
     {
-      path: '/Listing',
+      path: '/Listing/:id',
       name: 'OneListing',
-      component: OneListing
+      component: OneListing,
+      props: true
     },
     {
       path: '/Profile',

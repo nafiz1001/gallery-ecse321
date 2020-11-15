@@ -6,6 +6,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+
 import java.sql.Date;
 import javax.persistence.ManyToOne;
 
@@ -72,6 +74,7 @@ public class Payment{
 
 	private List<Listing> listing;
 	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "payment_confirmation_number_id")
 	public List<Listing> getListing() {
 	   return this.listing;
 	}

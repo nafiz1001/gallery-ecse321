@@ -5,7 +5,7 @@
       <router-link to="/BrowseListings">All Listings</router-link>
       <div class="centered1">
         <img
-          src="https://i.ibb.co/jG0C1WJ/The-Starry-Night-1889-by-Vincent-Van-Gogh-Original-from-Wikimedia-Commons-Digitally-enhanced-by-rawp.jpg"
+          :src="getListing(id).art.image"
         />
         <div class="passline"></div>
         <h3 style="font-family: Raleway; color: #2b2d42">Select Quantity:</h3>
@@ -22,7 +22,7 @@
           <input
             style="font-family: Raleway; color: #2b2d42; font-size: 20px"
             type="submit"
-            v-on:click="error.addToCart = !addToCart(0, quantity); if (error.addToCart) window.alert('You\'ve reached max quantity for this listing')"
+            v-on:click="error.addToCart = !addToCart(0, quantity); if (error.addToCart) window.alert('You\'ve reached max quantity for this listing');"
             value="Add to Cart!"
           />
         </form>
@@ -45,7 +45,7 @@
           Title:
         </h3>
         <p style="display: inline; font-size: 22px; font-family: Raleway">
-          mona lisa
+          {{getListing(id).art.name}}
         </p>
       </div>
       <div class="passline"></div>
@@ -198,19 +198,42 @@ a:hover {
 <script>
 import Cart from '../assets/js/cart'
 import Backend from '../assets/js/backend'
+import Listing from '../assets/js/listing'
+
+async function getListings() {
+  const listings = await Listing.getListings();
+  localStorage.setItem('listings', JSON.stringify(listings));
+};
+
+getListings();
+
+function getListing(id) {
+  const listingString = localStorage.getItem('listings');
+  while (!listingString);
+  if(listingString) {
+    const listings = JSON.parse(listingString);
+    return listings.find(l => l.id == id);
+  }
+}
 
 export default {
+  props: ['id'],
   data() {
     return {
-      quantity: Backend.getListing(0).quantity,
+      quantity: 0,
       error: {
         addToCart: false
       },
-      window: window
+      window: window,
+      listing: {
+        title: '',
+        image: ''
+      }
     }
   },
   methods: {
-    addToCart: Cart.addToCart
+    addToCart: Cart.addToCart,
+    getListing: getListing
   }
 };
 </script>

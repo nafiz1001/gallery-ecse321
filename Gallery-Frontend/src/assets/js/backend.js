@@ -107,8 +107,12 @@ async function createProfile(profileDto, password) {
   }).catch(error => console.error(error));
 }
 
-async function getProfile(profileDto, id) {
-  
+async function getProfile(id) {
+  return await AXIOS.get(`/profile/${id}`);
+}
+
+async function pay(paymentDto) {
+  return await AXIOS.post('/pay', paymentDto).catch(error => console.error(error));
 }
 
 export default {

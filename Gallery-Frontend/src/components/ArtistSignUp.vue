@@ -156,7 +156,7 @@ import Account from '../assets/js/account'
 import Profile from '../assets/js/profile'
 
 function successful(response) {
-  //confirm("You successfully created a profile");
+  confirm("You successfully created a profile");
   window.location = '/#/ArtistSignIn';
 }
 
@@ -182,17 +182,22 @@ async function createProfile(profile) {
         "0",
         "CREDIT"
       );
-    const createdAccount = await Account.createAccount(accountDto).catch(failure);
-    const profileDto = new Backend.ProfileDto(
+
+    async function createProfile2(createdAccount) {
+      console.log(createdAccount);
+      const profileDto = new Backend.ProfileDto(
       profile.bio, 
       profile.picture,
       [],
       createdAccount,
-      profile.firstName + profile.lastName,
+      profile.firstName + ' ' + profile.lastName,
       []
       );
       console.log(profileDto);
-    return await Profile.createProfile(profileDto, profile.password).catch(failure);
+      await Profile.createProfile(profileDto, createdAccount.password).then(successful).catch(failure);
+    }
+
+    const createdAccount = await Account.createAccount(accountDto).then(createProfile2).catch(failure);
   }
 }
 

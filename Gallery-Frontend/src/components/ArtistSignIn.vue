@@ -1,22 +1,21 @@
 <template>
-<form action="action_page.php">
   <div class="container">
     <h1>Login</h1>
     <hr>
     <h1>Welcome Back!</h1><br><br><br>
 <label id="label" for="username"><b>Username</b></label><br>
-    <input type="text" placeholder="Enter Username" name="username" id="username" required>
+    <input type="text" placeholder="Enter Username" name="username" id="username" v-model="account.username" required>
 
     <br><label id="label" for="psw"><b>Password</b></label><br>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+    <input type="password" placeholder="Enter Password" name="psw" id="psw" v-model="account.password" required>
 
-    <button type="submit" class="registerbtn">Login</button>
+    <button type="submit" class="registerbtn" v-on:click="findProfile(account)">Login</button> 
+    <div class="container signinbtn">
+      <p>Don't have an account? <router-link to="/ArtistSignUp">Create account</router-link>.</p>
+    </div>
   </div>
 
-  <div class="container signinbtn">
-    <p>Don't have an account? <router-link to="/ArtistSignUp">Create account</router-link>.</p>
-  </div>
-</form>
+ 
 </template>
 
 <style>
@@ -96,28 +95,27 @@ label[id=label]{
 <script>
 import Profile from '../assets/js/profile'
 
-async function authenticateProfile(profile) {
-  const {id} = profile;
-  const data = await Profile.loadProfileFromDatabase(id);
-  if (data) {
-  confirm(`Successfully logged in as ${data.username}`);
-  window.location = '/#/BrowseListings';
-  } else {
-    alert(`Failed to log in as ${data.username}`);
-  }
+async function findProfile(account) {
+  const {username, password} = account;
+  const data = await Profile.loadProfileFromDatabase(username, password).then(data => {
+  confirm(`Successfully logged in as ${username}`);
+  window.location = '/#/MyProfile';
+  }).catch(error => {
+    alert("Failed to find profile, either the username or the password is wrong");
+  });
 }
 
 export default {
   data() {
     return {
-      profile: {
+      account: {
         username: '',
-        id: ''
+        password: ''
       }
     }
   },
   methods: {
-    authenticateProfile: authenticateProfile
+    findProfile: findProfile
   }
 }
 </script>

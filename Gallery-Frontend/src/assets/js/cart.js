@@ -12,7 +12,7 @@ function getCart() {
   
   function addToCart(id, quantity) {
     const currQuantity = getQuantity(id);
-    const maxQuantity = Backend.getListing(id).quantity;
+    const maxQuantity = Backend.getListing(id).data.quantity;
 
     if (currQuantity + quantity > maxQuantity) {
         return false;
@@ -41,7 +41,10 @@ function setQuantity(id, quantity) {
         quantity: Number(quantity)
     };
     console.log(cart)
-  
+
+    if (quantity === 0)
+      delete cart[id];
+
     localStorage.setItem('cart', JSON.stringify(cart));
   }
 
