@@ -16,7 +16,7 @@
     <li><router-link class="navtext" to="/MyAccountPage" v-show="isSignedIn">MyAccount</router-link></li>
     <li><router-link class="navtext" to="/MyProfile" v-show="isArtist">MyProfile</router-link></li>
     <li><router-link class="navtext" to="/CreateListing" v-show="isArtist">Create Listing</router-link></li>
-    <li><router-link class="navtext" to="/CreateListing">{{isSignedIn ? "Sign Out" : "Sign In"}}</router-link></li>
+    <li><button type="button" v-show="isSignedIn" v-on:click="signOut()">Sign Out</button></li>
      </nav>
     </div>
     <router-view></router-view>
@@ -96,6 +96,14 @@ export default {
     },
     isSignedIn: function() {
       return Boolean(Account.getAccount());
+    }
+  },
+  methods: {
+    signOut: function() {
+        localStorage.removeItem('account');
+        localStorage.removeItem('profile');
+        window.href = "/#/HomePage";
+        window.location.reload();
     }
   }
 }
