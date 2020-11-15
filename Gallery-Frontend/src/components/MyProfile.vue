@@ -76,6 +76,9 @@
       <router-link to="/CreateListing" class="edit" >Add Listing</router-link>
 
       <div class="showListings" id="profileListings">
+        <div v-for="l in listing" :key="l.id">
+          <a :href="`/Listing/${l.id}`"><img :src="l.art.image"></a>
+        </div>
       </div>
 
 		        
@@ -161,37 +164,23 @@
 
 <script>
 import Profile from '../assets/js/profile'
+import Accoutn from '../assets/js/account'
 import Listing from '../assets/js/listing'
 
-let username = '';
-let picture = ''
-
+Listing.loadListingsFromDatabase();
+Profile.loadProfilesFromDatabase();
 const profile = Profile.getProfile();
-if (profile) {
-  username = profile.accountDto.username;
-  picture = profile.picture;
-  Listing.getListings().then(listings => {
-    console.log("Got Listings");
-    const div = document.getElementById("profileListings");
-    for (const listing of listings) {
-      const a = document.createElement("a");
-      a.href = `/#/Listing/${listing.id}`;
-      const img = document.createElement("img");
-      img.src = listing.art.image;
-      a.appendChild(img);
-      div.appendChild(a);
-    }
-  });
-} else {
+
+if (!profile) {
   alert("You need to sign in as artist before viewing MyProfile");
 }
 
 export default {
   data() {
     return {
-      username: username,
-      picture: picture,
-      listings: []
+      username: profile.accountDto.username,
+      picture: picture.picture,
+      listings: profile.listing
     }
   },
 }

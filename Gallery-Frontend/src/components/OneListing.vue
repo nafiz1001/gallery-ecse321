@@ -208,7 +208,6 @@ Listing.loadListingsFromDatabase();
 
 function getListing(id) {
   const listingString = localStorage.getItem('listings');
-  while (!listingString);
   if(listingString) {
     const listings = JSON.parse(listingString);
     return listings.find(l => l.id == id);
