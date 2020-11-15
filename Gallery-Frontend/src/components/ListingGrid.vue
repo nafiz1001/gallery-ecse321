@@ -1,10 +1,10 @@
 <template>
         <div class="listing-grid">
-            <img class="listing-grid-img" :src="listing.art.image">
+            <a :href="`/#/Listing/${listing.id}`"> <img class="listing-grid-img" :src="listing.art.image"> </a>
             <div class="listing-grid-info">
                 <div class="passline"></div>
-                <a class="viewL"><span style="font-weight: bold">{{listing.art.title}}</span> </a>
-                <div> By <a class="viewA">{{listing.publisher.fullname}}</a> </div>
+                <a :href="`/#/Listing/${listing.id}`" class="viewL"><span style="font-weight: bold">{{listing.art.name}}</span> </a>
+                <div> By <a :href="`/#/Profile/${listing.publisher.id}`" class="viewA">{{listing.publisher.fullname}}</a> </div>
                 <div class="passline"></div>
                 <div> {{listing.price}}$</div>
             </div>
