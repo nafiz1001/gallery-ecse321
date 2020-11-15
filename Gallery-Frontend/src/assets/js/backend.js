@@ -101,6 +101,7 @@ function ProfileDto(bio, picture, listingDtos, accountDto, fullname, arts) {
   this.accountDto = accountDto;
   this.fullname = fullname;
   this.arts = arts;
+  this.id = accountDto.username + ':' + fullname;
 }
 
 async function createProfile(profileDto, password) {
