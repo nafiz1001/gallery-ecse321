@@ -1,10 +1,10 @@
 <template>
-        <div class="listing-grid">
-            <a :href="`/#/Listing/${listing.id}`"> <img class="listing-grid-img" :src="listing.art.image"> </a>
-            <div class="listing-grid-info">
+        <div class="listing-grid1">
+            <a :href="`/#/Listing/${listing.id}`"> <img class="listing-grid1-img" :src="listing.art.image"> </a>
+            <div class="listing-grid1-info">
                 <div class="passline"></div>
                 <a :href="`/#/Listing/${listing.id}`" class="viewL"><span style="font-weight: bold">{{listing.art.name}}</span> </a>
-                <div> By <a :href="`/#/Profile/${listing.publisher.id}`" class="viewA">{{listing.publisher.fullname}}</a> </div>
+                <div> By <a :href="`/#/Profile/${listing.publisher.id}`" class="viewA"><span style="font-weight: bold">{{listing.publisher.fullname}}</span></a> </div>
                 <div class="passline"></div>
                 <div> {{listing.price}}$</div>
             </div>
@@ -12,7 +12,11 @@
 </template>
 
 <style>
-.listing-grid {
+a:active, a:visited {
+    border:0 none
+}
+
+.listing-grid1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -20,12 +24,17 @@
     padding: 0.5em 0.5em 0.5em 0.5em;
 }
 
-.listing-grid > img {
+.listing-grid1-img {
     height: 15em;
     margin-right: 1em;
+    border: 5px solid #00ff80;
 }
 
-.listing-grid > .listing-grid-info {
+.listing-grid1-img:hover {
+    border: 5px solid #FFFFFF;
+}
+
+.listing-grid1-info {
     display: flex;
     flex-direction: column;
     justify-content: space-around;

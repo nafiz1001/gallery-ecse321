@@ -15,6 +15,10 @@
 </template>
 
 <style>
+    a:active, a:visited {
+    border:0 none
+    }
+
     #browse-artists {
         display: flex;
         flex-direction: column;
@@ -42,8 +46,8 @@
     #artists-grid {
         display: flex;
         flex-wrap: wrap;
-        width: 100%;
-        max-width: 100%;
+        margin-left: 5%;
+        margin-right: 5%;
     }
 
     #searchBar {
