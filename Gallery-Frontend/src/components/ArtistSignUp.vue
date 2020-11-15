@@ -182,7 +182,8 @@ async function createProfile(profile) {
         "0",
         "CREDIT"
       );
-    const createdAccount = await Account.createAccount(accountDto).then(createdAccount => {
+
+    async function createProfile2(createdAccount) {
       console.log(createdAccount);
       const profileDto = new Backend.ProfileDto(
       profile.bio, 
@@ -194,7 +195,9 @@ async function createProfile(profile) {
       );
       console.log(profileDto);
       await Profile.createProfile(profileDto, createdAccount.password).then(successful).catch(failure);
-    }).catch(failure);
+    }
+
+    const createdAccount = await Account.createAccount(accountDto).then(createProfile2).catch(failure);
   }
 }
 
