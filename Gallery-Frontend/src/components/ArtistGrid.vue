@@ -1,7 +1,7 @@
 <template>
         <div class="artist">
-            <img class="artist-img" :src="profile.image">
-            <a class="viewA"><span style="font-weight: bold">{{profile.name}}</span> </a>
+            <a :href="`/#/Profile/${profile.id}`" class="viewA"><img class="artist-img" :src="profile.picture"></a>
+            <a :href="`/#/Profile/${profile.id}`" class="viewA"><span style="font-weight: bold">{{profile.fullname}}</span> </a>
         </div>
 </template>
 
@@ -33,18 +33,12 @@ import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
 import Profile from '../assets/js/profile'
 
-function getProfile(id) {
-    Profile.loadProfilesFromDatabase();
-    const profileString = Profile.getProfiles();
-    return JSON.parse(profileString).find(p => p.id == id)
-}
-
 export default {
     name: 'artistgrid',
     props: ['id'],
     data() {
         return {
-          profile: getProfile(this.id)
+          profile: Profile.getOneProfile(this.id)
         }
   }
 }
