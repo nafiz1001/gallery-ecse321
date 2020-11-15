@@ -48,12 +48,46 @@ import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
 
 function getListing(id) {
-    return {
-    title: 'Mr. Fishy',
-    image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-    price: 69 - id,
-    author: 'Barack Obama',
-    id: id,
+    if (id == 0) {
+        return  {
+            title: 'Mr. Fishy',
+            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
+            price: 69,
+            author: 'Barack Obama',
+            canDeliver: true,
+            canPickup: false,
+            id: 0,
+        }
+    } else if (id == 1) {
+        return  {
+            title: 'Mr. Fishy',
+            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
+            price: 68,
+            author: 'Barack Obama',
+            canDeliver: true,
+            canPickup: false,
+            id: 1,
+        }
+    } else if (id == 2) {
+        return {
+            title: 'Mr. Fishy',
+            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
+            price: 67,
+            author: 'Barack Obama',
+            canDeliver: true,
+            canPickup: false,
+            id: 2,
+        }
+    } else if (id == 3) {
+        return {
+             title: 'Mr. Fishy',
+            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
+            price: 66,
+            author: 'Barack Obama',
+            canDeliver: true,
+            canPickup: false,
+            id: 3,
+        }
     }
 }
 

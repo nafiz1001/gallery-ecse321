@@ -33,10 +33,18 @@ import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
 
 function getProfile(id) {
-    return {
-        image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-        name: 'Alejandra The Great',
-        id: id,
+    if (id == 0) {
+        return {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Alejandra The Great',
+            id: 0,
+        }
+    } else if (id == 1) {
+        return {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Alejandra The Great1',
+            id: 1,
+        }
     }
 }
 

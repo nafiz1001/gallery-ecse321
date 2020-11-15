@@ -1,8 +1,12 @@
 <template>
     <div id="browse-artists">
-        <div id="searchBar">
-            <input type="text" placeholder="Search..">
-        </div>
+        <b-form-input
+          @input="search_text()"
+          v-model="search"
+          type="text"
+          placeholder="Search by Artist"
+          id="searchBar"
+        ></b-form-input>
         <div id="artists">
             <h2>Artists</h2>
             <div id="artists-grid">
@@ -62,53 +66,16 @@ import ArtistGrid from './ArtistGrid'
 function getProfiles() {
     return [
         {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Alejandra The Great',
             id: 0,
         },
         {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Alejandra The Great1',
             id: 1,
         },
-        {
-            id: 2,
-        },
-        {
-            id: 3,
-        },
-        {
-            id: 4,
-        },
-        {
-            id: 5,
-        },
-        {
-            id: 6,
-        },
-        {
-            id: 7,
-        },
-        {
-            id: 0,
-        },
-        {
-            id: 1,
-        },
-        {
-            id: 2,
-        },
-        {
-            id: 3,
-        },
-        {
-            id: 4,
-        },
-        {
-            id: 5,
-        },
-        {
-            id: 6,
-        },
-        {
-            id: 7,
-        }
+       
     ]
 }
 
@@ -119,7 +86,18 @@ export default {
     },
     data: () => {
         return {
-            profiles: getProfiles()
+            profiles: getProfiles(),
+            search: ''
+        }
+    },
+    methods: {
+        search_text(search) {
+            var profiles = getProfiles();
+            if (search == '') {
+                return profiles
+            } else {
+                return profiles.filter(p => p.name == search)
+            }
         }
     }
 }
