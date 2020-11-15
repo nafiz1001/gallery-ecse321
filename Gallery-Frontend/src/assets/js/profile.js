@@ -25,8 +25,8 @@ function getProfile() {
 function getOneProfile(id){
     const profileString = localStorage.getItem('profiles');
     if (profileString){
-        console.log(profileString);
         const profiles = JSON.parse(profileString);
+        console.log(profiles);
         return profiles.find(p => p.id == id);
     }
 }

@@ -36,9 +36,10 @@ export default new Router({
       props: true
     },
     {
-      path: '/Profile',
+      path: '/Profile/:id',
       name: 'OneProfile',
-      component: OneProfile
+      component: OneProfile,
+      props: true
     },
     {
       path: '/HomePage',

@@ -2,13 +2,13 @@
   <div id="ProfilePage">
     <a class="leftTextTop>">All Profiles</a>
     <div class="profilePic">
-      <img :src="profile.picture" />
-      <h2 class="artistName" > {{profile.fullname}} </h2>
+      <img :src="getProfile().picture" />
+      <h2 class="artistName" > {{getProfile().fullname}} </h2>
       </div>
       <div class="passline"></div>
       <div class="bio">
       
-      <h3 style=" font-family: Raleway"> {{profile.bio}} </h3>
+      <h3 style=" font-family: Raleway"> {{getProfile().bio}} </h3>
     
     </div>
 <div class="passline"></div>
@@ -138,13 +138,18 @@ import Profile from '../assets/js/profile'
 import Account from '../assets/js/account'
 
 Profile.loadProfilesFromDatabase();
-const profile = Profile.getOneProfile(this.id);
 
 export default {
   props: ['id'],
   data(){
     return{
-    profile:profile
+      profile:profile
+    }
+  },
+  methods: {
+    getProfile: function () {
+      console.log(this.id);
+      return Profile.getOneProfile(this.id);
     }
   }
 }
