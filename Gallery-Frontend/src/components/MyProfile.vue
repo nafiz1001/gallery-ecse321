@@ -1,11 +1,12 @@
 <template>
 	  <div id="Account">
-		<h1>My Account</h1>
+		<h1>My Profile</h1>
 		<hr>
 <div class="profilePic1">
       <img :src="picture" />
       </div><br>
-      <a class="edit"> Change Profile Picture</a>
+      <input type="text" v-model="picture" v-show="editable.picture">
+      <a class="edit" v-on:click="editable.picture = true"> Change Profile Picture</a>
       <div class="passline"></div>
 	<div class="username">
         <h3 style="display: inline; font-family: Raleway; font-weight: bold">
@@ -15,30 +16,30 @@
         </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Password:
+        Password: {{password}}
       </h3>
-      <p style="display: inline; font-size: 22px; font-family: Raleway" >
-        
+      <p style="display: inline; font-size: 22px; font-family: Raleway" v-show="!editable.password">
+        *********
       </p>
-     <!-- <input type="password" placeholder="****" > -->
-      <a class="edit"> Edit Password</a>
+     <input type="password" v-model="password" placeholder="****" v-show="editable.password"> 
+      <a class="edit" v-on:click="editable.password = true"> Edit Password</a>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Date Joined:
+        Date Joined: {{DateJoined}}
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
         
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Date of Birth:
+        Date of Birth: {{DateOfBirth}}
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
 		  
 		  </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Profile ID:
+        Profile ID: {{ID}}
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
         
@@ -52,25 +53,29 @@
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Address:
+        Address: {{address}}
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
         
       </p>
-	  <a class="edit"> Edit Address</a>
+      <input type="text" v-model="address" v-show="editable.address">
+	  <a class="edit" v-on:click="editable.address = true"> Edit Address</a>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Payment Type:
+        Payment Type: {{paymentType}}
       </h3>
-      <p style="display: inline; font-size: 22px; font-family: Raleway" ></p>
-      <a class="edit" > Edit Payment Type</a>
+      <p style="display: inline; font-size: 22px; font-family: Raleway" v-show="!editable.paymentType"></p>
+      <input type="text" v-model="paymentType" placeholder="CREDIT" v-show="editable.paymentType">
+      <a class="edit" v-on:click="editable.paymentType = true"> Edit Payment Type</a>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-        Bio:
+        Bio: {{bio}} 
       </h3>
-      <a class="edit" > Edit Bio</a>
+      <p style="display: inline; font-size: 22px; font-family: Raleway" v-show="!editable.bio"></p>
+      <input type="text" v-model="bio" v-show="editable.bio">
+      <a class="edit" v-on:click="editable.bio = true"> Edit Bio</a>
       <div class="passline"></div>
-      <button >Edit Profile</button>
+      <button v-on:click="editProfile(profile).then(res => profile = res)" >Edit Profile</button>
       <div class="passline"></div>
        <h2 class="profileListings" style="display: inline; font-family: Raleway; font-weight: bold"> My Listings </h2><br><br>
       <router-link to="/CreateListing" class="edit" >Add Listing</router-link>
@@ -164,7 +169,7 @@
 
 <script>
 import Profile from '../assets/js/profile'
-import Accoutn from '../assets/js/account'
+import Account from '../assets/js/account'
 import Listing from '../assets/js/listing'
 
 Profile.loadProfilesFromDatabase();
@@ -179,14 +184,46 @@ if (profile) {
   alert("You need to sign in as artist before viewing MyProfile");
 }
 
+async function editProfile(profile) {
+  const editedProfile = await Profile.editProfile(profile);
+  console.log(editedProfile);
+  if (editedProfile) {
+    confirm("Profile successfully edited");
+    const oldProfile = Profile.getProfile();
+    console.log(oldProfile);
+    const response =  await Profile.loadProfileFromDatabase(oldProfile.accountDto.username, editedProfile.accountDto.password).catch(error => console.error(error));
+    console.log(response)
+    return response
+  }
+
+  return profile;
+}
+
 export default {
   data() {
     return {
       username: profile.accountDto.username,
+      password: profile.accountDto.password,
       picture: profile.picture,
-      listings: listings
+      listings: listings,
+      ID: profile.id,
+      DateJoined: profile.accountDto.DateJoined,
+      DateOfBirth: profile.DateOfBirth,
+      bio: profile.bio,
+      paymentType: profile.paymentType,
+      address: profile.accountDto.address,
+      editable: {
+        password: false,
+        address: false,
+        paymentType: false,
+        bio: false,
+        picture: false
+      }
     }
   },
+  methods: {
+    editProfile: editProfile
+  }
 }
 </script>
 
