@@ -2,7 +2,7 @@
   <div id="ProfilePage">
     <a class="leftTextTop>">All Profiles</a>
     <div class="profilePic">
-      <img src= {{profile.picture}} />
+      <img :src="profile.picture" />
       <h2 class="artistName" > {{profile.fullname}} </h2>
       </div>
       <div class="passline"></div>
