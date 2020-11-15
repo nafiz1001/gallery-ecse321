@@ -55,40 +55,19 @@
 </style>
 
 <script>
-import Backend from '../assets/js/backend'
-import DTOs from '../assets/js/dtos'
+import Profile from '../assets/js/profile'
 import ArtistGrid from './ArtistGrid'
 
-function getProfiles() {
-    return [
-        {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Alejandra The Great',
-            id: 0,
-        },
-        {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Eric',
-            id: 1,
-        },
-        {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Alex',
-            id: 2,
-        },
-        {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Matralex',
-            id: 3,
-        }
-       
-    ]
-}
+Profile.loadProfilesFromDatabase();
+const profiles = JSON.parse(Profile.getProfiles());
 
 function search_text(profiles, search) {
     var profileMatch = [];
+    if (profiles == null) {
+        return profileMatch;
+    }
     for (let i= 0; i < profiles.length; i++) {
-        if (profiles[i].name.toLowerCase().includes(search.toLowerCase())) {
+        if (profiles[i].fullname.toLowerCase().includes(search.toLowerCase())) {
             profileMatch.push(profiles[i])
         }
     }
@@ -102,7 +81,7 @@ export default {
     },
     data () {
         return {
-            profiles: getProfiles(),
+            profiles: profiles,
             search: ''
         };
     },

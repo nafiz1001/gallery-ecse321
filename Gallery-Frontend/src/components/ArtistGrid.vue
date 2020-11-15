@@ -31,42 +31,21 @@
 <script>
 import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
+import Profile from '../assets/js/profile'
 
 function getProfile(id) {
-    if (id == 0) {
-        return {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Alejandra The Great',
-            id: 0,
-        }
-    } else if (id == 1) {
-        return {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Eric',
-            id: 1,
-        }
-    } else if (id == 2) {
-        return {
-             image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Alex',
-            id: 2,
-        }
-    } else if (id == 3) {
-        return {
-            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Matralex',
-            id: 3,
-        }
-    }
+    Profile.loadProfilesFromDatabase();
+    const profileString = Profile.getProfiles();
+    return JSON.parse(profileString).find(p => p.id == id)
 }
 
 export default {
     name: 'artistgrid',
-  props: ['id'],
-  data() {
-      return {
+    props: ['id'],
+    data() {
+        return {
           profile: getProfile(this.id)
-      }
+        }
   }
 }
 </script>
