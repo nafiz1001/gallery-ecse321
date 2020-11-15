@@ -3,31 +3,36 @@
         <div id="filterHeader">
             <h2>Filters</h2>
             <div id="filters">
-                <div id="filterRadios">
-                    <input type="radio" id="noFilters" name="filterType" value="noFilters">
+                <form id="filterRadios">
+                    <input type="radio" id="noFilters" name="filterType" value="noFilters" checked = "checked" v-on:click="sort(this.id)"> 
                     <label for="noFilters">No Filters</label>
                     <br>
-                    <input type="radio" id="pickUpOnly" name="filterType" value="pickUpOnly">
+                    <input type="radio" id="pickUpOnly" name="filterType" value="pickUpOnly" v-on:click="sort(this.id)">
                     <label for="pickUpOnly">Pick Up Only</label>
                     <br>
-                    <input type="radio" id="deliveryOnly" name="filterType" value="deliveryOnly">
+                    <input type="radio" id="deliveryOnly" name="filterType" value="deliveryOnly" v-on:click="sort(this.id)">
                     <label for="deliveryOnly">Delivery Only</label>      
                     <br>
-                    <input type="radio" id="ascendingPrice" name="filterType" value="ascendingPrice">
+                    <input type="radio" id="ascendingPrice" name="filterType" value="ascendingPrice" v-on:click="sort(this.id)">
                     <label for="ascendingPrice">Ascending Price</label>   
                     <br>
-                    <input type="radio" id="descendingPrice" name="filterType" value="descendingPrice">
+                    <input type="radio" id="descendingPrice" name="filterType" value="descendingPrice" v-on:click="sort(this.id)">
                     <label for="descendingPrice">Descending Price</label>  
                     <br>
-                    <input type="radio" id="priceRange" name="filterType" value="priceRange" onclick="ShowHideDic(this)">
+                    <input type="radio" id="priceRange" name="filterType" value="priceRange" v-on:click="sort(this.id)">
                     <label for="priceRange">Price Range</label>  
-                    <div id="dvPriceRange" style="display: none">
-                        <input type="text" id="min" placeholder="0.00">
+                    <br>
+                    <form id="ranges">
                         <label for="min">Min:</label>
-                        <input type="text" id="max" placeholder="100000.00">
+                        <input type="text" placeholder="0.00" id="min" v-on:input="min">
+                        <br>
                         <label for="max">Max:</label>
-                    </div>
-                </div>
+                        <input type="text" placeholder="1000.00" id="max" v-on:input="max">
+                    </form>
+                     <form id="filterButton">
+                        <input type="button" id="setFiler" value="Set Filter">
+                    </form>
+                </form>
             </div>
         </div>
         <div id="listings">
@@ -49,17 +54,26 @@
         margin-right: 1em;
     }
 
+    #filterButton {
+        margin-left: 25%;
+    }
+
     #filters {
         width: 100%;
         max-width: 100%;
         margin-left: 50px;
         width: 200px;
-        height: 210px;
+        height: 425px;
         border: 2px solid black;
     }
 
     #filterHeader {
         margin-left: 50px;
+    }
+
+    #ranges {
+        margin-left: 10%;
+        width: 200px;
     }
 
     #filterRadios {
@@ -114,8 +128,7 @@
 </style>
 
 <script>
-import Backend from '../assets/js/backend'
-import DTOs from '../assets/js/dtos'
+import Listing from '../assets/js/listing'
 import ListingGrid from './ListingGrid'
 
 function getListings() {
@@ -135,21 +148,40 @@ function getListings() {
     ]
 }
 
-function ShowHideDiv(radioFilter) {
-    var dvPriceRange = document.getElementById("dvPriceRange");
-    dvPriceRange.style.display = radioFilter.value == "priceRange" ? "block" : "none";
+function sort(id) {
+    
+    if (id == 'noFilter') {
+        filteredListings = listings;
+    } else if (id == 'pickUpOnly') {
+        return listings.filter(l => l.canDeliver == true)
+    } else if (id == 'deliveryOnly') {
+        return listings.filter(l => l.canPickUp == true)
+    } else if (id == 'ascendingPrice') {
+       listings.sort((a, b) => (a.price > b.price ? 1 : -1))
+    } else if (id == 'descendingPrice') {
+        listings.sort((a, b) => (a.price < b.price ? 1 : -1))
+    } else if (id == 'priceRange') {
+        return listings.filter(l => l.price >= min && l.price <= max);
+    }
 }
+
+
 
 export default {
     name: 'browseListings',
     components: {
         ListingGrid: ListingGrid
     },
-    data: () => {
+    data () {
         return {
-            listings: getListings()
+            min: '',
+            max: '',
+            listings: getListings(),
+            filteredListings: []
         };
-    }
-
+    },
+    methods: {
+        sort: sort
+   }
 }
 </script>

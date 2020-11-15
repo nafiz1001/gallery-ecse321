@@ -51,7 +51,7 @@ function getListing(id) {
     return {
     title: 'Mr. Fishy',
     image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-    price: 69,
+    price: 69 - id,
     author: 'Barack Obama',
     id: id,
     }
