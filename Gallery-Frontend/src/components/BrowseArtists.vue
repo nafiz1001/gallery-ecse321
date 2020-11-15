@@ -7,7 +7,7 @@
             <h2>Artists</h2>
             <div id="artists-grid">
                 <div v-for="c in filteredProfiles" :key="c.id">
-                    <ProfileGrid  :id="c.id" />
+                    <ArtistGrid  :id="c.id" />
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
 <script>
 import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
-import ProfileGrid from './ProfileGrid'
+import ArtistGrid from './ArtistGrid'
 
 function getProfiles() {
     return [
@@ -96,9 +96,9 @@ function search_text(profiles, search) {
 }
 
 export default {
-    name: 'browseProfiles',
+    name: 'browseArtists',
     components: {
-        ProfileGrid: ProfileGrid
+        ArtistGrid: ArtistGrid
     },
     data () {
         return {
