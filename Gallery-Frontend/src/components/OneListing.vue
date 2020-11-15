@@ -53,7 +53,7 @@
         Author:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        van Gogh
+       {{getListing(id).publisher.fullname}}
       </p>
       <a class="viewP"> View Profile</a>
       <div class="passline"></div>
@@ -61,49 +61,53 @@
         Price:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        1000000$
+        {{getListing(id).price}}
       </p>
 
 <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Delivery Options:
       </h3>
-      <p style="display: inline; font-size: 22px; font-family: Raleway">Shipping: </p>
-      <p style="display: inline; font-size: 28px; font-family: Raleway">&#9745;</p>
-      <p style="display: inline; font-size: 22px; font-family: Raleway">In-store pickup: </p>
-  <p style="display: inline; font-size: 28px; font-family: Raleway">&#9746;</p>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">Shipping: {{listing.canDeliver ? "&#9746;" : "&#9745;"}} </p>
+      
+      <p style="display: inline; font-size: 22px; font-family: Raleway">In-store pickup: {{listing.canPickup ? "&#9746;" : "&#9745;"}} </p>
+  
 
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Quantity Available:
       </h3>
-      <p style="display: inline; font-size: 22px; font-family: Raleway">1</p>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">
+        {{getListing(id).quantity}}
+      </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Description:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        cool art
+        {{getListing(id).art.description}}
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Dimensions (cm):
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        1 x 1 x 1
+        {{getListing(id).art.width}} x {{getListing(id).art.height}} x {{getListing(id).art.depth}}
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Date Published:
       </h3>
       <p style="display: inline; font-size: 22px; font-family: Raleway">
-        January 2020
+        {{getListing(id).datePulished}}
       </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Tags:
       </h3>
-      <p style="display: inline; font-size: 22px; font-family: Raleway">cool</p>
+      <p style="display: inline; font-size: 22px; font-family: Raleway">
+         {{getListing(id).tags}}
+      </p>
       <div class="passline"></div>
       <h3 style="display: inline; font-family: Raleway; font-weight: bold">
         Listing ID:
@@ -227,7 +231,12 @@ export default {
       window: window,
       listing: {
         title: '',
-        image: ''
+        image: '',
+        name: '',
+        price: '',
+        quantity:'',
+        tags: ''
+
       }
     }
   },
