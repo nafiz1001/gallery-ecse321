@@ -188,7 +188,7 @@ async function createProfile(profile) {
       profile.picture,
       [],
       createdAccount,
-      profile.firstName + profile.lastName,
+      profile.firstName + ' ' + profile.lastName,
       []
       );
       console.log(profileDto);

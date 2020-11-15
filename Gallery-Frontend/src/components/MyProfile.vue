@@ -3,13 +3,13 @@
 		<h1>My Account</h1>
 		<hr>
 <div class="profilePic1">
-      <img src="https://i.ibb.co/D10fJkh/vincent-van-gogh-self-portrait-painting-musee-dorsay-via-wikimedia-commons-promojpg.jpg" />
+      <img :src="picture" />
       </div><br>
       <a class="edit"> Change Profile Picture</a>
       <div class="passline"></div>
 	<div class="username">
         <h3 style="display: inline; font-family: Raleway; font-weight: bold">
-          Username:
+          Username: {{username}}
         </h3>
         <p style="display: inline; font-size: 22px; font-family: Raleway">
         </p>
@@ -75,15 +75,8 @@
        <h2 class="profileListings" style="display: inline; font-family: Raleway; font-weight: bold"> My Listings </h2><br><br>
       <router-link to="/CreateListing" class="edit" >Add Listing</router-link>
 
-      <div class="showListings">
-          <img
-          src="https://i.ibb.co/jG0C1WJ/The-Starry-Night-1889-by-Vincent-Van-Gogh-Original-from-Wikimedia-Commons-Digitally-enhanced-by-rawp.jpg" @click="$router.push('Listing')"
-        />
-        <img src="https://i.ibb.co/C7k2rpY/10-lesser-known-van-gogh-masterpieces-900x450-c.jpg"/>
-        <img src="https://i.ibb.co/Htf6NBf/190430171751-mona-lisa.jpg" />
-        <img src="https://i.ibb.co/FgjqzMW/images.jpg" />
-
-    </div>
+      <div class="showListings" id="profileListings">
+      </div>
 
 		        
 
@@ -165,4 +158,39 @@
   
 }
 </style>
+
+<script>
+import Profile from '../assets/js/profile'
+import Listing from '../assets/js/listing'
+
+let username = '';
+let picture = ''
+
+const profile = Profile.getProfile();
+if (profile) {
+  username = profile.accountDto.username;
+  picture = profile.picture;
+  Listing.getListings().then(listings => {
+    console.log("Got Listings");
+    const div = document.getElementById("profileListings");
+    for (const listing of listings) {
+      const img = document.createElement("img");
+      img.src = listing.art.image;
+      div.appendChild(img);
+    }
+  });
+} else {
+  alert("You need to sign in as artist before viewing MyProfile");
+}
+
+export default {
+  data() {
+    return {
+      username: username,
+      picture: picture,
+      listings: []
+    }
+  },
+}
+</script>
 

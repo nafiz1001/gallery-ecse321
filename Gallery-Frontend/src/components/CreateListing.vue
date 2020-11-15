@@ -115,60 +115,66 @@ import Backend from '../assets/js/backend'
 import Art from '../assets/js/art'
 import Listing from '../assets/js/listing'
 import Dtos from '../assets/js/dtos'
+import Profile from '../assets/js/profile'
 
-function artFailure(error) {
-  alert("Your art creation failed");
-  console.error(error);
-}
-function listingFailure(error) {
-  alert("Your listing creation failed");
-  console.error(error);
-}
+  function artFailure(error) {
+    alert("Your art creation failed");
+    console.error(error);
+  }
+  function listingFailure(error) {
+    alert("Your listing creation failed");
+    console.error(error);
+  }
 
-async function createListing(art, listing){
+  async function createListing(art, listing) {
+    const profile = Profile.getProfile();
+    if (profile) {
+      async function createListing2(art){
 
-    async function createListing2(art){
+      const listingDto = new Dtos.ListingDto(
+          listing.price, Date.now(), listing.canPickup, listing.canShipping, listing.quantity, art, profile, listing.tags
+          );
+          await Listing.createListing(listingDto).catch(listingFailure).then(response => confirm(`Successfully created listing! ID is ${response.id}`));
+      }
 
-     const listingDto = new Dtos.ListingDto(
-         listing.price, Date.now(), listing.canPickup, listing.canShipping, listing.quantity, art, {id:"nafiz:NafizIslam"}, listing.tags
-         );
-        await Listing.createListing(listingDto).catch(listingFailure).then(response => confirm(`Successfully created listing! ID is ${response.id}`));
+      const artDto = new Dtos.ArtDto(
+          art.title, art.description, art.height, art.width, art.picture, null, Date.now(), profile, art.depth,null
+      );
+      const createdArt = await Art.createArt(artDto).then(
+          createListing2
+      ).catch(artFailure);
+      } else {
+        alert("You need to sign in as artist before creating new listings");
+        window.location = '/#/ArtistSignIn';
+      }
     }
 
-    const artDto = new Dtos.ArtDto(
-        art.title, art.description, art.height, art.width, art.picture, null, Date.now(),{ id: "nafiz:NafizIslam" },art.depth,null
-    );
-    const createdArt = await Art.createArt(artDto).then(
-        createListing2
-    ).catch(artFailure);
-}
+  export default{
+    
+    
+    data(){
+          return{
+              art:{
+                  picture:'',
+                  title:'',
+                  height:'',
+                  width:'',
+                  depth:'',
+                  description:''
+              },
 
-export default{
-   
-   
-   data(){
-        return{
-            art:{
-                picture:'',
-                title:'',
-                height:'',
-                width:'',
-                depth:'',
-                description:''
-            },
+              listing:{
+                  price:0,
+                  quantity:0,
+                  canShipping: false,
+                  canPickup:false,
+                  tags:''
+              }
+          }
+      },
 
-            listing:{
-                price:0,
-                quantity:0,
-                canShipping: false,
-                canPickup:false,
-                 tags:''
-            }
-        }
-    },
-
-    methods: {
-        createListing: createListing
+      methods: {
+          createListing: createListing
+      }
     }
-}
 </script>

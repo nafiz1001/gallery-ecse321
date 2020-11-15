@@ -1,9 +1,14 @@
 import Backend from './backend'
+import Profile from './profile'
+import Account from './account'
 
 async function createListing(listingDto){
-    const res = await Backend.createListing(listingDto, "A123456");
-    if (res){
-        return res.data;
+    const account = Account.getAccount();
+    if (account) {
+        const res = await Backend.createListing(listingDto, account.password);
+        if (res){
+            return res.data;
+        }
     }
     return null;
 }

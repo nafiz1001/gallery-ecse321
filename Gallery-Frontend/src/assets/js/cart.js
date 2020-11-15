@@ -41,7 +41,10 @@ function setQuantity(id, quantity) {
         quantity: Number(quantity)
     };
     console.log(cart)
-  
+
+    if (quantity === 0)
+      delete cart[id];
+
     localStorage.setItem('cart', JSON.stringify(cart));
   }
 
