@@ -304,6 +304,16 @@ public class GalleryController {
 
 		return revenusDto;
 	}
+	
+	/**
+	 * Retrieves all profiles
+	 * @return A list of profiles converted to Dto
+	 */
+	@GetMapping(value = { "/profiles", "/profiles/" })
+	private List<ProfileDto> getAllProfiles() {
+		return profileService.getAllProfiles().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+	}
+	
 
 	/**
 	 * Retrieves all listings
