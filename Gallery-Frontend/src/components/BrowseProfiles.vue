@@ -1,17 +1,13 @@
 <template>
     <div id="browse-artists">
-        <b-form-input
-          @input="search_text()"
-          v-model="search"
-          type="text"
-          placeholder="Search by Artist"
-          id="searchBar"
-        ></b-form-input>
+        <form class="form-horizontal" onSubmit="return false;">
+            <input type="text" id="searchBar" placeholder="Search By Name" v-model="search">
+        </form>
         <div id="artists">
             <h2>Artists</h2>
             <div id="artists-grid">
-                <div v-for="c in profiles" :key="c.id">
-                    <ArtistGrid  :id="c.id" />
+                <div v-for="c in filteredProfiles" :key="c.id">
+                    <ProfileGrid  :id="c.id" />
                 </div>
             </div>
         </div>
@@ -51,7 +47,7 @@
     }
 
     #searchBar {
-        width: 100%;
+        width: 95;
         max-width: 100%;
     }
 
@@ -61,7 +57,7 @@
 <script>
 import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
-import ArtistGrid from './ArtistGrid'
+import ProfileGrid from './ProfileGrid'
 
 function getProfiles() {
     return [
@@ -72,33 +68,48 @@ function getProfiles() {
         },
         {
             image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Alejandra The Great1',
+            name: 'Eric',
             id: 1,
         },
+        {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Alex',
+            id: 2,
+        },
+        {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Matralex',
+            id: 3,
+        }
        
     ]
 }
 
+function search_text(profiles, search) {
+    var profileMatch = [];
+    for (let i= 0; i < profiles.length; i++) {
+        if (profiles[i].name.toLowerCase().includes(search.toLowerCase())) {
+            profileMatch.push(profiles[i])
+        }
+    }
+    return profileMatch;
+}
+
 export default {
-    name: 'browseArtists',
+    name: 'browseProfiles',
     components: {
-        ArtistGrid: ArtistGrid
+        ProfileGrid: ProfileGrid
     },
-    data: () => {
+    data () {
         return {
             profiles: getProfiles(),
             search: ''
-        }
+        };
     },
-    methods: {
-        search_text(search) {
-            var profiles = getProfiles();
-            if (search == '') {
-                return profiles
-            } else {
-                return profiles.filter(p => p.name == search)
-            }
-        }
+    computed: {
+        filteredProfiles: function() {
+            return search_text(this.profiles, this.search);
+        } 
     }
 }
 </script>

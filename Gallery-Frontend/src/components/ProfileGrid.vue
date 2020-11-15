@@ -42,8 +42,20 @@ function getProfile(id) {
     } else if (id == 1) {
         return {
             image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
-            name: 'Alejandra The Great1',
+            name: 'Eric',
             id: 1,
+        }
+    } else if (id == 2) {
+        return {
+             image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Alex',
+            id: 2,
+        }
+    } else if (id == 3) {
+        return {
+            image: 'https://media.timeout.com/images/105277448/750/422/image.jpg',
+            name: 'Matralex',
+            id: 3,
         }
     }
 }
