@@ -34,6 +34,7 @@ function getOneProfile(id){
 function getProfiles(){
     const result = localStorage.getItem('profiles');
     if (result){
+        console.log(result);
         return JSON.parse(result);
     }else{
         return null;

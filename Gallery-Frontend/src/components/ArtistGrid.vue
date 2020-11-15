@@ -6,6 +6,10 @@
 </template>
 
 <style>
+div:active, div:visited {
+    border:0 none
+}
+
 .artist {
     display: flex;
     flex-direction: column;
@@ -13,9 +17,14 @@
     margin-bottom: 1em;
     padding: 0.5em 0.5em 0.5em 0.5em;
 }
-.artist > img {
+.artist-img {
     height: 15em;
     margin-right: 1em;
+    border: 5px solid #00ff80;
+}
+
+.artist-img:hover {
+  border: 5px solid #FFFFFF;
 }
 
 .viewA {
