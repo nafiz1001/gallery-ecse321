@@ -204,12 +204,7 @@ import Cart from '../assets/js/cart'
 import Backend from '../assets/js/backend'
 import Listing from '../assets/js/listing'
 
-async function getListings() {
-  const listings = await Listing.getListings();
-  localStorage.setItem('listings', JSON.stringify(listings));
-};
-
-getListings();
+Listing.loadListingsFromDatabase();
 
 function getListing(id) {
   const listingString = localStorage.getItem('listings');

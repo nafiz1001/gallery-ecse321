@@ -1,10 +1,10 @@
 <template>
         <div class="listing-grid">
-            <img class="listing-grid-img" :src="listing.image">
+            <img class="listing-grid-img" :src="listing.art.image">
             <div class="listing-grid-info">
                 <div class="passline"></div>
-                <a class="viewL"><span style="font-weight: bold">{{listing.title}}</span> </a>
-                <div> By <a class="viewA">{{listing.author}}</a> </div>
+                <a class="viewL"><span style="font-weight: bold">{{listing.art.title}}</span> </a>
+                <div> By <a class="viewA">{{listing.publisher.fullname}}</a> </div>
                 <div class="passline"></div>
                 <div> {{listing.price}}$</div>
             </div>
@@ -46,49 +46,15 @@
 <script>
 import Backend from '../assets/js/backend'
 import DTOs from '../assets/js/dtos'
+import listing from '../assets/js/listing'
 
 function getListing(id) {
-    if (id == 0) {
-        return  {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 69,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 0,
-        }
-    } else if (id == 1) {
-        return  {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 68,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 1,
-        }
-    } else if (id == 2) {
-        return {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 67,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 2,
-        }
-    } else if (id == 3) {
-        return {
-             title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 66,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 3,
-        }
-    }
+    listing.loadListingsFromDatabase();
+    const listingString = localStorage.getItem('listings');
+    console.log(listingString);
+
+    console.log(JSON.parse(listingString));
+    return JSON.parse(listingString).find(l => l.id == id);
 }
 
 export default {

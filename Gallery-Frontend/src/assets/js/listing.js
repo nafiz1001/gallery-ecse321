@@ -35,8 +35,15 @@ async function getListing(id) {
     return null;
 }
 
+async function loadListingsFromDatabase() {
+    const listings = await getListings().catch(console.error);
+    localStorage.setItem('listings', JSON.stringify(listings));
+    return listings;
+}
+
 export default {
     createListing: createListing,
     getListing: getListing,
-    getListings: getListings
+    getListings: getListings,
+    loadListingsFromDatabase: loadListingsFromDatabase
 }

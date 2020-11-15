@@ -128,47 +128,9 @@
 import Listing from '../assets/js/listing'
 import ListingGrid from './ListingGrid'
 
-function getListings() {
-    return [
-        {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 69,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 0,
-        },
-        {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 68,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 1,
-        },
-        {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 67,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 2,
-        },
-        {
-            title: 'Mr. Fishy',
-            image: 'https://pbs.twimg.com/profile_images/2996390845/d5f215b28cfce7c235080c37f54b05fb_400x400.jpeg',
-            price: 66,
-            author: 'Barack Obama',
-            canDeliver: true,
-            canPickup: false,
-            id: 3,
-        }
-    ]
-
-}
+Listing.loadListingsFromDatabase()
+console.log(localStorage.getItem('listings'));
+const listings = JSON.parse(localStorage.getItem('listings'));
 
 function sort(filterId, listings, min, max) {
     if (filterId == 'noFilters') {
@@ -208,7 +170,7 @@ export default {
                 priceRange: false
             },
             filterId: '',
-            listings: getListings()
+            listings: listings
         };
     },
     computed: {
