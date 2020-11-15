@@ -24,7 +24,7 @@ async function getListings() {
 async function getListing(id) {
     const response = await getListings().catch(console.error);
     if (response) {
-        const matchedListings = result.filter(l => l.id == id);
+        const matchedListings = response.filter(l => l.id == id);
         if (matchedListings) {
             return matchedListings[0];
         } else {

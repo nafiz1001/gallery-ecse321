@@ -174,9 +174,12 @@ if (profile) {
     console.log("Got Listings");
     const div = document.getElementById("profileListings");
     for (const listing of listings) {
+      const a = document.createElement("a");
+      a.href = `/#/Listing/${listing.id}`;
       const img = document.createElement("img");
       img.src = listing.art.image;
-      div.appendChild(img);
+      a.appendChild(img);
+      div.appendChild(a);
     }
   });
 } else {

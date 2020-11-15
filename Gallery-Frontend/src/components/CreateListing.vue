@@ -134,7 +134,7 @@ import Profile from '../assets/js/profile'
       const listingDto = new Dtos.ListingDto(
           listing.price, Date.now(), listing.canPickup, listing.canShipping, listing.quantity, art, profile, listing.tags
           );
-          await Listing.createListing(listingDto).catch(listingFailure).then(response => confirm(`Successfully created listing! ID is ${response.id}`));
+          await Listing.createListing(listingDto).then(response => confirm(`Successfully created listing! ID is ${response.id}`).catch(listingFailure));
       }
 
       const artDto = new Dtos.ArtDto(
