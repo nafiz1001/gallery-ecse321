@@ -19,7 +19,7 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 |Eric Pelletier | Developer |18|27|25
 |Antonia Nistor |Project Manager |20|22|33
-|Nafiz Islam | Developer|20|32|40
+|Nafiz Islam | Developer|20|32|37
 |Thomas Alarcon | Developer| 18|25|26
 |Haluk Calin | Developer| 13.5|15|13
 
