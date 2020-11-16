@@ -22,7 +22,7 @@
           <input
             style="font-family: Raleway; color: #2b2d42; font-size: 20px"
             type="submit"
-            v-on:click="error.addToCart = !addToCart(0, quantity); if (error.addToCart) window.alert('You\'ve reached max quantity for this listing');"
+            v-on:click="addToCart(id, quantity).catch(window.alert)"
             value="Add to Cart!"
           />
         </form>

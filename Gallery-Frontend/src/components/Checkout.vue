@@ -243,14 +243,15 @@ export default {
                     pass: ''
                 }
             },
-            cart: {1: {id: 1, quantity: 1}},
+            cart: Cart.getCart(),
             window: window
         };
     },
     methods: {
         pay: pay,
         maxQuantity (id) {
-            return id + 1;
+            if (id == 0) return 0;
+            return Listing.getListing(id).quantity;
         },
         setQuantity: Cart.setQuantity
     }

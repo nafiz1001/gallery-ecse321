@@ -13,9 +13,10 @@
     <li><router-link class="navtext" to="/browseListings">Browse Listings</router-link></li>
     <li><router-link class="navtext" to="/browse-artists">Browse Artists</router-link></li>
     <li><router-link class="navtext" to="/AboutUs">About Us</router-link></li>
-    <li><router-link class="navtext" to="/MyAccountPage">MyAccount</router-link></li>
-    <li><router-link class="navtext" to="/MyProfile">MyProfile</router-link></li>
-    <li><router-link class="navtext" to="/CreateListing">Create Listing</router-link></li>
+    <li><router-link class="navtext" to="/MyAccountPage" v-show="isSignedIn">MyAccount</router-link></li>
+    <li><router-link class="navtext" to="/MyProfile" v-show="isArtist">MyProfile</router-link></li>
+    <li><router-link class="navtext" to="/CreateListing" v-show="isArtist">Create Listing</router-link></li>
+    <li><button type="button" v-show="isSignedIn" v-on:click="signOut()">Sign Out</button></li>
      </nav>
     </div>
     <router-view></router-view>
@@ -78,3 +79,32 @@ li{
 }
 
 </style>
+
+<script>
+import Account from '../src/assets/js/account'
+import Profile from '../src/assets/js/profile'
+
+export default {
+  data() {
+    return {
+
+    }
+  },
+  computed: {
+    isArtist: function() {
+      return Boolean(Profile.getProfile());
+    },
+    isSignedIn: function() {
+      return Boolean(Account.getAccount());
+    }
+  },
+  methods: {
+    signOut: function() {
+        localStorage.removeItem('account');
+        localStorage.removeItem('profile');
+        window.href = "/#/HomePage";
+        window.location.reload();
+    }
+  }
+}
+</script>

@@ -202,6 +202,7 @@ async function editProfile(profile) {
 export default {
   data() {
     return {
+      profile: profile,
       username: profile.accountDto.username,
       password: profile.accountDto.password,
       picture: profile.picture,

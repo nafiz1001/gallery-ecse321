@@ -59,8 +59,8 @@
         width: 100%;
         max-width: 100%;
         margin-left: 50px;
-        width: 200px;
-        height: 425px;
+        width: 225px;
+        height: 350px;
         border: 2px solid black;
     }
 
@@ -70,7 +70,7 @@
 
     #ranges {
         margin-left: 10%;
-        width: 200px;
+        width: 100px;
     }
 
     #filterRadios {
@@ -91,12 +91,13 @@
     #listings-grid {
         display: flex;
         flex-wrap: wrap;
-        width: 100%;
+        width: 33.33%;
         max-width: 100%;
     }
 
     #listings > div {
         display: flex;
+        width: 100px;
     }
 
 
