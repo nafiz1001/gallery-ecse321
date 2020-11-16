@@ -116,6 +116,14 @@ async function getProfile(id) {
   return await AXIOS.get(`/profile/${id}`);
 }
 
+async function editProfile(profileDto, password) {
+  return await AXIOS.post('/profile/edit', profileDto, {
+    params: {
+      'password': password
+    }
+  }).catch(error => console.error(error))
+}
+
 async function pay(paymentDto) {
   return await AXIOS.post('/pay', paymentDto).catch(error => console.error(error));
 }
@@ -132,5 +140,6 @@ export default {
   createArt: createArt,
   createListing: createListing,
   pay: pay,
-  getProfiles: getProfiles
+  getProfiles: getProfiles,
+  editProfile: editProfile
 }
