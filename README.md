@@ -17,11 +17,11 @@ With the pandemic forcing businesses to move to a remote setting, we are develop
 ### Project
 | Name | Role | [Sprint 1](https://github.com/McGill-ECSE321-Fall2020/project-group-01/blob/master/README.md#deliverable-1) | [Sprint 2](https://github.com/McGill-ECSE321-Fall2020/project-group-01/blob/master/README.md#deliverable-2) | [Sprint 3](https://github.com/McGill-ECSE321-Fall2020/project-group-01/wiki/Sprint-3) | Sprint 4 |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-|Eric Pelletier | Developer |18|27
-|Antonia Nistor |Project Manager |20|22
-|Nafiz Islam | Developer|20|32
-|Thomas Alarcon | Developer| 18|25
-|Haluk Calin | Developer| 13.5|15
+|Eric Pelletier | Developer |18|27|25
+|Antonia Nistor |Project Manager |20|22|33
+|Nafiz Islam | Developer|20|32|40
+|Thomas Alarcon | Developer| 18|25|26
+|Haluk Calin | Developer| 13.5|15|13
 
 ### Deliverable 1
 
@@ -53,11 +53,11 @@ The project report for this deliverable can be found [here](https://github.com/M
 
 Name|Contributions|Hours
 ----|-------------|-----
-Thomas Alarcon|<ul></ul>|0
-Nafiz Islam|<ul></ul>|0
-Antonia Nistor|<ul></ul>|0
-Eric Pelletier|<ul></ul>|0
-Haluk Calin|<ul></ul> | 0
+Thomas Alarcon|<ul><li>Frontend: Artist SignUp and SignIn, Customer SignUp and SignIn, My Profile </li><li> Integration of Backend: Create Profile, Edit Profile</li></ul>|26
+Nafiz Islam|<ul><li>Frontend: Cart, Checkout</li><li>Integration of Backend: Cart, Checkout, Create Account, Edit Account, Customer SignIn</li><li> Help in integration of backend: Edit Profile, Browse Listings, Create Listing</li><li>Heroku Deployment</li></ul>|40
+Antonia Nistor|<ul><li>Frontend: Homepage, View Listing, Create Listing, View Profile </li><li> Integration of Backend: Create Listing, View Listing</li><li>Architecture Model</li><li>Wiki and ReadME</li></ul>|33
+Eric Pelletier|<ul><li>Frontend: Browse Listings, Browse Artists</li><li> Integration of Backend: Browse Listing, Browse Artists</ul>|25
+Haluk Calin|<ul> Architecture Model, Description of key functional components, MyAccount&MyProfile Frontend </ul> | 13
 
 
   
