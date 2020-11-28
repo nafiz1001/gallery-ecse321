@@ -60,5 +60,15 @@ Eric Pelletier|<ul><li>Frontend: Browse Listings, Browse Artists</li><li> Integr
 Haluk Calin|<ul> Architecture Model, Description of key functional components, MyAccount&MyProfile Frontend </ul> | 13
 
 
+  ### Deliverable 4  
   
+  The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Fall2020/project-group-01/wiki/Sprint-4)  
+  
+  Name|Contributions|Hours
+----|-------------|-----
+Thomas Alarcon|<ul><li>MyProfile page frontend and backend integration</li><li> User Documentation</li></ul>|13
+Nafiz Islam|<ul><li>Backend integration</li><li>Checkout Page</li><li>Create Activities</li></ul>|20
+Antonia Nistor|<ul><li>HomePage, Sign In Frontend</li><li>User Documentation</li><li>Help with Backend bug fixes</li><li>Wiki and ReadME</li></ul>|18
+Eric Pelletier|<ul><li>BrowseListing page</li><li>Create Notifications</li><li>Backend integration</li></ul>|20
+Haluk Calin|<ul><li>CreateListing Layout (+Failed backend integration attempt)</li></ul>  | 5
   
